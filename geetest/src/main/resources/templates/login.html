@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>gt-node-sdk-demo</title>
+    <title>geetest-demo</title>
     <style>
         body {
             margin: 50px 0;
@@ -62,17 +62,17 @@
 <body>
 <h1>极验验证SDKDemo</h1>
 <hr>
-<form action="gt/ajax-validate1" method="post">
+<form action="/login/loginForm" method="post" target="_blank">
     <h2>大图点击Demo，使用表单进行二次验证</h2>
     <br>
     <div>
         <label for="username1">用户名：</label>
-        <input class="inp" id="username1" type="text" value="极验验证">
+        <input class="inp" id="username1" name="username1" type="text" value="admin1">
     </div>
     <br>
     <div>
         <label for="password1">密码：</label>
-        <input class="inp" id="password1" type="password" value="123456">
+        <input class="inp" id="password1" name="password1" type="password" value="admin1">
     </div>
     <br>
     <div>
@@ -92,12 +92,12 @@
     <br>
     <div>
         <label for="username2">用户名：</label>
-        <input class="inp" id="username2" type="text" value="极验验证">
+        <input class="inp" id="username2" type="text" value="admin2">
     </div>
     <br>
     <div>
         <label for="password2">密码：</label>
-        <input class="inp" id="password2" type="password" value="123456">
+        <input class="inp" id="password2" type="password" value="admin2">
     </div>
     <br>
     <div>
@@ -113,7 +113,7 @@
 <!-- 注意，验证码本身是不需要 jquery 库，此处使用 jquery 仅为了在 demo 使用，减少代码量 -->
 <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
 <!-- 引入 gt.js，既可以使用其中提供的 initGeetest 初始化函数 -->
-<script src="static/gt.js"></script>
+<script src="gt.js"></script>
 <script>
     var handler1 = function (captchaObj) {
         $("#submit1").click(function (e) {
@@ -134,7 +134,7 @@
         // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
     };
     $.ajax({
-        url: "gt/register1?t=" + (new Date()).getTime(), // 加随机数防止缓存
+        url: "geetTest/register1?t=" + (new Date()).getTime(), // 加随机数防止缓存
         type: "get",
         dataType: "json",
         success: function (data) {
@@ -163,12 +163,12 @@
                 }, 2000);
             } else {
                 $.ajax({
-                    url: 'gt/ajax-validate2',
+                    url: 'geetTest/validate2',
                     type: 'POST',
                     dataType: 'json',
                     data: {
-                        username: $('#username2').val(),
-                        password: $('#password2').val(),
+                        username2: $('#username2').val(),
+                        password2: $('#password2').val(),
                         geetest_challenge: result.geetest_challenge,
                         geetest_validate: result.geetest_validate,
                         geetest_seccode: result.geetest_seccode
@@ -176,6 +176,7 @@
                     success: function (data) {
                         if (data.status === 'success') {
                             alert('登录成功');
+                            window.location.reload();
                         } else if (data.status === 'fail') {
                             alert('登录失败');
                         }
@@ -192,7 +193,7 @@
         // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
     };
     $.ajax({
-        url: "gt/register2?t=" + (new Date()).getTime(), // 加随机数防止缓存
+        url: "geetTest/register2?t=" + (new Date()).getTime(), // 加随机数防止缓存
         type: "get",
         dataType: "json",
         success: function (data) {
