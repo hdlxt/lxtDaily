@@ -60,7 +60,7 @@
     </style>
 </head>
 <body>
-<h1>极验验证SDKDemo</h1>
+<h1>极验验证Demo</h1>
 <hr>
 <form action="/login/loginForm" method="post" target="_blank">
     <h2>大图点击Demo，使用表单进行二次验证</h2>
@@ -163,9 +163,9 @@
                 }, 2000);
             } else {
                 $.ajax({
-                    url: 'geetTest/validate2',
+                    url: 'login/loginAJAX',
                     type: 'POST',
-                    dataType: 'json',
+                    // dataType: 'json',
                     data: {
                         username2: $('#username2').val(),
                         password2: $('#password2').val(),
@@ -174,12 +174,7 @@
                         geetest_seccode: result.geetest_seccode
                     },
                     success: function (data) {
-                        if (data.status === 'success') {
-                            alert('登录成功');
-                            window.location.reload();
-                        } else if (data.status === 'fail') {
-                            alert('登录失败');
-                        }
+                        alert(data);
                     }
                 })
             }
