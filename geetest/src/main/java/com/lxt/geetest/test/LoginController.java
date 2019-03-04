@@ -23,13 +23,7 @@ public class LoginController {
         return "login";
     }
     /**
-     * 模拟表单登录
-     * @param username
-     * @param password
-     * @return
-     */
-    /**
-     *
+     *模拟表单登录
      * @param model
      * @param geetest_challenge
      * @param geetest_validate
@@ -55,7 +49,6 @@ public class LoginController {
 
     /**
      * 模拟AJAX登录
-     * @param model
      * @param geetest_challenge
      * @param geetest_validate
      * @param geetest_seccode
