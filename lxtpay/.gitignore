@@ -25,6 +25,6 @@ HELP.md
 /.nb-gradle/
 /build/
 
-*application.yml
-*union-acp-sdk.properties
-*/cer/
+application.yml
+union-acp-sdk.properties
+cer/
