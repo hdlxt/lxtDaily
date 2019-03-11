@@ -29,10 +29,10 @@ import java.io.UnsupportedEncodingException;
  * @Version 1.0
  **/
 @Controller
-@RequestMapping("thirdPay")
-public class ThirdPayController {
-    private final static Logger logger = LoggerFactory.getLogger(ThirdPayController.class);
-    private final static String BASE_URL="pay/";
+@RequestMapping("pay")
+public class PayController {
+    private final static Logger logger = LoggerFactory.getLogger(PayController.class);
+    private final static String BASE_URL="";
     private final static String URL_SUCCESS=BASE_URL+"pay-success";
     @Autowired
     private PayService payService;
@@ -51,7 +51,7 @@ public class ThirdPayController {
      * @return: java.lang.String
      * @throws: 
      */
-    @RequestMapping("/test")
+    @RequestMapping()
     public String test(Model model){
         model.addAttribute("orderId", PayUtil.getUniqueOrderId());
         model.addAttribute("txnTime", DateUtil.format(null,DateUtil.PATTERN_yyyyMMddHHmmss));

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="_meta :: header">
+<head>
 	<title>第三方支付</title>
 </head>
 
 <body>
 	<article class="page-container">
-        <form class="form form-horizontal"    th:action="@{/thirdPay/pay}" method="post" target="_blank">
+        <form class="form form-horizontal"    th:action="@{/pay/pay}" method="post" target="_blank">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-5"><h3><b>说明：参数默认均为必填</b></h3></label>
             </div>
