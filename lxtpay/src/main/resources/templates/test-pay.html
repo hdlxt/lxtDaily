@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" th:href="@{/h-ui/css/layui.css}" href="static/h-ui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/h-ui.admin/css/H-ui.admin.css}" href="static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/h-ui.admin/skin/blue/skin.css}" href="static/h-ui.admin/skin/blue/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" th:href="@{/h-ui.admin/css/style.css}" href="static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/h-ui/css/H-ui.min.css}" href="static/h-ui/css/H-ui.min.css" />
 	<title>第三方支付</title>
 </head>
-
 <body>
 	<article class="page-container">
         <form class="form form-horizontal"    th:action="@{/pay/pay}" method="post" target="_blank">
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-5"><h3><b>说明：参数默认均为必填</b></h3></label>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-5"><h3>支付演示</h3></label>
+                <label class="form-label col-xs-4 col-sm-5"><h3>支付演示（参数必填）</h3></label>
             </div>
             <br/>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">支付方式：</label>
                 <div class="formControls col-xs-7 col-sm-8 skin-minimal">
                     <div class="radio-box" >
-                        <input type="radio" id="sex-1" name="payType" value="1" checked="checked"/>
-                        <label for="sex-1" >支付宝</label>
+                        <input type="radio" id="sex-1" name="payType" value="1" checked="checked"/>支付宝
                     </div>
                     <div class="radio-box" >
-                        <input type="radio" id="sex-0" name="payType" value="2" />
-                        <label for="sex-0" >微信</label>
+                        <input type="radio" id="sex-0" name="payType" value="2" />微信
                     </div>
                     <div class="radio-box" >
-                        <input type="radio" id="sex-2" name="payType" value="3" />
-                        <label for="sex-2" >银联</label>
+                        <input type="radio" id="sex-2" name="payType" value="3" />银联
                     </div>
                 </div>
             </div>
@@ -44,15 +42,15 @@
                 </div>
             </div>
             <div class="row cl" id="txnTimeDiv">
-                <label class="form-label col-xs-4 col-sm-3">订单发送时间(银联必填)：</label>
+                <label class="form-label col-xs-4 col-sm-3">订单发送时间：</label>
                 <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text" th:value="${txnTime}"  name="txnTime" style="width:400px">
+                    <input class="input-text upload-url" type="text" th:value="${txnTime}"  id="txnTime" name="txnTime" style="width:400px">
                 </div>
             </div>
             <div class="row cl" id="subjectDiv">
-                <label class="form-label col-xs-4 col-sm-3">订单标题(支付宝、微信必填)：</label>
+                <label class="form-label col-xs-4 col-sm-3">订单标题：</label>
                 <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  name="subject" style="width:400px">
+                    <input class="input-text upload-url" type="text"  name="subject" id="subject" style="width:400px">
                 </div>
             </div>
             <div class="row cl">
@@ -64,22 +62,19 @@
         <br/><hr/>
         <form class="form form-horizontal" action="#" th:action="@{/aliPay/refund}" method="post">
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-5"><h3>（全部或部分）退款演示</h3></label>
+                <label class="form-label col-xs-4 col-sm-5"><h3>全部或部分退款演示（参数必填）</h3></label>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">订单支付方式：</label>
                 <div class="formControls col-xs-7 col-sm-8 skin-minimal">
                     <div class="radio-box" >
-                        <input type="radio" id="sex-1" name="payTypeRef" value="1" checked="checked"/>
-                        <label for="sex-1" >支付宝</label>
+                        <input type="radio" id="sex-1" name="payTypeRef" value="1" checked="checked"/>支付宝
                     </div>
                     <div class="radio-box" >
-                        <input type="radio" id="sex-0" name="payTypeRef" value="2" />
-                        <label for="sex-0" >微信</label>
+                        <input type="radio" id="sex-0" name="payTypeRef" value="2" />微信
                     </div>
                     <div class="radio-box" >
-                        <input type="radio" id="sex-2" name="payTypeRef" value="3" />
-                        <label for="sex-2" >银联</label>
+                        <input type="radio" id="sex-2" name="payTypeRef" value="3" />银联
                     </div>
                 </div>
             </div>
@@ -89,8 +84,8 @@
                     <input class="input-text upload-url" type="text"  id="outTradeNo" value="" style="width:400px">
                 </div>
             </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">退款单号(微信和支付宝必填)：</label>
+            <div class="row cl" id="outRequestNoDiv">
+                <label class="form-label col-xs-4 col-sm-3">退款单号：</label>
                 <div class="formControls col-xs-7 col-sm-8">
                     <input class="input-text upload-url" type="text"  id="outRequestNo" value="" style="width:400px">
                 </div>
@@ -101,14 +96,14 @@
                     <input class="input-text upload-url" type="text"  id="refundAmount" value="" style="width:400px">
                 </div>
             </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">订单金额(微信必填)：</label>
+            <div class="row cl" id="totalAmountDiv">
+                <label class="form-label col-xs-4 col-sm-3">订单金额：</label>
                 <div class="formControls col-xs-7 col-sm-8">
                     <input class="input-text upload-url" type="text"  id="totalAmount" value="" style="width:400px">
                 </div>
             </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">原交易流水号(银联必填)：</label>
+            <div class="row cl" id="origQryIdDiv">
+                <label class="form-label col-xs-4 col-sm-3">原交易流水号：</label>
                 <div class="formControls col-xs-7 col-sm-8">
                     <input class="input-text upload-url" type="text"  id="origQryId" value="" style="width:400px">
                 </div>
@@ -120,17 +115,45 @@
             </div>
         </form>
 	</article>
+<script type="text/javascript" th:src="@{jquery.min.js}" src="jquery.min.js" ></script>
 <script>
-    $('.skin-minimal input').iCheck({
-        checkboxClass: 'icheckbox-blue',
-        radioClass: 'iradio-blue',
-        increaseArea: '20%'
+    changePayType();
+    changePayTypeRef();
+    $('input[name="payType"]').click(function () {
+        changePayType();
     });
-
+    function changePayType(){
+        if ($('input[name="payType"]:checked').val() == "3"){
+            $('#txnTimeDiv').show();
+            $('#subjectDiv').hide();
+        }else{
+            $('#txnTimeDiv').hide();
+            $('#subjectDiv').show();
+        }
+    }
+    $('input[name="payTypeRef"]').click(function () {
+        changePayTypeRef();
+    });
+    function changePayTypeRef(){
+        var payTypeRef = $('input[name="payTypeRef"]:checked').val();
+        if (payTypeRef == "3"){
+            $('#origQryIdDiv').show();
+            $('#outRequestNoDiv').hide();
+            $('#totalAmountDiv').hide();
+        }else if(payTypeRef == "2"){
+            $('#totalAmountDiv').hide();
+            $('#outRequestNoDiv').show();
+            $('#totalAmountDiv').show();
+        }else{
+            $('#totalAmountDiv').hide();
+            $('#origQryIdDiv').hide();
+            $('#outRequestNoDiv').show();
+        }
+    }
     $('#refund').click(function () {
         $.ajax({
             type: 'POST',
-            url: '/thirdPay/refund',
+            url: '/pay/refund',
             data:JSON.stringify({
                 'payType':$('input[name="payTypeRef"]:checked').val(),
                 'outTradeNo':$('#outTradeNo').val(),
@@ -144,16 +167,11 @@
             dataType:'json',
             contentType:"application/json",  //发送信息至服务器时内容编码类型。
             success: function(data){
-                if (data.code == CODE_SUCCESS){
-                    layer.designMsg(data.message,1,function () {
-                        window.location.reload();//页面刷新
-                    },3);
-                }else{
-                    layer.designMsg(data.message,null,null, 3);
-                }
+                alert(data.message);
+                window.location.reload();//页面刷新
             },
             error:function(data) {
-                layer.designMsg("资源访问失败");
+                alert("资源访问失败");
             },
         });
     });
