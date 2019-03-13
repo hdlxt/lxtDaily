@@ -1,7 +1,7 @@
 # lxtDaily
 > 我的日常记录
 
--  环境
+- 环境
   - Spring Boot 2.0+
   - idea 2018.3
   - 插件`lombok`，eclise也有对应插件，目的用于简化pojo对象
