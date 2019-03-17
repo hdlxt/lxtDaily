@@ -38,16 +38,17 @@ public class FaceUtil {
      * 人脸搜索
      * @param image
      * @param imageType
-     * @param groupIdList
+     * @param groupIdList 从指定的group中进行查找 用逗号分隔，上限20个（逗号隔开）
+     * @param userId 对指定用户进行搜索，即人脸认证
      * @return
      */
-    public static JSONObject search(String image,String imageType,String groupIdList) {
+    public static JSONObject search(String image,String imageType,String groupIdList,String userId) {
         // 传入可选参数调用接口
         HashMap<String, String> options = new HashMap<String, String>();
         options.put("quality_control", "NORMAL");
         options.put("liveness_control", "LOW");
-        options.put("user_id", "user");
-        options.put("max_user_num", "3");
+        options.put("user_id",userId);
+//        options.put("max_user_num", "3");
         // 人脸搜索
         return getClient().search(image, imageType, groupIdList, options);
     }
@@ -89,7 +90,7 @@ public class FaceUtil {
      *处理前台参数获取image参数
      * @param frontImage
      *  eg：image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAA......
-     * @return
+     * @return iVBORw0KGgoAAAANSUhEUgAAAUAAAA......
      */
     public static String handleFrontImage(String frontImage){
         if(StringUtils.isEmpty(frontImage)){

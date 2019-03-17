@@ -28,7 +28,8 @@ public class IndexController {
         image = FaceUtil.handleFrontImage(image);
         if(image != null){
 //            return FaceUtil.detect(imageArr[1],IMAGE_TYPE_BASE64).toString();
-            return FaceUtil.addUser(image,FaceUtil.IMAGE_TYPE_BASE64,"group1","user1").toString();
+//            return FaceUtil.addUser(image,FaceUtil.IMAGE_TYPE_BASE64,"group1","user2").toString();
+//            return FaceUtil.search(image,FaceUtil.IMAGE_TYPE_BASE64,"group1","user1").toString();
         }
         return "fail！";
     }
