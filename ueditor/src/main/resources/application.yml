@@ -1,0 +1,14 @@
+spring:
+  thymeleaf:
+    cache: false
+
+ueditor:
+  server:
+    path: http://localhost:8080  #\u6587\u4EF6\u4E0A\u4F20\u9879\u76EE\u8BBF\u95EE\u8DEF\u5F84\u524D\u7F00(\u76EE\u524D\u5BCC\u6587\u672C\u7F16\u8F91\u5668\u4E0A\u4F20\u5230\u672C\u5730\u65F6\u4F7F\u7528)
+
+file:
+  upload:
+    local:
+      path: D:\ueditor\ #\u6587\u4EF6\u4E0A\u4F20\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55\u4F4D\u7F6E
+    suffix:
+      path: /fileSuffix/
