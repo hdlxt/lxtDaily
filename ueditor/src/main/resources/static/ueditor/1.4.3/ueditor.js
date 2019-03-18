@@ -126,9 +126,7 @@ function clearLocalData () {
 UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
 UE.Editor.prototype.getActionUrl = function(action) {
 	if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
-// 	        return 'http:localhost:8080/ueditor/imgUpload';
 		return '/ueditor/imgUpload';
-		//'http://localhost:8080/imgUpload';为方法imgUpload的访问地址
 	} else {
 		return this._bkGetActionUrl.call(this, action);
 	}

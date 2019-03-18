@@ -1,8 +1,6 @@
 package com.lxt.ueditor.config;
 /**
  * config配置参数
- * @author wpw
- *
  */
 public class PublicMsg {
 	public final static String UEDITOR_CONFIG = "{\n" +
