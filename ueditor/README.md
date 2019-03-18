@@ -27,12 +27,12 @@
       - 修改`jquery.validate.js`文件804行代码为(提示方式可自定义为其他方式)：
 
         ```javascript
-        					// 富文本编辑器错误 暂定弹框提示
-        					if (place.get(0).id.indexOf("ueditor_textarea_") != -1 && place.html() != ""){
-        						alert("JQuery.validate:富文本编辑器内容必填！");
-        					}else{
-        						place.insertAfter( element );
-        					}
+        // 富文本编辑器错误 暂定弹框提示
+        if (place.get(0).id.indexOf("ueditor_textarea_") != -1 && place.html() != ""){
+          alert("JQuery.validate:富文本编辑器内容必填！");
+        }else{
+          place.insertAfter( element );
+        }
         ```
 
         
