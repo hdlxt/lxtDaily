@@ -3,9 +3,9 @@ oss:
   aliyun:
     accessKeyId:
     accessKeySecret:
-    bucketName: design-lxt
-    endpoint: oss-cn-beijing.aliyuncs.com
-    bucket: design-lxt.oss-cn-beijing.aliyuncs.com
+    bucketName:
+    endpoint:
+    bucket:
     expiration: 100 #url\u8FC7\u671F\u65F6\u95F4\uFF0C\u5355\u4F4D\uFF1A\u5E74\uFF0C\u9ED8\u8BA4100\u5E74
 
 spring:
@@ -14,4 +14,5 @@ spring:
 
 lxt:
   file:
-    static: ''  #\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55
+    suffix: '/file/'  #\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55
+    local: 'D:/file/'  #\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55

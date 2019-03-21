@@ -14,15 +14,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * @ClassName: LxtDateUtil
+ * @ClassName: DateUtil
  * @Description: 时间工具类
  * @Version 1.0
  **/
-public class LxtDateUtil {
+public class DateUtil {
     /**
      * 日志
      */
-    private static final Logger logger = LoggerFactory.getLogger(LxtDateUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(DateUtil.class);
     /**
      * date format yyyy-MM-dd HH:mm:ss
      */

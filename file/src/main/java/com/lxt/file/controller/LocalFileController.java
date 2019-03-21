@@ -1,6 +1,8 @@
 package com.lxt.file.controller;
 
 import com.lxt.file.util.LocalFileUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping("localFile")
 public class LocalFileController {
+    private final static Logger logger = LoggerFactory.getLogger(LocalFileController.class);
     private String base = "cd/test/";
     @GetMapping()
     public String file(){
@@ -55,7 +58,7 @@ public class LocalFileController {
         List<String> filePathList = new ArrayList<>();
         filePathList.add("20190308/20190308131018881_5P4CGU.png");
         filePathList.add("20190308/20190308130337092_W9HT1G.png");
-        LocalFileUtil.downloadMultipartFileWithZip(filePathList,zipName,response,new File(""));
+        LocalFileUtil.downloadMultipartFileWithZip(filePathList,zipName,response);
     }
 
 }

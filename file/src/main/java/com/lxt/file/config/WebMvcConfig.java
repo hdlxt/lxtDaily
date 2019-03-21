@@ -10,8 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${lxt.file.static}")
-    private String staticDir;
+    @Value("${lxt.file.suffix}")
+    private String fileSuffix;
+    @Value("${lxt.file.local}")
+    private String fileLocal;
 
     /**
      * @Title: addResourceHandlers
@@ -21,7 +23,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        LocalFileUtil.staticDir = staticDir;
-        registry.addResourceHandler(LocalFileUtil.UPLOAD_FILE_SUFFIX +"/**").addResourceLocations("file:"+staticDir);
+        LocalFileUtil.fileSuffix = fileSuffix;
+        LocalFileUtil.fileLocal = fileLocal;
+        registry.addResourceHandler(LocalFileUtil.fileSuffix +"/**").addResourceLocations("file:"+fileLocal);
     }
 }

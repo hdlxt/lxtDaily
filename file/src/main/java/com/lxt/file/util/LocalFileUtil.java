@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +23,13 @@ import java.util.Optional;
 public class LocalFileUtil {
     private final static Logger logger = LoggerFactory.getLogger(LocalFileUtil.class);
     /**
-     * 文件上传路径前缀
-     */
-    public final static String UPLOAD_FILE_SUFFIX ="/fileDisk";
-    /**
      * 本地磁盘目录
      */
-    public static String staticDir;
+    public static String fileSuffix;
+    /**
+     * 文件上传路径前缀
+     */
+    public static String fileLocal;
     /**
      * @Title: uploadFile
      * @Description: 单文件上传到本地磁盘
@@ -41,16 +42,18 @@ public class LocalFileUtil {
             return null;
         }
         //获取文件相对路径
-        String filePath = getUploadFilePath(multipartFile.getOriginalFilename());
-        logger.info("filePath："+filePath);
-        File destFile = new File(staticDir + File.separator + filePath);
-        if(!destFile.getParentFile().exists()){
-            destFile.getParentFile().mkdirs();
+        String fileName = getUploadFilePath(multipartFile.getOriginalFilename());
+        logger.info("fileName："+fileName);
+        String date = DateUtil.format(null,DateUtil.PATTERN_yyyyMMdd);
+        File destDir = new File(fileLocal + File.separator + date);
+        if(!destDir.exists()){
+            destDir.mkdirs();
         }
         try {
+            File destFile = new File(destDir.getAbsolutePath()+File.separator+fileName);
             multipartFile.transferTo(destFile);
             logger.info("文件【"+multipartFile.getOriginalFilename()+"】上传成功");
-            return filePath;
+            return date+File.separator+fileName;
         } catch (IOException e) {
             logger.error("文件上传异常："+multipartFile.getOriginalFilename(),e);
             return null;
@@ -64,7 +67,7 @@ public class LocalFileUtil {
      */
     public static void downloadFile(String filePath,String fileName, HttpServletResponse response){
         try(
-                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(staticDir+File.separator+filePath));
+                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(fileLocal+File.separator+filePath));
                 BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());){
             // 配置文件下载
             response.setHeader("content-type", "application/octet-stream");
@@ -92,9 +95,21 @@ public class LocalFileUtil {
      * @throws:
      */
     public static String getUploadFilePath(String fileName){
-        return new StringBuilder(LxtDateUtil.format(null,LxtDateUtil.PATTERN_yyyyMMdd))
+        return new StringBuilder(DateUtil.format(null, DateUtil.PATTERN_yyyyMMdd))
                 .append( File.separator)
-                .append(LxtDateUtil.format(null,LxtDateUtil.PATTERN_yyyyMMddHHmmssSSS))
+                .append(DateUtil.format(null, DateUtil.PATTERN_yyyyMMddHHmmssSSS))
+                .append("_").append(OssUtil.getRandomStrByNum(6))
+                .append(".").append(FilenameUtils.getExtension(fileName))
+                .toString();
+    }
+    /**
+     * 获取上传后文件名称
+     * @param fileName
+     * @return
+     */
+    public static String getUploadFileName(String fileName){
+        return new StringBuilder()
+                .append(DateUtil.format(null, DateUtil.PATTERN_yyyyMMddHHmmssSSS))
                 .append("_").append(OssUtil.getRandomStrByNum(6))
                 .append(".").append(FilenameUtils.getExtension(fileName))
                 .toString();
@@ -110,7 +125,7 @@ public class LocalFileUtil {
     public static List<File> downloadMultipartFile(List<String> filePathList,String dir){
         List<File> files = new ArrayList<>();
         Optional.ofNullable(filePathList).ifPresent(fl->{
-                    fl.stream().forEach(f->files.add(new File(staticDir+File.separator+f)));
+                    fl.stream().forEach(f->files.add(new File(fileLocal+File.separator+f)));
                 }
         );
         return files;
@@ -124,7 +139,7 @@ public class LocalFileUtil {
      * @return: java.io.File
      * @throws:
      */
-    public static File downloadMultipartFileWithZip(List<String> filePathList,String zipName,File excelFile){
+    public static File downloadMultipartFileWithZip(List<String> filePathList,String zipName){
         try {
             //压缩路径不存在，先创建
             File zipDirFile = new File(Constants.DOWNLOAD);
@@ -140,7 +155,6 @@ public class LocalFileUtil {
             }
             // 批量下载文件到指定位置
             List<File> files = downloadMultipartFile(filePathList,Constants.DOWNLOAD);
-            files.add(excelFile);
             // 将文件打包
             File zipFile = ZipFileUtil.compressFiles2Zip(files,Constants.DOWNLOAD+File.separator+zipName);
             return zipFile;
@@ -150,9 +164,9 @@ public class LocalFileUtil {
         return null;
     }
 
-    public static void downloadMultipartFileWithZip(List<String> filePathList, String zipName, HttpServletResponse response, File excelFile){
+    public static void downloadMultipartFileWithZip(List<String> filePathList, String zipName, HttpServletResponse response){
         // 下载阿里云文件到本地
-        File zipFile = downloadMultipartFileWithZip(filePathList,zipName,excelFile);
+        File zipFile = downloadMultipartFileWithZip(filePathList,zipName);
         try(
                 BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
                 BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(zipFile));
