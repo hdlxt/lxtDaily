@@ -6,15 +6,15 @@
         - 若需演示完整支付流程：支付->第三方支付处理->回调验签进行业务处理，则需要进行内网穿透配置，详情见末尾。
     - 支付宝
         - 修改【application.yml】配置文件参数为自己的
-        - pay.alipay.pid
-        - pay.alipay.appId
-        - pay.alipay.appPrivateKey
-        - pay.alipay.alipayPublicKey
+            - pay.alipay.pid
+            - pay.alipay.appId
+            - pay.alipay.appPrivateKey
+            - pay.alipay.alipayPublicKey
     - 微信
         - 修改【application.yml】配置文件参数为自己的
-        - pay.wxpay.appId
-        - pay.wxpay.mchId
-        - pay.wxpay.key
+            - pay.wxpay.appId
+            - pay.wxpay.mchId
+            - pay.wxpay.key
     - 银联
         - 复制cer/union下证书到本地磁盘
         - 修改【union-acp-sdk.properties】配置文件,为本地磁盘目录
