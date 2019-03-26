@@ -11,109 +11,25 @@
 </head>
 <body>
 	<article class="page-container">
-        <form class="form form-horizontal" id="form-admin-add" action="downloadSingleFile" method="post">
+        <form class="form form-horizontal"  action="/localFile/uploadFile" method="post" enctype="multipart/form-data">
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">单文件下载：</label>
+                <label class="form-label col-xs-4 col-sm-3">文件上传：</label>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">url</label>
+                <label class="form-label col-xs-4 col-sm-3">文件</label>
                 <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  name="url" style="width:400px">
+                    <input type="file"  name="multipartFile"/>
                 </div>
             </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">下载之后文件名（可选）</label>
+            <div class="row cl" th:if="${filePath ne null}">
+                <label class="form-label col-xs-4 col-sm-3">回显：</label>
                 <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  name="fileName" style="width:400px">
+                    <img  th:src="${filePath}" style="width: 200px;height: 200px;">
                 </div>
             </div>
             <div class="row cl">
-                <div class="col-xs-8 col-sm-9 col-xs-offset-7 col-sm-offset-5">
-                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;下载&nbsp;&nbsp;"/>
-                </div>
-            </div>
-        </form>
-        <br/>
-        <hr/>
-        <form class="form form-horizontal" id="form-admin-add" action="downloadSingleFile" method="post">
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">单文件下载(JQ)：</label>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">url</label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  id="url" style="width:400px">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">下载之后文件名（可选）</label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  id="fileName" style="width:400px">
-                </div>
-            </div>
-            <div class="row cl">
-                <div class="col-xs-8 col-sm-9 col-xs-offset-7 col-sm-offset-5">
-                    <input class="btn btn-primary radius" type="button" onclick="downloadSingleFileTest();" value="&nbsp;&nbsp;下载&nbsp;&nbsp;"/>
-                </div>
-            </div>
-        </form>
-        <br/>
-        <hr/>
-        <form class="form form-horizontal" id="form-admin-add" action="downloadMultipartFileWithZip" method="post">
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">批量打包zip下载：</label>
-            </div>
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3">url</label>
-				<div class="formControls col-xs-7 col-sm-8">
-					<input class="input-text upload-url" type="text"  name="urlList[0]" value="" style="width:400px">
-				</div>
-			</div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3"></label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  name="urlList[1]" style="width:400px">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">压缩包名称（可选）</label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  name="zipName" style="width:400px">
-                </div>
-            </div>
-			<div class="row cl">
-				<div class="col-xs-8 col-sm-9 col-xs-offset-7 col-sm-offset-5">
-					<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;下载&nbsp;&nbsp;"/>
-				</div>
-			</div>
-		</form>
-        <br/>
-        <hr/>
-        <form class="form form-horizontal" id="form-admin-add" action="downloadMultipartFileWithZip" method="post">
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">批量打包zip下载(JQ)：</label>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">url</label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  id="urlList[0]" style="width:400px">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3"></label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  id="urlList[1]" style="width:400px">
-                </div>
-            </div>
-            <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">压缩包名称（可选）</label>
-                <div class="formControls col-xs-7 col-sm-8">
-                    <input class="input-text upload-url" type="text"  id="zipName" style="width:400px">
-                </div>
-            </div>
-            <div class="row cl">
-                <div class="col-xs-8 col-sm-9 col-xs-offset-7 col-sm-offset-5">
-                    <input class="btn btn-primary radius" type="button" onclick="downloadMultipartFileWithZipTest();" value="&nbsp;&nbsp;下载&nbsp;&nbsp;"/>
+                <div class="col-xs-4 col-sm-5 col-xs-offset-4 col-sm-offset-5">
+                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;上传&nbsp;&nbsp;"/>
                 </div>
             </div>
         </form>

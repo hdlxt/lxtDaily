@@ -4,9 +4,11 @@ import com.lxt.file.util.LocalFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,7 @@ import java.util.List;
 @RequestMapping("localFile")
 public class LocalFileController {
     private final static Logger logger = LoggerFactory.getLogger(LocalFileController.class);
-    private String base = "cd/test/";
+    private String base = "";
     @GetMapping()
     public String file(){
         return base+"test-file";
@@ -36,9 +38,10 @@ public class LocalFileController {
      * @throws: 
      */
     @PostMapping("uploadFile")
-    public String uploadFile(MultipartFile multipartFile){
-        LocalFileUtil.uploadFile(multipartFile);
-        return base+"test-file";
+    public String uploadFile(Model model,@RequestParam("multipartFile") MultipartFile multipartFile){
+        String path = LocalFileUtil.uploadFile(multipartFile);
+        model.addAttribute("filePath",LocalFileUtil.fileSuffix+path);
+        return base+"test-local";
     }
     /**
      * @Title: downloadFile

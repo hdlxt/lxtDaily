@@ -42,7 +42,7 @@ public class LocalFileUtil {
             return null;
         }
         //获取文件相对路径
-        String fileName = getUploadFilePath(multipartFile.getOriginalFilename());
+        String fileName = getUploadFileName(multipartFile.getOriginalFilename());
         logger.info("fileName："+fileName);
         String date = DateUtil.format(null,DateUtil.PATTERN_yyyyMMdd);
         File destDir = new File(fileLocal + File.separator + date);

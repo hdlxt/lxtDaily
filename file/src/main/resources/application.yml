@@ -15,4 +15,4 @@ spring:
 lxt:
   file:
     suffix: '/file/'  #\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55
-    local: 'D:/file/'  #\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55
+    local: '/home/lxt/Desktop/0326/test/'  #\u6620\u5C04\u672C\u5730\u78C1\u76D8\u76EE\u5F55
