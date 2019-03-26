@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name='renderer' content='webkit' />
     <meta name='renderer' content='ie-stand' />
-    <title>人脸识别登录</title>
+    <title>人脸注册</title>
     <script type="text/javascript" th:src="@{jquery/1.9.1/jquery.js}" src="jquery/1.9.1/jquery.js"></script>
     <script th:src="@{/jquery-webcam/jquery.webcam.js}" src="/jquery-webcam/jquery.webcam.js"></script>
 </head>
 <body class="body_bg">
-    <div id="webcam"></div>
-    <input type="button" onclick="webcam.capture();" value="点击触发" >
+    <div style="margin-top: 100px;text-align: center">
+        <h3>人脸注册</h3>
+        <div id="webcam"></div>
+        <input type="button" onclick="webcam.capture();" value="点击触发" >
+    </div>
 </body>
 <script type="text/javascript">
     $(function() {
@@ -50,11 +53,13 @@
                     // $.post("upload.php", {type: "data", image: canvas.toDataURL("image/png")});
                     $.ajax({
                         type: "POST",
-                        url: "upload",
+                        url: "addUser",
                         data: {image: canvas.toDataURL("image/png")},
                         // dataType: "json",
                         success: function(data){
                             console.log(data);
+                            alert(data);
+
                         },
                         error: function () {
                             alert("error!");
