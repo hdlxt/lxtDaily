@@ -1,0 +1,40 @@
+server:
+  port: 8088
+#支付相关配置:
+pay:
+  internet:
+    address: http://dd8j86.natappfree.cc #内网穿透映射->外网地址
+  #支付宝相关配置
+  alipay:
+    openApiDomain: https://openapi.alipaydev.com/gateway.do #支付宝网关名
+    pid:  #商户ID
+    appId:  #应用ID
+    # RSA私钥
+    appPrivateKey:
+    #支付宝公钥
+    alipayPublicKey:
+    signType: RSA2 # 签名类型: RSA
+    paramType: json #参数类型
+    charSet: UTF-8 #编码
+    notifyUrl: ${pay.internet.address}/thirdPay/aliPayBackUrl #后台通知地址
+    returnUrl: ${pay.internet.address}/thirdPay/aliPayFrontUrl #前台回调地址
+      #支付宝沙箱测试用户信息：
+      #买家账号txdslh1900@sandbox.com
+      #登录密码111111
+      #支付密码111111
+
+  #微信相关配置
+  wxpay:
+    appId:  #应用授权ID
+    mchId:  #商户号
+    key:  #API密钥
+    notifyUrl: ${pay.internet.address}/thirdPay/wxPayBackUrl #异步接收微信支付结果通知的回调地址，通知url必须为外网可访问的url，不能携带参数。
+  #银联支付相关
+  unionpay:
+    acpsdk:
+      backUrl: ${pay.internet.address}/thirdPay/unionPayBackUrl #后台通知地址，填写接收银联后台通知的地址，必须外网能访问
+      frontUrl: ${pay.internet.address}/thirdPay/unionPayFrontUrl #前台通知地址，填写银联前台通知的地址，必须外网能访问
+
+spring:
+  thymeleaf:
+    cache: false
