@@ -474,31 +474,7 @@ public class UnionPayServiceImpl implements UnionPayService {
 
         } else {
             LogUtil.writeLog("验证签名结果[成功].");
-            //【注：为了安全验签成功才应该写商户的成功处理逻辑】交易成功，更新商户订单状态
-            //获取后台通知的数据，其他字段也可用类似方式获取
-            // 商户订单号
-            String orderId =reqParam.get(UnionPayConstants.ORDER_ID);
-            // 应答码
-            String respCode = reqParam.get(UnionPayConstants.RESP_CODE);
-            // 原交易流水号
-            String queryId = reqParam.get(UnionPayConstants.QUERY_ID);
-            //!!!判断respCode=00、A6后，对涉及资金类的交易，请再发起查询接口查询，确定交易成功后更新数据库。.
-            String txnType = reqParam.get(UnionPayConstants.TXN_TYPE);
-            switch (txnType){
-                case UnionPayConstants.TXN_TYPE_01:
-                    logger.info("下单业务后台验签成功....");
-                    payCallbackService.payCallback(new PayCallbackModel());
-                    break;
-                case UnionPayConstants.TXN_TYPE_04:
-                    logger.info("退货业务后台验签成功....");
-                    payCallbackService.payCallback(new PayCallbackModel());
-                    break;
-                case UnionPayConstants.TXN_TYPE_31:
-                    logger.info("消费撤销业务后台验签成功....");
-                    payCallbackService.payCallback(new PayCallbackModel());
-                    break;
-                default:
-            }
+            payCallbackService.payCallback(new PayCallbackModel().setData(reqParam));
         }
         LogUtil.writeLog("BackRcvResponse接收后台通知结束");
         //返回给银联服务器http 200  状态码

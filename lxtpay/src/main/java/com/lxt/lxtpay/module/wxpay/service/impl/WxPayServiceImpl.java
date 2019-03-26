@@ -145,7 +145,7 @@ public class WxPayServiceImpl implements WxPayService {
                  * 业务逻辑处理 ****************************
                  */
                 logger.info("微信支付回调成功订单号: {}", notifyMap);
-                payCallbackService.payCallback(new PayCallbackModel());
+                payCallbackService.payCallback(new PayCallbackModel().setData(notifyMap));
                 xmlBack = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>" + "<return_msg><![CDATA[SUCCESS]]></return_msg>" + "</xml> ";
                 return xmlBack;
             } else {
