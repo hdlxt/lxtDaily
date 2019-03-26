@@ -16,13 +16,13 @@
   - idea 2018.3
   - 插件`lombok`，eclise也有对应插件，目的用于简化pojo对象
 
-  	内容	
+- 内容	
    - 已完成
       - geetest：spring boot集成极验滑动验证
       - ueditor：spring boot 集成ueditor 兼容jquery.validate验证
+      - lxtpay: 网站集成支付宝、微信和银联支付
    - 待完善
       - wesocket: spring boot+wesocket
-      - lxtpay: 网站集成支付宝、微信和银联支付
       - file：spring boot 文件上传下载
          - 上传到oss，以阿里云为例
          - 上传到本地磁盘并下载、图片回显
