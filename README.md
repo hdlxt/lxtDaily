@@ -1,5 +1,5 @@
 # lxtDaily
-> 我的日常记录,正在更新中...
+> 我的日常笔记和学习记录,正在更新中...
 
 
 
@@ -16,15 +16,18 @@
   - idea 2018.3
   - 插件`lombok`，eclise也有对应插件，目的用于简化pojo对象
 
-- 内容	
+    内容	
    - 已完成
       - geetest：spring boot集成极验滑动验证
       - ueditor：spring boot 集成ueditor 兼容jquery.validate验证
       - lxtpay: 网站集成支付宝、微信和银联支付
+      - faceLogin：人脸识别对接百度api
+        - 百度api+jquery-webcam插件
+        - 已完成人脸监测、注册、搜索接口
+        - 计划完成登录认证的简单逻辑
    - 待完善
       - wesocket: spring boot+wesocket
       - file：spring boot 文件上传下载
          - 上传到oss，以阿里云为例
          - 上传到本地磁盘并下载、图片回显
-      - faceLogin：人脸识别登录认证
 
