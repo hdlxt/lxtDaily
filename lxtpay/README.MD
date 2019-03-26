@@ -11,6 +11,7 @@
             - pay.alipay.appPrivateKey
             - pay.alipay.alipayPublicKey
     - 微信
+        - 添加证书至cer/wxpay目录下
         - 修改【application.yml】配置文件参数为自己的
             - pay.wxpay.appId
             - pay.wxpay.mchId
