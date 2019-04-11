@@ -1,6 +1,7 @@
 package com.mbyte.easy.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.Goods;
@@ -53,40 +54,8 @@ public class TaskController extends BaseController  {
     @RequestMapping
     public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, Task task) {
         Page<Task> page = new Page<Task>(pageNo, pageSize);
-        QueryWrapper<Task> queryWrapper = new QueryWrapper<Task>();
-
-        if(task.getStartCityId() != null  && !"".equals(task.getStartCityId() + "")) {
-            queryWrapper = queryWrapper.like("start_city_id",task.getStartCityId());
-         }
-
-
-        if(task.getEndCityId() != null  && !"".equals(task.getEndCityId() + "")) {
-            queryWrapper = queryWrapper.like("end_city_id",task.getEndCityId());
-         }
-
-
-        if(task.getTaskDate() != null  && !"".equals(task.getTaskDate() + "")) {
-            queryWrapper = queryWrapper.like("task_date",task.getTaskDate());
-         }
-
-
-        if(task.getStatus() != null  && !"".equals(task.getStatus() + "")) {
-            queryWrapper = queryWrapper.like("status",task.getStatus());
-         }
-
-
-        if(task.getName() != null  && !"".equals(task.getName() + "")) {
-            queryWrapper = queryWrapper.like("name",task.getName());
-         }
-
-
-        if(task.getCarId() != null  && !"".equals(task.getCarId() + "")) {
-            queryWrapper = queryWrapper.like("car_id",task.getCarId());
-         }
-
-        IPage<Task> pageInfo = taskService.page(page, queryWrapper);
         model.addAttribute("searchInfo", task);
-        model.addAttribute("pageInfo", new PageInfo(pageInfo));
+        model.addAttribute("pageInfo", new PageInfo(taskService.listPage(task, page)));
         return prefix+"task-list";
     }
 
@@ -98,7 +67,7 @@ public class TaskController extends BaseController  {
     public String addBefore(Model model){
         model.addAttribute("cityStarts",cityStartService.list());
         model.addAttribute("cityEnds",cityEndService.list());
-        model.addAttribute("goods",goodsService.list(new QueryWrapper<Goods>().lambda().groupBy(Goods::getBatchCode)));
+        model.addAttribute("goods",goodsService.list(new QueryWrapper<Goods>().lambda().eq(Goods::getStatus,0).groupBy(Goods::getBatchCode)));
         return prefix+"add";
     }
     /**
@@ -118,6 +87,9 @@ public class TaskController extends BaseController  {
     @GetMapping("editBefore/{id}")
     public String editBefore(Model model,@PathVariable("id")Long id){
         model.addAttribute("task",taskService.getById(id));
+        model.addAttribute("cityStarts",cityStartService.list());
+        model.addAttribute("cityEnds",cityEndService.list());
+        model.addAttribute("goods",goodsService.list(new QueryWrapper<Goods>().lambda().eq(Goods::getStatus,0).groupBy(Goods::getBatchCode)));
         return prefix+"edit";
     }
     /**
@@ -140,6 +112,18 @@ public class TaskController extends BaseController  {
     public AjaxResult delete(@PathVariable("id") Long id){
         return toAjax(taskService.removeById(id));
     }
+
+    /**
+     * 调度操作
+     * @param id
+     * @param status
+     * @return
+     */
+    @GetMapping("diao/{id}/{status}")
+    @ResponseBody
+    public AjaxResult diao(@PathVariable("id") Long id,@PathVariable("status") int status){
+        return toAjax(taskService.update(new UpdateWrapper<Task>().lambda().eq(Task::getId,id).set(Task::getStatus,status)));
+    }
     /**
     * 批量删除
     * @param ids
@@ -150,6 +134,7 @@ public class TaskController extends BaseController  {
     public AjaxResult deleteAll(@RequestBody List<Long> ids){
         return toAjax(taskService.removeByIds(ids));
     }
+
 
 }
 

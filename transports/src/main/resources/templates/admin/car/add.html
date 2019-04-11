@@ -42,8 +42,7 @@
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>上牌时间：</label>
              <div class="formControls col-xs-10 col-sm-10">
-                 <input type="input-text" class="input-text timeSpace" readonly="readonly"
-                        autocomplete="off" name="paiTime" placeholder="请选择上牌时间"/>
+                 <input type="text" name="paiTime" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd'})" id="datemin" class="input-text Wdate">
              </div>
         </div>
         <div class="row cl">

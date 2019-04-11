@@ -53,7 +53,7 @@
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>上牌时间：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(car.paiTime, 'yyyy-MM-dd HH:mm:ss')}" name="paiTime" placeholder="请选择上牌时间"/>
+                                <input type="text" name="paiTime" th:value="${#temporals.format(car.paiTime, 'yyyy-MM-dd')}" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd'})" id="datemin" class="input-text Wdate">
                             </div>
                     </div>
                 </div>

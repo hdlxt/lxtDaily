@@ -12,7 +12,13 @@
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>起点城市：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.startCityId}" name="startCityId"  placeholder="修改起点城市" id="startCityId"/>
+                                <span class="select-box" style="width:300px;">
+                                    <select class="select" size="1" name="startCityId" th:field="*{startCityId}">
+                                      <option th:each="city : ${cityStarts}"
+                                              th:value="${city.id}"
+                                              th:text="${city.name+'('+city.code+')'}"></option>
+                                    </select>
+                                </span>
                             </div>
                     </div>
                 </div>
@@ -20,7 +26,13 @@
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>终点城市：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.endCityId}" name="endCityId"  placeholder="修改终点城市" id="endCityId"/>
+                                <span class="select-box" style="width:300px;">
+                                    <select class="select" size="1" name="endCityId" th:field="*{endCityId}">
+                                      <option th:each="city : ${cityEnds}"
+                                              th:value="${city.id}"
+                                              th:text="${city.name+'('+city.code+')'}"></option>
+                                    </select>
+                                </span>
                             </div>
                     </div>
                 </div>
@@ -34,20 +46,22 @@
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>货物id：</label>
+                                class="c-red">*</span>货物批次号：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.goodsId}" name="goodsId"  placeholder="修改货物id" id="goodsId"/>
+                                <input type="input-text" class="input-text" th:value="${task.goodsBatch}" name="goodsBatch"  placeholder="修改货物批次号" id="goodsId"/>
                             </div>
                     </div>
                 </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>状态：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.status}" name="status"  placeholder="修改状态" id="status"/>
-                            </div>
-                    </div>
-                </div>
+                <!--<div class="row cl">-->
+                    <!--<label class="form-label col-xs-2 col-sm-2"><span-->
+                                <!--class="c-red">*</span>状态：</label>-->
+                            <!--<div class="formControls col-xs-10 col-sm-10">-->
+                                <!--<input type="radio" name="status"  th:field="*{status}"  checked value="0"/>未调度-->
+                                <!--<input type="radio" name="status"  th:field="*{status}" value="1"/>调度中-->
+                                <!--<input type="radio" name="status"  th:field="*{status}" value="2"/>已调度-->
+                            <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>任务名称：</label>
@@ -58,7 +72,7 @@
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>使用车辆：</label>
+                                class="c-red">*</span>车辆编号：</label>
                             <div class="formControls col-xs-10 col-sm-10">
                                 <input type="input-text" class="input-text" th:value="${task.carId}" name="carId"  placeholder="修改使用车辆" id="carId"/>
                             </div>
