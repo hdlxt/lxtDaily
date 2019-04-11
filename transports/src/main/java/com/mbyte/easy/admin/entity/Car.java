@@ -24,6 +24,8 @@ import lombok.experimental.Accessors;
 public class Car extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
+    public static final int USE_NO = 0;
+    public static final int USE_YES = 1;
 
     /**
      * 车辆编号
@@ -74,6 +76,7 @@ public class Car extends BaseEntity {
      * 已载重
      */
     private Double loadUse;
+    private Double loadUsed;
 
 
 }

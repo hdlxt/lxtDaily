@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mbyte.easy.admin.entity.Car;
 import com.mbyte.easy.admin.entity.Goods;
 import com.mbyte.easy.admin.entity.Task;
 import com.mbyte.easy.admin.service.*;
@@ -52,9 +53,12 @@ public class TaskController extends BaseController  {
     * @return
     */
     @RequestMapping
-    public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, Task task) {
+    public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo
+            ,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize
+            , Task task,String flag) {
         Page<Task> page = new Page<Task>(pageNo, pageSize);
         model.addAttribute("searchInfo", task);
+        model.addAttribute("flag", flag);
         model.addAttribute("pageInfo", new PageInfo(taskService.listPage(task, page)));
         return prefix+"task-list";
     }
@@ -122,6 +126,37 @@ public class TaskController extends BaseController  {
     @GetMapping("diao/{id}/{status}")
     @ResponseBody
     public AjaxResult diao(@PathVariable("id") Long id,@PathVariable("status") int status){
+        Task task = taskService.getById(id);
+        Car car = carService.getById(task.getCarId());
+        List<Goods> goodsList = goodsService.list(new QueryWrapper<Goods>()
+                .lambda().eq(Goods::getBatchCode,task.getGoodsBatch()));
+        double loadUse = 0;
+        for (Goods goods : goodsList) {
+            loadUse += goods.getLoadM();
+        }
+        if(status == 1){
+            //开始调度
+            car.setLoadUsed(car.getLoadUsed() + loadUse);
+            car.setLoadUse(car.getLoadMax() - car.getLoadUsed());
+            car.setStatus(Car.USE_YES);
+            carService.updateById(car);
+
+            for (Goods goods : goodsList) {
+                goods.setStatus(Goods.ING);
+            }
+            goodsService.updateBatchById(goodsList);
+        }else if(status == 2){
+            //结束调度
+            car.setLoadUsed(car.getLoadUsed() - loadUse);
+            car.setLoadUse(car.getLoadMax() - car.getLoadUsed());
+            car.setStatus(Car.USE_NO);
+            carService.updateById(car);
+
+            for (Goods goods : goodsList) {
+                goods.setStatus(Goods.END);
+            }
+            goodsService.updateBatchById(goodsList);
+        }
         return toAjax(taskService.update(new UpdateWrapper<Task>().lambda().eq(Task::getId,id).set(Task::getStatus,status)));
     }
     /**
@@ -135,6 +170,28 @@ public class TaskController extends BaseController  {
         return toAjax(taskService.removeByIds(ids));
     }
 
+    /**
+     * 获取可用车辆
+     * @param loadUse
+     * @return
+     */
+    @RequestMapping("getCar")
+    @ResponseBody
+    public AjaxResult getCar(String goodsBatch){
+        double loadUse = 0;
+        List<Goods> goodsList = goodsService.list(new QueryWrapper<Goods>()
+                .lambda().eq(Goods::getBatchCode,goodsBatch));
+        for (Goods goods : goodsList) {
+            loadUse += goods.getLoadM();
+        }
+        List<Car> carList = carService.list(new QueryWrapper<Car>()
+                .lambda().ge(Car::getLoadMax,loadUse));
+        if(carList != null && carList.size() > 0){
+            return success(carList);
+        }
+        return error();
+
+    }
 
 }
 

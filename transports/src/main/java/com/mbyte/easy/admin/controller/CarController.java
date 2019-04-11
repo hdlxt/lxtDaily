@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.Car;
+import com.mbyte.easy.admin.entity.CityEnd;
 import com.mbyte.easy.admin.service.ICarService;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
@@ -119,6 +120,10 @@ public class CarController extends BaseController  {
     @PostMapping("add")
     @ResponseBody
     public AjaxResult add(Car car){
+        if(carService.getOne(new QueryWrapper<Car>().lambda().eq(Car::getCode,car.getCode())) != null){
+            return error("车辆编号已存在！");
+        }
+        car.setLoadUse(car.getLoadMax());
         return toAjax(carService.save(car));
     }
     /**
@@ -138,6 +143,10 @@ public class CarController extends BaseController  {
     @PostMapping("edit")
     @ResponseBody
     public AjaxResult edit(Car car){
+        Car cityEndDb = carService.getById(car.getId());
+        if(!cityEndDb.getCode().equals(car.getCode()) && carService.getOne(new QueryWrapper<Car>().lambda().eq(Car::getCode,car.getCode())) != null){
+            return error("车辆编号已存在！");
+        }
         return toAjax(carService.updateById(car));
     }
     /**

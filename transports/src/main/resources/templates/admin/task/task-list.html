@@ -4,26 +4,33 @@
     <title>列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>运输管理 <span
+<nav th:if="${flag eq '1000'}" class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>运输管理 <span
             class="c-gray en">&gt;</span>任务管理<a class="btn btn-success radius r"
                                                 style="line-height:1.6em;margin-top:3px"
                                                 href="javascript:location.replace(location.href);" title="刷新"><i
                 class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav th:if="${flag eq '1001'}" class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>运输管理 <span
+        class="c-gray en">&gt;</span>调度管理<a class="btn btn-success radius r"
+                                            style="line-height:1.6em;margin-top:3px"
+                                            href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <form action="#" th:action="@{/admin/task}" method="post">
+        <input type="hidden" th:value="${flag}" name="flag"/>
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field">
-                <legend>任务列表</legend>
+                <legend th:if="${flag eq '1000'}">任务列表</legend>
+                <legend th:if="${flag eq '1001'}">调度列表</legend>
                 <div class="layui-field-box">
 
                     <hr style="margin: 0">
                     <div class="cl pd-5 bg-1 bk-gray">
 						<span class="l">
-						<a href="javascript:;"
+						<a th:if="${flag eq '1000'}" href="javascript:;"
                            onclick="deleteAll('/admin/task/deleteAll')"
                            class="layui-btn  layui-btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-						<a href="javascript:;"
+						<a th:if="${flag eq '1000'}" href="javascript:;"
                            onclick="layer_show('添加','/admin/task/addBefore',900,500)"
                            class="layui-btn  layui-btn-normal radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
 						</span>
@@ -33,8 +40,8 @@
 
                     <div class="cl pd-5 bg-1 bk-gray ">
                         <div class="searchByField">
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.startCityId}" name="startCityId" placeholder="搜索起点城市" sid="startCityId"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.endCityId}" name="endCityId" placeholder="搜索终点城市" sid="endCityId"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.startCity}" name="startCity" placeholder="搜索起点城市" sid="startCityId"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.endCity}" name="endCity" placeholder="搜索终点城市" sid="endCityId"/>
                                          <input type="input-text" class="input-text" th:value="${searchInfo.name}" name="name" placeholder="搜索任务名称" sid="name"/>
                             <button type="submit"
                                     class="layui-btn  layui-btn-success radius"><i
@@ -48,13 +55,15 @@
                         <tr class="text-c">
                             <th width="25"><input type="checkbox" name="" value=""/></th>
                             <th width="25">序号</th>
+                            <th width="40">任务名称</th>
                                 <th width="40">起点城市</th>
                                 <th width="40">终点城市</th>
                                 <th width="40">任务日期</th>
                                 <th width="40">货物名称</th>
+                            <th width="40">车辆编号</th>
                                 <th width="40">状态</th>
-                                <th width="40">任务名称</th>
-                                <th width="40">车辆编号</th>
+
+
                             <th width="100">操作</th>
                         </tr>
                         </thead>
@@ -66,26 +75,28 @@
                             <td><input type="checkbox" value="1" th:value="${task.id}"
                                        name="id"/></td>
                             <td th:text="${count.count}"></td>
+                            <td th:text="${task.name}"></td>
                                     <td th:text="${task.startCity}"></td>
                                     <td th:text="${task.endCity}"></td>
                                     <td th:text="${task.taskDate}"></td>
                                     <td th:text="${task.goodsBatch}"></td>
+                            <td th:text="${task.code}"></td>
                                     <td th:if="${task.status eq 0}">未开始</td>
                                     <td th:if="${task.status eq 1}">进行中</td>
                                     <td th:if="${task.status eq 2}">已结束</td>
-                                    <td th:text="${task.name}"></td>
-                                    <td th:text="${task.code}"></td>
+
+
                             <td class="td-manage">
-                                <a th:if="${task.status eq 0}" title="编辑" href="javascript:;"
+                                <a th:if="${task.status eq 0 and flag eq '1000'}" title="编辑" href="javascript:;"
                                    th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'task'+'/editBefore/'+${task.id}+'\',900,500)'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a th:if="${task.status eq 0}" title="删除" href="javascript:;"
+                                <a th:if="${task.status eq 0 and flag eq '1000'}" title="删除" href="javascript:;"
                                    th:onclick="'javascript:deleteById(\'/admin/'+'task'+'/delete/'+${task.id}+'\')'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
-                                <a  th:if="${task.status eq 0}" title="开始调度" href="javascript:;"
+                                <a  th:if="${task.status eq 0 and flag eq '1001'}" title="开始调度" href="javascript:;"
                                    th:onclick="'javascript:diaoS(\'/admin/'+'task'+'/diao/'+${task.id}+'/1\')'"
                                    class="ml-5" style="text-decoration:none">开始调度</a>
-                                <a  th:if="${task.status eq 1}" title="结束调度" href="javascript:;"
+                                <a  th:if="${task.status eq 1 and flag eq '1001'}" title="结束调度" href="javascript:;"
                                     th:onclick="'javascript:diaoE(\'/admin/'+'task'+'/diao/'+${task.id}+'/2\')'"
                                     class="ml-5" style="text-decoration:none">结束调度</a>
                             </td>

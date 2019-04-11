@@ -46,7 +46,7 @@
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>货物批次号：</label>
             <div class="formControls col-xs-10 col-sm-10">
                 <span class="select-box" style="width:300px;">
-                    <select class="select" size="1" name="goodsBatch" >
+                    <select class="select" size="1" onchange="changeBatchCode();" id="goodsBatch" name="goodsBatch" >
                       <option th:each="good : ${goods}"
                               th:value="${good.batchCode}"
                               th:text="${good.batchCode}"></option>
@@ -65,7 +65,10 @@
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>车辆编号：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="carId" placeholder="请填写车辆编号" id="carId"/>
+                <span class="select-box" style="width:300px;">
+                    <select class="select" size="1" name="carId" id="carId">
+                    </select>
+                </span>
             </div>
         </div>
 	<div class="row cl">
@@ -140,6 +143,34 @@
                 ,type: 'datetime'
             });
         });
+ changeBatchCode();
+ function changeBatchCode(){
+     //此处请求后台程序，下方是成功后的前台处理……
+     $.ajax({
+         type: 'POST',
+         url: '/admin/task/getCar',
+         data:{
+             goodsBatch: $('#goodsBatch').val()
+         },
+         dataType: 'json',
+         success: function(data){
+             var carId = $('#carId');
+             carId.empty();
+             var html = "";
+             if (data.code == "0") {
+                 for (var i = 0; i < data.data.length; i++) {
+                     html += '<option value="'+data.data[i].id+'">'+data.data[i].code+'</option>';
+                 }
+             }else{
+                 html += '<option value="">暂无可用车辆</option>';
+             }
+             carId.append(html);
+         },
+         error:function(data) {
+             console.log(data.msg);
+         },
+     });
+ }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

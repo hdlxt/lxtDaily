@@ -8,6 +8,14 @@
     <form class="form form-horizontal" id="form-task-edit" action="#"
           th:action="@{/admin/task/edit}" th:object="${task}">
         <input type="hidden" name="id" th:value="${task.id}"/>
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span
+                    class="c-red">*</span>任务名称：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <input type="input-text" class="input-text" th:value="${task.name}" name="name"  placeholder="修改任务名称" id="name"/>
+            </div>
+        </div>
+        </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>起点城市：</label>
@@ -40,7 +48,8 @@
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>任务日期：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.taskDate}" name="taskDate"  placeholder="修改任务日期" id="taskDate"/>
+                                <input type="text" th:value="${task.taskDate}" name="taskDate" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd'})" id="datemin" class="input-text Wdate">
+
                             </div>
                     </div>
                 </div>
@@ -48,7 +57,13 @@
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>货物批次号：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.goodsBatch}" name="goodsBatch"  placeholder="修改货物批次号" id="goodsId"/>
+                                <span class="select-box" style="width:300px;">
+                                    <select class="select" size="1" onchange="changeBatchCode();" th:field="*{goodsBatch}" id="goodsBatch" name="goodsBatch" >
+                                      <option th:each="good : ${goods}"
+                                              th:value="${good.batchCode}"
+                                              th:text="${good.batchCode}"></option>
+                                    </select>
+                                </span>
                             </div>
                     </div>
                 </div>
@@ -62,19 +77,15 @@
                             <!--</div>-->
                     <!--</div>-->
                 <!--</div>-->
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>任务名称：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.name}" name="name"  placeholder="修改任务名称" id="name"/>
-                            </div>
-                    </div>
-                </div>
+
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>车辆编号：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${task.carId}" name="carId"  placeholder="修改使用车辆" id="carId"/>
+                                <span class="select-box" style="width:300px;">
+                                    <select class="select" size="1" name="carId" id="carId">
+                                    </select>
+                                </span>
                             </div>
                     </div>
                 </div>
@@ -166,6 +177,34 @@
         });
     });
 
+    changeBatchCode();
+    function changeBatchCode() {
+        //此处请求后台程序，下方是成功后的前台处理……
+        $.ajax({
+            type: 'POST',
+            url: '/admin/task/getCar',
+            data: {
+                goodsBatch: $('#goodsBatch').val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                var carId = $('#carId');
+                carId.empty();
+                var html = "";
+                if (data.code == "0") {
+                    for (var i = 0; i < data.data.length; i++) {
+                        html += '<option value="' + data.data[i].id + '">' + data.data[i].code + '</option>';
+                    }
+                } else {
+                    html += '<option value="">暂无可用车辆</option>';
+                }
+                carId.append(html);
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
+        });
+    }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

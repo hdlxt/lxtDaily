@@ -3,6 +3,7 @@ package com.mbyte.easy.admin.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.Task;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -32,5 +33,5 @@ public interface TaskMapper extends BaseMapper<Task> {
             " and t.name like '%${task.name}%'" +
             "</if>" +
             " order by task_date desc</script>")
-    List<Task> listPage(Task task, Page<Task> page);
+    List<Task> listPage(@Param("task") Task task, Page<Task> page);
 }

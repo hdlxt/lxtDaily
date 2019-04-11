@@ -26,13 +26,13 @@
             </div>
         </div>
 
-        <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2">已载重：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text"  style="width: 200px;" name="loadUse" value="0" placeholder="请填写已载重" id="loadUse"/>
-                &nbsp;&nbsp;&nbsp;KG
-            </div>
-        </div>
+        <!--<div class="row cl">-->
+            <!--<label class="form-label col-xs-2 col-sm-2">已载重：</label>-->
+            <!--<div class="formControls col-xs-10 col-sm-10">-->
+                <!--<input type="input-text" class="input-text"  style="width: 200px;" name="loadUsed" value="0" placeholder="请填写已载重" id="loadUse"/>-->
+                <!--&nbsp;&nbsp;&nbsp;KG-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>牌照：</label>
             <div class="formControls col-xs-10 col-sm-10">
@@ -63,13 +63,13 @@
                 <input type="input-text" class="input-text" name="idCard" placeholder="请填写身份证号" id="idCard"/>
             </div>
         </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>使用状态：</label>
-            <div class="formControls col-xs-10 col-sm-10" style="line-height: 30px">
-                <input type="radio" name="status"  checked value="0"/>未使用
-                <input type="radio" name="status"  value="1"/>使用中
-            </div>
-        </div>
+        <!--<div class="row cl">-->
+             <!--<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>使用状态：</label>-->
+            <!--<div class="formControls col-xs-10 col-sm-10" style="line-height: 30px">-->
+                <!--<input type="radio" name="status"  checked value="0"/>未使用-->
+                <!--<input type="radio" name="status"  value="1"/>使用中-->
+            <!--</div>-->
+        <!--</div>-->
 	<div class="row cl">
 	<div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
 		<input class="btn btn-primary radius" id="subbtn" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
@@ -135,7 +135,7 @@
 							parent.layer.close(index);
 						});
 					}else{
-						layer.designMsg('添加失败!');
+						layer.designMsg(data.msg);
 					}
 				},
                 error: function(){
@@ -152,6 +152,9 @@
                 ,type: 'datetime'
             });
         });
+
+
+
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>
