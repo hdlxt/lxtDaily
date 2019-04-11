@@ -41,7 +41,7 @@ public class Task extends BaseEntity {
     /**
      * 货物id
      */
-    private Long goodsId;
+    private String goodsBatch;
 
     /**
      * 状态

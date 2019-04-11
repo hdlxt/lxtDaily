@@ -2,6 +2,8 @@ package com.mbyte.easy.admin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mbyte.easy.common.entity.BaseEntity;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,7 +48,7 @@ public class Car extends BaseEntity {
     /**
      * 上牌时间
      */
-    private LocalDateTime paiTime;
+    private LocalDate paiTime;
 
     /**
      * 司机姓名

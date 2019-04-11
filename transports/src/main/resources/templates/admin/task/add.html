@@ -9,13 +9,25 @@
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>起点城市：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="startCityId" placeholder="请填写起点城市" id="startCityId"/>
+                <span class="select-box" style="width:300px;">
+                    <select class="select" size="1" name="startCityId" >
+                      <option th:each="city : ${cityStarts}"
+                              th:value="${city.id}"
+                              th:text="${city.name+'('+city.code+')'}"></option>
+                    </select>
+                </span>
             </div>
         </div>
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>终点城市：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="endCityId" placeholder="请填写终点城市" id="endCityId"/>
+                <span class="select-box" style="width:300px;">
+                    <select class="select" size="1" name="startEndId" >
+                      <option th:each="city : ${cityEnds}"
+                              th:value="${city.id}"
+                              th:text="${city.name+'('+city.code+')'}"></option>
+                    </select>
+                </span>
             </div>
         </div>
         <div class="row cl">
@@ -25,9 +37,15 @@
             </div>
         </div>
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>货物id：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>货物批次号：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="goodsId" placeholder="请填写货物id" id="goodsId"/>
+                <span class="select-box" style="width:300px;">
+                    <select class="select" size="1" name="goods_batch" >
+                      <option th:each="good : ${goods}"
+                              th:value="${good.batchCode}"
+                              th:text="${good.batchCode}"></option>
+                    </select>
+                </span>
             </div>
         </div>
         <div class="row cl">

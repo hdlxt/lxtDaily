@@ -3,8 +3,9 @@ package com.mbyte.easy.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mbyte.easy.admin.entity.Goods;
 import com.mbyte.easy.admin.entity.Task;
-import com.mbyte.easy.admin.service.ITaskService;
+import com.mbyte.easy.admin.service.*;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
 import com.mbyte.easy.util.PageInfo;
@@ -32,7 +33,14 @@ public class TaskController extends BaseController  {
 
     @Autowired
     private ITaskService taskService;
-
+    @Autowired
+    private IGoodsService goodsService;
+    @Autowired
+    private ICarService carService;
+    @Autowired
+    private ICityStartService cityStartService;
+    @Autowired
+    private ICityEndService cityEndService;
     /**
     * 查询列表
     *
@@ -62,11 +70,6 @@ public class TaskController extends BaseController  {
          }
 
 
-        if(task.getGoodsId() != null  && !"".equals(task.getGoodsId() + "")) {
-            queryWrapper = queryWrapper.like("goods_id",task.getGoodsId());
-         }
-
-
         if(task.getStatus() != null  && !"".equals(task.getStatus() + "")) {
             queryWrapper = queryWrapper.like("status",task.getStatus());
          }
@@ -92,7 +95,10 @@ public class TaskController extends BaseController  {
     * @return
     */
     @GetMapping("addBefore")
-    public String addBefore(){
+    public String addBefore(Model model){
+        model.addAttribute("cityStarts",cityStartService.list());
+        model.addAttribute("cityEnds",cityEndService.list());
+        model.addAttribute("goods",goodsService.list(new QueryWrapper<Goods>().lambda().groupBy(Goods::getBatchCode)));
         return prefix+"add";
     }
     /**

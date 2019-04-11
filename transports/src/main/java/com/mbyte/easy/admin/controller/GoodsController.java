@@ -8,6 +8,7 @@ import com.mbyte.easy.admin.service.IGoodsService;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
 import com.mbyte.easy.util.PageInfo;
+import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,6 +104,7 @@ public class GoodsController extends BaseController  {
     @PostMapping("add")
     @ResponseBody
     public AjaxResult add(Goods goods){
+        goods.setCode(Utility.getGoosdCode());
         return toAjax(goodsService.save(goods));
     }
     /**

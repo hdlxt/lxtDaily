@@ -53,7 +53,7 @@
                                 <th width="40">载重量</th>
                             <th width="40">已载重</th>
                                 <th width="40">牌照</th>
-                                <th width="40">上牌时间</th>
+                                <th style="width:40px;">上牌时间</th>
                                 <th width="40">司机姓名</th>
                                 <th width="40">联系手机</th>
                                 <th width="40">身份证号</th>
@@ -75,7 +75,7 @@
                                     <td th:text="${car.loadMax+'KG'}"></td>
                             <td th:text="${car.loadUse+'KG'}"></td>
                                     <td th:text="${car.pai}"></td>
-                                    <td th:text="${#temporals.format(car.paiTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td  style="width:40px;" th:text="${#temporals.format(car.paiTime, 'yyyy-MM-dd')}"></td>
                                     <td th:text="${car.name}"></td>
                                     <td th:text="${car.tel}"></td>
                                     <td th:text="${car.idCard}"></td>

@@ -60,6 +60,9 @@ public class Utility {
 		return String.valueOf(principal);
 	}
 
+	public static String getGoosdCode(){
+		return DateUtil.format(null,DateUtil.PATTERN_yyyyMMddHHmmss)+getRandomStrByNum(3).toLowerCase();
+	}
 	/**
 	 * 
 	 * security 查询登陆用户
