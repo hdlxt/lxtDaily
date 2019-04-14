@@ -59,15 +59,12 @@ public class UserController {
 			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name) {
 		SysUser user = new SysUser();
-		if (name != null && !"".equals(name.trim())) {
-			user.setUsername(name);
-			model.addAttribute("name", name.trim());
-		}
 
 		Page<SysUser> page = new Page<SysUser>(pageNo, pageSize);
 		IPage<SysUser> pageInfo = userMapper.selectByUserForPage(page, name);
 
 		model.addAttribute("pageInfo", new PageInfo<SysUser>(pageInfo));
+		model.addAttribute("user",user);
 		return "admin-list";
 	}
 

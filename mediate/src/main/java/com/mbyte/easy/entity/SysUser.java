@@ -37,6 +37,16 @@ public class SysUser implements UserDetails {
      * @mbg.generated Mon Jul 17 14:46:14 CST 2017
      */
     private String password;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public SysUser setName(String name) {
+        this.name = name;
+        return this;
+    }
 
     /**
      *

@@ -20,8 +20,6 @@ import java.util.*;
  *  自动生成工具类
  * </p>
  *
- * @author 王震
- * @since 2019-03-11
  */
 public class CodeGenerator {
 
@@ -54,7 +52,6 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("");
         gc.setOpen(false);
-        gc.setAuthor("黄润宣");
         mpg.setGlobalConfig(gc);
 
         Properties properties = new Properties();
@@ -87,11 +84,11 @@ public class CodeGenerator {
         *                             t_
          * 忽略前缀配置 eg： t_test  ====> test
          */
-        String ignoreFlag = scanner("是否忽略指定前缀(1为是其它为否)");
-        String ignorePrefix = null;
-        if("1".equals(ignoreFlag.trim())){
-            ignorePrefix = scanner("前缀");
-        }
+//        String ignoreFlag = scanner("是否忽略指定前缀(1为是其它为否)");
+        String ignorePrefix = "t_";
+//        if("1".equals(ignoreFlag.trim())){
+//            ignorePrefix = scanner("前缀");
+//        }
 
 
 

@@ -30,16 +30,11 @@ import java.util.List;
 
 /**
  * 自定义校验方式
- * @author 王震
  *
  */
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 	private final String VALIDATECODE_ERROR = "validatecode_error";//session存储验证码是否错误的key值
-//	@Value("${application.messsage.error.validatecode:验证码错误}")
-//	private String validatecodeErrorMessage = "验证码错误";
-//	@Value("${application.messsage.error.validatecode.overtime:验证码超时}")
-//	private String validatecodeOverTimeErrorMessage = "验证码超时";
 	@Value("${application.messsage.error.username:用户名错误}")
 	private String usernameErrorMessage = "用户名错误";
 	@Value("${application.messsage.error.password:密码错误}")
@@ -79,29 +74,6 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 			session.setAttribute(VALIDATECODE_ERROR, this.passwordErrorMessage);
 			throw new BadCredentialsException("密码不正确");
 		}
-//        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();  // 如上面的介绍，这里通过authentication.getDetails()获取详细信息
-//        String checkCode = details.getValidateCode();
-//        Object cko = session.getAttribute(Constants.KAPTCHA_SESSION_KEY) ; //验证码对象
-        
-//        if(cko == null){
-//        	throw new BadCredentialsException("验证码已失效，请重新输入！");
-//        }
-//        String captcha = cko.toString();
-//        Date now = new Date();
-//        Long codeTime = Long.valueOf(session.getAttribute(Constants.KAPTCHA_SESSION_DATE)+"");
-//        session.removeAttribute(VALIDATECODE_ERROR);
-//        if(StringUtils.isEmpty(checkCode) || captcha == null ||  !(checkCode.equalsIgnoreCase(captcha))) {
-//        	session.setAttribute(VALIDATECODE_ERROR, this.validatecodeErrorMessage);
-//        	throw new BadCredentialsException("验证码错误！");
-//        } else if ((now.getTime()-codeTime)/1000/60>5) {
-//        	session.setAttribute(VALIDATECODE_ERROR, this.validatecodeOverTimeErrorMessage);
-//            //验证码有效时长为5分钟
-//        	throw new BadCredentialsException("验证码已失效，请重新输入！");
-//        }else {
-//            session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-//            session.removeAttribute(Constants.KAPTCHA_SESSION_DATE);
-//        }
-        
         SysUser user =  new SysUser();
         user.setUsername(username);
         List<SysUser> users = userMapper.selectByUser(user);

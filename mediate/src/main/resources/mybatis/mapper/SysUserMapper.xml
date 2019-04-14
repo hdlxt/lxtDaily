@@ -9,6 +9,7 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="available" jdbcType="BIT" property="available" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="sex_type" jdbcType="INTEGER" property="sexType" />
     <collection property="roles"  column="id"   select="selectRolesByUserID">
@@ -29,7 +30,7 @@
     </collection>
   </resultMap>
   <sql id="Base_Column_List">
-    id, createtime, password, updatetime, username, available, email, tel, sex_type
+    id, createtime, password, updatetime, username, available, email, tel, sex_type,name
   </sql>
   <select id="selectResourceByRoleId" parameterType="java.lang.Long"  resultType="com.mbyte.easy.entity.SysResource">
     SELECT
@@ -73,6 +74,9 @@
     <if test=" username != null and username !=''">
 			and username = #{username}
 	</if>
+  <if test=" name != null and name !=''">
+      and name = #{name}
+  </if>
   </select>
   
   <!-- 根据用户名查询用户 -->
@@ -100,11 +104,11 @@
   <insert id="insert" parameterType="com.mbyte.easy.entity.SysUser">
     insert into sys_user (id, createtime, password, 
       updatetime, username, available, 
-      email, tel, sex_type
+      email, tel, sex_type,name
       )
     values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, 
       #{updatetime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR}, #{available,jdbcType=BIT}, 
-      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sexType,jdbcType=INTEGER}
+      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sexType,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mbyte.easy.entity.SysUser">
@@ -131,6 +135,9 @@
       <if test="email != null">
         email,
       </if>
+        <if test="name != null">
+            name,
+        </if>
       <if test="tel != null">
         tel,
       </if>
@@ -160,6 +167,9 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
+        <if test="name != null">
+            #{name,jdbcType=VARCHAR},
+        </if>
       <if test="tel != null">
         #{tel,jdbcType=VARCHAR},
       </if>
@@ -189,6 +199,9 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+        <if test="name != null">
+            name = #{name,jdbcType=VARCHAR},
+        </if>
       <if test="tel != null">
         tel = #{tel,jdbcType=VARCHAR},
       </if>
@@ -206,6 +219,7 @@
       username = #{username,jdbcType=VARCHAR},
       available = #{available,jdbcType=BIT},
       email = #{email,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
       sex_type = #{sexType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

@@ -4,8 +4,8 @@
     <title>列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>XX管理 <span
-            class="c-gray en">&gt;</span>XX模块<a class="btn btn-success radius r"
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>知识产权库管理 <span
+            class="c-gray en">&gt;</span>知识产权法条管理<a class="btn btn-success radius r"
                                                 style="line-height:1.6em;margin-top:3px"
                                                 href="javascript:location.replace(location.href);" title="刷新"><i
                 class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -14,7 +14,7 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field">
-                <legend>XXX列表</legend>
+                <legend>知识产权法条列表</legend>
                 <div class="layui-field-box">
 
                     <hr style="margin: 0">
@@ -35,8 +35,6 @@
                         <div class="searchByField">
                                          <input type="input-text" class="input-text" th:value="${searchInfo.title}" name="title" placeholder="搜索标题" sid="title"/>
                                          <input type="input-text" class="input-text" th:value="${searchInfo.author}" name="author" placeholder="搜索作者" sid="author"/>
-                                         <input type="input-text" placeholder="搜索时间" name="creTimeSpace" th:value="${creTimeSpace}" class="input-text  timeSpace"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.content}" name="content" placeholder="搜索内容" sid="content"/>
                             <button type="submit"
                                     class="layui-btn  layui-btn-success radius"><i
                                         class="Hui-iconfont">&#xe665;</i> 搜索
@@ -52,7 +50,6 @@
                                 <th width="40">标题</th>
                                 <th width="40">作者</th>
                                 <th width="40">时间</th>
-                                <th width="40">内容</th>
                             <th width="100">操作</th>
                         </tr>
                         </thead>
@@ -67,7 +64,6 @@
                                     <td th:text="${kCase.title}"></td>
                                     <td th:text="${kCase.author}"></td>
                                     <td th:text="${#temporals.format(kCase.creTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td th:text="${kCase.content}"></td>
                             <td class="td-manage">
                                 <a title="编辑" href="javascript:;"
                                    th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'kCase'+'/editBefore/'+${kCase.id}+'\',900,500)'"
