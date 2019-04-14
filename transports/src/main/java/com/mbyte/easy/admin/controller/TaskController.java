@@ -74,6 +74,16 @@ public class TaskController extends BaseController  {
         model.addAttribute("goods",goodsService.list(new QueryWrapper<Goods>().lambda().eq(Goods::getStatus,0).groupBy(Goods::getBatchCode)));
         return prefix+"add";
     }
+
+    /**
+     * 添加跳转页面
+     * @return
+     */
+    @GetMapping("startBefore/{id}")
+    public String startBefore(Model model,@PathVariable("id")Long id){
+        model.addAttribute("task",taskService.getById(id));
+        return prefix+"start";
+    }
     /**
     * 添加
     * @param task
@@ -123,6 +133,49 @@ public class TaskController extends BaseController  {
      * @param status
      * @return
      */
+    @RequestMapping("diaoS")
+    @ResponseBody
+    public AjaxResult diao(Long id,int status,Long carId){
+        Task task = taskService.getById(id);
+        Car car = carService.getById(carId);
+        List<Goods> goodsList = goodsService.list(new QueryWrapper<Goods>()
+                .lambda().eq(Goods::getBatchCode,task.getGoodsBatch()));
+        double loadUse = 0;
+        for (Goods goods : goodsList) {
+            loadUse += goods.getLoadM();
+        }
+        if(status == 1){
+            //开始调度
+            car.setLoadUsed(car.getLoadUsed() + loadUse);
+            car.setLoadUse(car.getLoadMax() - car.getLoadUsed());
+            car.setStatus(Car.USE_YES);
+            carService.updateById(car);
+
+            for (Goods goods : goodsList) {
+                goods.setStatus(Goods.ING);
+            }
+            goodsService.updateBatchById(goodsList);
+        }else if(status == 2){
+            //结束调度
+            car.setLoadUsed(car.getLoadUsed() - loadUse);
+            car.setLoadUse(car.getLoadMax() - car.getLoadUsed());
+            car.setStatus(Car.USE_NO);
+            carService.updateById(car);
+
+            for (Goods goods : goodsList) {
+                goods.setStatus(Goods.END);
+            }
+            goodsService.updateBatchById(goodsList);
+        }
+        return toAjax(taskService.update(new UpdateWrapper<Task>().lambda().eq(Task::getId,id).set(Task::getStatus,status).set(Task::getCarId,carId)));
+    }
+
+    /**
+     * 调度操作
+     * @param id
+     * @param status
+     * @return
+     */
     @GetMapping("diao/{id}/{status}")
     @ResponseBody
     public AjaxResult diao(@PathVariable("id") Long id,@PathVariable("status") int status){
@@ -159,6 +212,7 @@ public class TaskController extends BaseController  {
         }
         return toAjax(taskService.update(new UpdateWrapper<Task>().lambda().eq(Task::getId,id).set(Task::getStatus,status)));
     }
+
     /**
     * 批量删除
     * @param ids

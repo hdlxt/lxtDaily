@@ -5,28 +5,39 @@
 </head>
 <body>
 <article class="page-container">
-    <form class="form form-horizontal" id="form-person-edit" action="#"
-          th:action="@{/admin/person/edit}" th:object="${person}" >
-        <input type="hidden" name="id" th:value="${person.id}"/>
+    <form class="form form-horizontal" id="form-knowledge-edit" action="#"
+          th:action="@{/admin/knowledge/edit}" th:object="${knowledge}">
+        <input type="hidden" name="id" th:value="${knowledge.id}"/>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>姓名：</label>
+                                class="c-red">*</span>标题：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${person.name}" name="name"  placeholder="修改" id="name"/>
+                                <input type="input-text" class="input-text" th:value="${knowledge.title}" name="title"  placeholder="修改标题" id="title"/>
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"></label>
-                    <div class="formControls col-xs-10 col-sm-10">
-                        <img th:src="${person.photo}" style="width: 400px;"/>
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>作者：</label>
+                            <div class="formControls col-xs-10 col-sm-10">
+                                <input type="input-text" class="input-text" th:value="${knowledge.author}" name="author"  placeholder="修改作者" id="author"/>
+                            </div>
                     </div>
                 </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>时间：</label>
+                            <div class="formControls col-xs-10 col-sm-10">
+                                <input type="input-text" class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(knowledge.creTime, 'yyyy-MM-dd HH:mm:ss')}" name="creTime" placeholder="请选择时间"/>
+                            </div>
+                    </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">照片:</label>
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>内容：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="file" name="file"/>
+                                <script id="editor" th:text="${knowledge.content}" name="content" autofocus type="text/plain" style="height: 500px">
+                                </script>
                             </div>
                     </div>
                 </div>
@@ -45,9 +56,21 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script>
     $(function () {
-        $("#form-person-edit").validate({
+        $("#form-knowledge-edit").validate({
             rules: {
-        name:
+        title:
+        {
+            required: true,
+        },
+        author:
+        {
+            required: true,
+        },
+        creTime:
+        {
+            required: true,
+        },
+        content:
         {
             required: true,
         },
@@ -65,7 +88,7 @@
         function (form) {
             $(form).ajaxSubmit({
                 type: 'POST',
-                url: "/admin/person/edit",
+                url: "/admin/knowledge/edit",
                 success: function (data) {
                     if (data.code == "0") {
                         layer.designMsg('编辑成功!', 1, function () {
