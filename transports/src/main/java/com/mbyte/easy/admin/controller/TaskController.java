@@ -239,7 +239,7 @@ public class TaskController extends BaseController  {
             loadUse += goods.getLoadM();
         }
         List<Car> carList = carService.list(new QueryWrapper<Car>()
-                .lambda().ge(Car::getLoadMax,loadUse).orderByAsc(Car::getCode));
+                .lambda().ge(Car::getLoadMax,loadUse).orderByAsc(Car::getLoadMax));
         if(carList != null && carList.size() > 0){
             return success(carList);
         }

@@ -74,7 +74,7 @@
 		<div class="formControls col-xs-7 col-sm-8">
 			<span  th:each="role : ${roleList}">
 				<label >
-					<input type="checkbox" th:value="${role.id}" value="" name="userRoles" />
+					<input type="radio" th:value="${role.id}" value="" checked name="userRoles" />
 					<span th:text="${role.name}"></span>
 				</label>
 			</span>
@@ -108,7 +108,7 @@ $(function(){
 		rules:{
 			username:{
 				required:true,
-				minlength:4,
+				minlength:2,
 				maxlength:16
 			},
 			password:{

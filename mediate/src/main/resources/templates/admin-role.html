@@ -22,7 +22,7 @@
                     <div class="cl pd-5 bg-1 bk-gray">
                         <span class="l">
                             <a sec:authorize="hasAuthority('/role/delete')" href="javascript:;" th:onclick="'javascript:deleteAll(\''+@{/role/delete}+'\')'"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-                            <a sec:authorize="hasAuthority('/role/add-role')" class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','/role/add-role', '', '500')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a>
+                            <a sec:authorize="hasAuthority('/role/add-role')" class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','/role/add-role', '', '500')"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
                         </span>
                         <span class="r wei-height">共有数据：<strong th:text="${pageInfo.total}"></strong> 条</span>
                     </div>

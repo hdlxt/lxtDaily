@@ -108,7 +108,7 @@
       )
     values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, 
       #{updatetime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR}, #{available,jdbcType=BIT}, 
-      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sexType,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sexType,jdbcType=INTEGER},#{name,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mbyte.easy.entity.SysUser">
