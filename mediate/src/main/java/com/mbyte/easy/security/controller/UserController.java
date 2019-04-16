@@ -8,8 +8,10 @@ import com.mbyte.easy.entity.SysUserRoles;
 import com.mbyte.easy.mapper.SysRoleMapper;
 import com.mbyte.easy.mapper.SysUserMapper;
 import com.mbyte.easy.mapper.SysUserRolesMapper;
+import com.mbyte.easy.util.Constants;
 import com.mbyte.easy.util.PageInfo;
 import com.mbyte.easy.util.Utility;
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +61,17 @@ public class UserController {
 			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
 			@RequestParam(value = "name", required = false, defaultValue = "") String name) {
 		SysUser user = new SysUser();
-
+        model.addAttribute("flag",1001);
+        if(!Constants.ROLE_ADMIN.equals(Utility.getRole())){
+            model.addAttribute("flag",1000);
+            name = Utility.getCurrentUsername();
+        }
 		Page<SysUser> page = new Page<SysUser>(pageNo, pageSize);
 		IPage<SysUser> pageInfo = userMapper.selectByUserForPage(page, name);
 
 		model.addAttribute("pageInfo", new PageInfo<SysUser>(pageInfo));
 		model.addAttribute("user",user);
+
 		return "admin-list";
 	}
 
@@ -77,13 +84,13 @@ public class UserController {
 	 */
 	@PreAuthorize("hasAuthority('/user/add-user')")
 	@RequestMapping(value = "/add-user")
-	public String addRoleBefore(Model model, @ModelAttribute(value = "user") SysUser user) {
+	public String addUserBefore(Model model, @ModelAttribute(value = "user") SysUser user) {
 		return "admin-add";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/add-user", params = "save=true")
-	public String addRole(Model model, @ModelAttribute(value = "user") SysUser user,
+	public String addUser(Model model, @ModelAttribute(value = "user") SysUser user,
 			@RequestParam(required = false) String userRoles) {
 		SysUserRoles sysUserRoles = new SysUserRoles();
 		SysUser dbUser = userMapper.selectByUsername(user.getUsername());
@@ -199,6 +206,10 @@ public class UserController {
 		user.setRoles(userroles);
 		model.addAttribute("userroles", userroles);
 		model.addAttribute("user", user);
+        model.addAttribute("flag",1001);
+        if(!Constants.ROLE_ADMIN.equals(Utility.getRole())){
+            model.addAttribute("flag",1000);
+        }
 		return "admin-editor";
 	}
 

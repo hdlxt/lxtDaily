@@ -50,7 +50,7 @@
 			<input type="text" class="input-text" placeholder="@"  id="email"  th:field="*{email}" />
 		</div>
 	</div>
-	<div class="row cl">
+	<div class="row cl" th:if="${flag eq 1001}">
 		<label class="form-label col-xs-4 col-sm-3">角色：</label>
 		<div class="formControls col-xs-7 col-sm-8">
 			<!-- th:checked="${userrole.id == role.id}" -->

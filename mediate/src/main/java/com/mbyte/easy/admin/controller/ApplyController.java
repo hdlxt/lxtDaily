@@ -5,17 +5,27 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.Apply;
 import com.mbyte.easy.admin.service.IApplyService;
+import com.mbyte.easy.admin.service.IFenTypeService;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
+import com.mbyte.easy.entity.SysUser;
+import com.mbyte.easy.mapper.SysUserMapper;
+import com.mbyte.easy.util.Constants;
+import com.mbyte.easy.util.FileUtil;
 import com.mbyte.easy.util.PageInfo;
+import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 /**
 * <p>
@@ -32,6 +42,10 @@ public class ApplyController extends BaseController  {
 
     @Autowired
     private IApplyService applyService;
+    @Autowired
+    private IFenTypeService fenTypeService;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     /**
     * 查询列表
@@ -43,60 +57,16 @@ public class ApplyController extends BaseController  {
     * @return
     */
     @RequestMapping
-    public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, String creTimeSpace, Apply apply) {
+    public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo
+            ,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize
+            , String creTimeSpace, Apply apply,@RequestParam(defaultValue = "1000",required = false)String flag) {
         Page<Apply> page = new Page<Apply>(pageNo, pageSize);
-        QueryWrapper<Apply> queryWrapper = new QueryWrapper<Apply>();
-
-        if(apply.getApplyId() != null  && !"".equals(apply.getApplyId() + "")) {
-            queryWrapper = queryWrapper.like("apply_id",apply.getApplyId());
-         }
-
-
-        if(apply.getApplyedId() != null  && !"".equals(apply.getApplyedId() + "")) {
-            queryWrapper = queryWrapper.like("applyed_id",apply.getApplyedId());
-         }
-
-
-        if(apply.getTypeId() != null  && !"".equals(apply.getTypeId() + "")) {
-            queryWrapper = queryWrapper.like("type_id",apply.getTypeId());
-         }
-
-
-        if(apply.getCreTime() != null  && !"".equals(apply.getCreTime() + "")) {
-            queryWrapper = queryWrapper.like("cre_time",apply.getCreTime());
-         }
-
-
-        if(apply.getApplyTime() != null  && !"".equals(apply.getApplyTime() + "")) {
-            queryWrapper = queryWrapper.like("apply_time",apply.getApplyTime());
-         }
-
-
-        if(apply.getUserId() != null  && !"".equals(apply.getUserId() + "")) {
-            queryWrapper = queryWrapper.like("user_id",apply.getUserId());
-         }
-
-
-
-
-        if(apply.getStatus() != null  && !"".equals(apply.getStatus() + "")) {
-            queryWrapper = queryWrapper.like("status",apply.getStatus());
-         }
-
-
-        if(apply.getFilePath() != null  && !"".equals(apply.getFilePath() + "")) {
-            queryWrapper = queryWrapper.like("file_path",apply.getFilePath());
-         }
-
-
-        if(apply.getReplyPath() != null  && !"".equals(apply.getReplyPath() + "")) {
-            queryWrapper = queryWrapper.like("reply_path",apply.getReplyPath());
-         }
-
-        IPage<Apply> pageInfo = applyService.page(page, queryWrapper);
-        model.addAttribute("creTimeSpace", creTimeSpace);
         model.addAttribute("searchInfo", apply);
-        model.addAttribute("pageInfo", new PageInfo(pageInfo));
+        model.addAttribute("flag", flag);
+        if("1001".equals(flag)){
+            apply.setStatus(Constants.APPLY_YES);
+        }
+        model.addAttribute("pageInfo", new PageInfo(applyService.listPage(apply,page)));
         return prefix+"apply-list";
     }
 
@@ -105,7 +75,13 @@ public class ApplyController extends BaseController  {
     * @return
     */
     @GetMapping("addBefore")
-    public String addBefore(){
+    public String addBefore(Model model){
+        List<SysUser> sysUserList = sysUserMapper.selectByUser(new SysUser());
+        List<SysUser> userList = sysUserList.stream()
+                .filter(sysUser -> sysUser.getRoles().get(0).getId().equals(Constants.ROLE_USER)).collect(Collectors.toList());
+        model.addAttribute("userList",userList);
+        model.addAttribute("cUser", Utility.getCurrentUser());
+        model.addAttribute("fenTypes",fenTypeService.list());
         return prefix+"add";
     }
     /**
@@ -115,7 +91,12 @@ public class ApplyController extends BaseController  {
     */
     @PostMapping("add")
     @ResponseBody
-    public AjaxResult add(Apply apply){
+    public AjaxResult add(Apply apply, @RequestParam("applyFile")MultipartFile applyFile){
+        if(apply.getApplyedId().equals(apply.getApplyId())){
+            return error("申请人和被申请不可是同一人！");
+        }
+        apply.setFilePath(FileUtil.uploadFile(applyFile));
+        apply.setCreTime(LocalDateTime.now());
         return toAjax(applyService.save(apply));
     }
     /**
@@ -125,6 +106,16 @@ public class ApplyController extends BaseController  {
     @GetMapping("editBefore/{id}")
     public String editBefore(Model model,@PathVariable("id")Long id){
         model.addAttribute("apply",applyService.getById(id));
+        List<SysUser> sysUserList = sysUserMapper.selectByUser(new SysUser());
+        List<SysUser> userList = sysUserList.stream()
+                .filter(sysUser -> sysUser.getRoles().get(0).getId().equals(Constants.ROLE_USER)).collect(Collectors.toList());
+        List<SysUser> tiaoList = sysUserList.stream()
+                .filter(sysUser -> sysUser.getRoles().get(0).getId().equals(Constants.ROLE_TIAO)).collect(Collectors.toList());
+        model.addAttribute("userList",userList);
+        model.addAttribute("tiaoList",tiaoList);
+        model.addAttribute("fenTypes",fenTypeService.list());
+        model.addAttribute("cUser", Utility.getCurrentUser());
+        model.addAttribute("role",Utility.getRole());
         return prefix+"edit";
     }
     /**
@@ -134,7 +125,15 @@ public class ApplyController extends BaseController  {
     */
     @PostMapping("edit")
     @ResponseBody
-    public AjaxResult edit(Apply apply){
+    public AjaxResult edit(Apply apply
+            , @RequestParam(value = "applyFile",required = false)MultipartFile applyFile
+            , @RequestParam(value ="replyFile",required = false)MultipartFile replyFile){
+        if(applyFile != null){
+            apply.setFilePath(FileUtil.uploadFile(applyFile));
+        }
+        if(replyFile != null){
+            apply.setReplyPath(FileUtil.uploadFile(replyFile));
+        }
         return toAjax(applyService.updateById(apply));
     }
     /**

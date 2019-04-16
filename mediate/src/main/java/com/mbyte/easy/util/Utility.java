@@ -1,5 +1,6 @@
 package com.mbyte.easy.util;
 
+import com.mbyte.easy.entity.SysUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -121,4 +122,8 @@ public class Utility {
 	public static int getRandomIntInRange(int min, int max) {
 		return new Random().ints(min, (max + 1)).limit(1).findFirst().getAsInt();
 	}
+
+	public static Long getRole(){
+	    return ((SysUser)Utility.getCurrentUser()).getRoles().get(0).getId();
+    }
 }

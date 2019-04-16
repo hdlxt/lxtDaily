@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,6 +38,18 @@ public class SysUser implements UserDetails {
      * @mbg.generated Mon Jul 17 14:46:14 CST 2017
      */
     private String password;
+    @TableField(exist = false)
+    private String password1;
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public SysUser setPassword1(String password1) {
+        this.password1 = password1;
+        return this;
+    }
+
     private String name;
 
     public String getName() {

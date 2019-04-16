@@ -7,64 +7,51 @@
 <article class="page-container">
 	<form class="form form-horizontal"  id="form-apply-add" action="#" th:action="@{/admin/apply/add}">
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请人主键：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请人：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="applyId" placeholder="请填写申请人主键" id="applyId"/>
+                <span  class="select-box" style="width:300px;">
+                    <select disabled class="select" size="1" name="applyId" >
+                      <option th:selected="${user.id eq cUser.id}" th:each="user : ${userList}"
+                              th:value="${user.id}"
+                              th:text="${user.name}"></option>
+                    </select>
+                </span>
             </div>
         </div>
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>被申请人主键：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>被申请人：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="applyedId" placeholder="请填写被申请人主键" id="applyedId"/>
+                <span class="select-box" style="width:300px;">
+                    <select class="select" size="1" name="applyedId" >
+                      <option th:if="${user.id ne cUser.id}" th:each="user : ${userList}"
+                              th:value="${user.id}"
+                              th:text="${user.name}"></option>
+                    </select>
+                </span>
             </div>
         </div>
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>纠纷类型：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="typeId" placeholder="请填写纠纷类型" id="typeId"/>
+                <span class="select-box" style="width:300px;">
+                    <select class="select" size="1" name="typeId" >
+                      <option th:each="type : ${fenTypes}"
+                              th:value="${type.id}"
+                              th:text="${type.name}"></option>
+                    </select>
+                </span>
             </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请时间：</label>
-             <div class="formControls col-xs-10 col-sm-10">
-                 <input type="input-text" class="input-text timeSpace" readonly="readonly"
-                        autocomplete="off" name="creTime" placeholder="请选择申请时间"/>
-             </div>
         </div>
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请调解日期：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="applyTime" placeholder="请填写申请调解日期" id="applyTime"/>
+                <input type="text" name="applyTime" placeholder="请填写申请调解日期"  onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd'})" id="applyTime" class="input-text Wdate">
             </div>
         </div>
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>调解员主键：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>调解申请书：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="userId" placeholder="请填写调解员主键" id="userId"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>进度百分比：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name=" percent" placeholder="请填写进度百分比" id=" percent"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>状态：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="status" placeholder="请填写状态" id="status"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请资料：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="filePath" placeholder="请填写申请资料" id="filePath"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>处理信息资料：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="replyPath" placeholder="请填写处理信息资料" id="replyPath"/>
+                <input type="file" name="applyFile"/>
             </div>
         </div>
 	<div class="row cl">
@@ -109,7 +96,7 @@
             status:{
                 required: true,
 			},
-            filePath:{
+            applyFile:{
                 required: true,
 			},
             replyPath:{
@@ -131,7 +118,7 @@
 							parent.layer.close(index);
 						});
 					}else{
-						layer.designMsg('添加失败!');
+						layer.designMsg(data.msg);
 					}
 				},
                 error: function(){

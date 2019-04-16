@@ -1,7 +1,10 @@
 package com.mbyte.easy.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.Apply;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IApplyService extends IService<Apply> {
 
+    Page<Apply> listPage(Apply apply, Page<Apply> page);
 }

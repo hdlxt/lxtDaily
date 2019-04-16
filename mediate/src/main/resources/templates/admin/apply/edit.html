@@ -9,82 +9,97 @@
           th:action="@{/admin/apply/edit}" th:object="${apply}">
         <input type="hidden" name="id" th:value="${apply.id}"/>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>申请人主键：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.applyId}" name="applyId"  placeholder="修改申请人主键" id="applyId"/>
-                            </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请人：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <span  class="select-box" style="width:300px;">
+                            <select disabled class="select" size="1" name="applyId" th:field="*{applyId}">
+                              <option th:each="user : ${userList}"
+                                      th:value="${user.id}"
+                                      th:text="${user.name}"></option>
+                            </select>
+                        </span>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>被申请人主键：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.applyedId}" name="applyedId"  placeholder="修改被申请人主键" id="applyedId"/>
-                            </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>被申请人：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <span class="select-box" style="width:300px;">
+                            <select th:disabled="${role ne 2}" class="select" size="1" name="applyedId" th:field="*{applyedId}">
+                              <option th:if="${user.id ne cUser.id}" th:each="user : ${userList}"
+                                      th:value="${user.id}"
+                                      th:text="${user.name}"></option>
+                            </select>
+                        </span>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>纠纷类型：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.typeId}" name="typeId"  placeholder="修改纠纷类型" id="typeId"/>
-                            </div>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>申请时间：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(apply.creTime, 'yyyy-MM-dd HH:mm:ss')}" name="creTime" placeholder="请选择申请时间"/>
-                            </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>纠纷类型：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <span class="select-box" style="width:300px;" th:field="*{typeId}">
+                            <select th:disabled="${role ne 2}" class="select" size="1" name="typeId" >
+                              <option th:each="type : ${fenTypes}"
+                                      th:value="${type.id}"
+                                      th:text="${type.name}"></option>
+                            </select>
+                        </span>
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>申请调解日期：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.applyTime}" name="applyTime"  placeholder="修改申请调解日期" id="applyTime"/>
+                                <input type="text" th:disabled="${role ne 2}" placeholder="请填写申请调解日期" th:value="${apply.applyTime}" name="applyTime" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd'})" id="datemin" class="input-text Wdate">
                             </div>
                     </div>
                 </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>调解员主键：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.userId}" name="userId"  placeholder="修改调解员主键" id="userId"/>
-                            </div>
+                <div class="row cl" th:if="${role ne 2}">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>调解员：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                                <span class="select-box" style="width:300px;">
+                                    <select  class="select" size="1" name="replyId" th:field="*{userId}">
+                                      <option th:if="${tiao.id ne cUser.id}" th:each="tiao : ${tiaoList}"
+                                              th:value="${tiao.id}"
+                                              th:text="${tiao.name}"></option>
+                                    </select>
+                                </span>
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>进度百分比：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply. percent}" name=" percent"  placeholder="修改进度百分比" id=" percent"/>
+                                <span class="select-box" style="width:300px;" >
+                                    <select class="select" size="1" name="percent" th:field="*{percent}">
+                                      <option value="0">0%</option>
+                                      <option value="30">30%</option>
+                                      <option value="50">50%</option>
+                                      <option value="80">80%</option>
+                                      <option value="100">100%</option>
+                                    </select>
+                                </span>
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>状态：</label>
+                            class="c-red">*</span>状态：</label>
+                    <div class="formControls col-xs-10 col-sm-10" style="line-height: 30px">
+                        <input type="radio" th:field="*{status}" name="status" value="0"/>未回复
+                        <input type="radio" th:field="*{status}" name="status" value="1"/>已回复
+                    </div>
+                </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">调解申请书：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.status}" name="status"  placeholder="修改状态" id="status"/>
+                                <input type="file" name="applyFile"/>
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>申请资料：</label>
+                    <label class="form-label col-xs-2 col-sm-2">调解协议书：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.filePath}" name="filePath"  placeholder="修改申请资料" id="filePath"/>
-                            </div>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>处理信息资料：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${apply.replyPath}" name="replyPath"  placeholder="修改处理信息资料" id="replyPath"/>
+                                <input type="file" name="replyFile"/>
                             </div>
                     </div>
                 </div>
@@ -141,10 +156,6 @@
         {
             required: true,
         },
-        replyPath:
-        {
-            required: true,
-        },
     },
         onkeyup:false,
             debug
@@ -168,7 +179,7 @@
                             parent.layer.close(index);
                         });
                     } else {
-                        layer.designMsg('编辑失败!');
+                        layer.designMsg(data.msg);
                     }
                 },
                 error: function () {
