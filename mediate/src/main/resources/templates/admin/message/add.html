@@ -7,42 +7,16 @@
 <article class="page-container">
 	<form class="form form-horizontal"  id="form-message-add" action="#" th:action="@{/admin/message/add}">
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>留言者主键：</label>
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>标题：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="userId" placeholder="请填写留言者主键" id="userId"/>
+                <input type="input-text" class="input-text" name="mTitle" placeholder="请填写标题" id="message"/>
             </div>
         </div>
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>留言内容：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>内容：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="message" placeholder="请填写留言内容" id="message"/>
+                <textarea type="input-text" class="input-text" name="message" style="height: 200px;" placeholder="请填写内容" id="message"></textarea>
             </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>回复内容：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="reply" placeholder="请填写回复内容" id="reply"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>回复者主键：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="replyUserId" placeholder="请填写回复者主键" id="replyUserId"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>留言时间：</label>
-             <div class="formControls col-xs-10 col-sm-10">
-                 <input type="input-text" class="input-text timeSpace" readonly="readonly"
-                        autocomplete="off" name="creTime" placeholder="请选择留言时间"/>
-             </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>回复时间：</label>
-             <div class="formControls col-xs-10 col-sm-10">
-                 <input type="input-text" class="input-text timeSpace" readonly="readonly"
-                        autocomplete="off" name="upTime" placeholder="请选择回复时间"/>
-             </div>
         </div>
 	<div class="row cl">
 	<div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
@@ -62,11 +36,12 @@
  $(function(){
 	$("#form-message-add").validate({
 		rules:{
-            userId:{
+            mTitle:{
                 required: true,
 			},
             message:{
                 required: true,
+                maxlength:1000
 			},
             reply:{
                 required: true,

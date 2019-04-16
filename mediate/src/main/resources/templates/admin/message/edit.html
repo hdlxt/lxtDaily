@@ -10,49 +10,50 @@
         <input type="hidden" name="id" th:value="${message.id}"/>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>留言者主键：</label>
+                                class="c-red">*</span>留言者：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${message.userId}" name="userId"  placeholder="修改留言者主键" id="userId"/>
+                                <input type="input-text" class="input-text" th:value="${user.name}"  readonly/>
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>留言内容：</label>
+                            class="c-red">*</span>标题：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <input type="input-text" class="input-text" th:value="${message.mTitle}" name="mTitle"  placeholder="修改标题" id="message"/>
+                    </div>
+                </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>内容：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${message.message}" name="message"  placeholder="修改留言内容" id="message"/>
+                                <textarea type="input-text" class="input-text" th:text="${message.message}"
+                                          name="message"  placeholder="修改留言内容" style="height: 200px;" id="message"></textarea>
                             </div>
                     </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                            class="c-red">*</span>留言时间：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <input type="input-text" disabled class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(message.creTime, 'yyyy-MM-dd HH:mm:ss')}" name="creTime" placeholder="请选择留言时间"/>
+                    </div>
+                </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                            class="c-red">*</span>回复者主键：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <input type="input-text" class="input-text" th:value="${message.replyUserId}" name="replyUserId"  placeholder="修改回复者主键" id="replyUserId"/>
+                    </div>
+                </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>回复内容：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${message.reply}" name="reply"  placeholder="修改回复内容" id="reply"/>
-                            </div>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>回复者主键：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${message.replyUserId}" name="replyUserId"  placeholder="修改回复者主键" id="replyUserId"/>
-                            </div>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>留言时间：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(message.creTime, 'yyyy-MM-dd HH:mm:ss')}" name="creTime" placeholder="请选择留言时间"/>
-                            </div>
-                    </div>
-                </div>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>回复时间：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(message.upTime, 'yyyy-MM-dd HH:mm:ss')}" name="upTime" placeholder="请选择回复时间"/>
+                            <textarea class="formControls col-xs-10 col-sm-10">
+                                <textarea type="input-text" class="input-text" th:text="${message.reply}" name="reply" style="height: 200px;" placeholder="修改回复内容" id="reply"></textarea>
                             </div>
                     </div>
                 </div>
@@ -77,13 +78,19 @@
         {
             required: true,
         },
+        mTitle:
+            {
+                required: true,
+            },
         message:
         {
             required: true,
+            maxlength:1000
         },
         reply:
         {
             required: true,
+            maxlength:1000
         },
         replyUserId:
         {

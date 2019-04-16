@@ -4,8 +4,8 @@
     <title>列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>XX管理 <span
-            class="c-gray en">&gt;</span>XX模块<a class="btn btn-success radius r"
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>申请调解管理 <span
+            class="c-gray en">&gt;</span>线上交流<a class="btn btn-success radius r"
                                                 style="line-height:1.6em;margin-top:3px"
                                                 href="javascript:location.replace(location.href);" title="刷新"><i
                 class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -14,7 +14,7 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field">
-                <legend>XXX列表</legend>
+                <legend>线上交流列表</legend>
                 <div class="layui-field-box">
 
                     <hr style="margin: 0">
@@ -33,12 +33,9 @@
 
                     <div class="cl pd-5 bg-1 bk-gray ">
                         <div class="searchByField">
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.userId}" name="userId" placeholder="搜索留言者主键" sid="userId"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.message}" name="message" placeholder="搜索留言内容" sid="message"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.reply}" name="reply" placeholder="搜索回复内容" sid="reply"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.replyUserId}" name="replyUserId" placeholder="搜索回复者主键" sid="replyUserId"/>
-                                         <input type="input-text" placeholder="搜索留言时间" name="creTimeSpace" th:value="${creTimeSpace}" class="input-text  timeSpace"/>
-                                         <input type="input-text" placeholder="搜索回复时间" name="upTimeSpace" th:value="${upTimeSpace}" class="input-text  timeSpace"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.userName}" name="userName" placeholder="搜索留言者" sid="userId"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.mTitle}" name="mTitle" placeholder="搜索标题" sid="userId"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.replyUserName}" name="replyUserName" placeholder="搜索回复者" sid="replyUserId"/>
                             <button type="submit"
                                     class="layui-btn  layui-btn-success radius"><i
                                         class="Hui-iconfont">&#xe665;</i> 搜索
@@ -51,11 +48,10 @@
                         <tr class="text-c">
                             <th width="25"><input type="checkbox" name="" value=""/></th>
                             <th width="25">序号</th>
-                                <th width="40">留言者主键</th>
-                                <th width="40">留言内容</th>
-                                <th width="40">回复内容</th>
-                                <th width="40">回复者主键</th>
+                                <th width="40">留言者</th>
+                                <th width="40">留言标题</th>
                                 <th width="40">留言时间</th>
+                                <th width="40">回复者</th>
                                 <th width="40">回复时间</th>
                             <th width="100">操作</th>
                         </tr>
@@ -68,11 +64,10 @@
                             <td><input type="checkbox" value="1" th:value="${message.id}"
                                        name="id"/></td>
                             <td th:text="${count.count}"></td>
-                                    <td th:text="${message.userId}"></td>
-                                    <td th:text="${message.message}"></td>
-                                    <td th:text="${message.reply}"></td>
-                                    <td th:text="${message.replyUserId}"></td>
+                                    <td th:text="${message.userName}"></td>
+                                    <td th:text="${message.mTitle}"></td>
                                     <td th:text="${#temporals.format(message.creTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td th:text="${message.replyUserName}"></td>
                                     <td th:text="${#temporals.format(message.upTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td class="td-manage">
                                 <a title="编辑" href="javascript:;"

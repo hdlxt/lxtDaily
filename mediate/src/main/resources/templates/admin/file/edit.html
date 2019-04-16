@@ -17,11 +17,9 @@
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>文件：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${file.path}" name="path"  placeholder="修改文件" id="path"/>
-                            </div>
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>文件：</label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <input type="file" name="fileF" />
                     </div>
                 </div>
         <div class="row cl">
@@ -42,10 +40,6 @@
         $("#form-file-edit").validate({
             rules: {
         name:
-        {
-            required: true,
-        },
-        path:
         {
             required: true,
         },
