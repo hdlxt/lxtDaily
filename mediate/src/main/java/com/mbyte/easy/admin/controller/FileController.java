@@ -9,6 +9,7 @@ import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
 import com.mbyte.easy.util.FileUtil;
 import com.mbyte.easy.util.PageInfo;
+import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ public class FileController extends BaseController  {
 
         IPage<File> pageInfo = fileService.page(page, queryWrapper);
         model.addAttribute("searchInfo", file);
+        model.addAttribute("role", Utility.getRole());
         model.addAttribute("pageInfo", new PageInfo(pageInfo));
         return prefix+"file-list";
     }

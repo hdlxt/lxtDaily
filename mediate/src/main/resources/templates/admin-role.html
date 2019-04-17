@@ -20,10 +20,10 @@
 
                     <hr style="margin: 0">
                     <div class="cl pd-5 bg-1 bk-gray">
-                        <span class="l">
-                            <a sec:authorize="hasAuthority('/role/delete')" href="javascript:;" th:onclick="'javascript:deleteAll(\''+@{/role/delete}+'\')'"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-                            <a sec:authorize="hasAuthority('/role/add-role')" class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','/role/add-role', '', '500')"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
-                        </span>
+                        <!--<span class="l">-->
+                            <!--<a sec:authorize="hasAuthority('/role/delete')" href="javascript:;" th:onclick="'javascript:deleteAll(\''+@{/role/delete}+'\')'"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>-->
+                            <!--<a sec:authorize="hasAuthority('/role/add-role')" class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','/role/add-role', '', '500')"><i class="Hui-iconfont">&#xe600;</i> 添加</a>-->
+                        <!--</span>-->
                         <span class="r wei-height">共有数据：<strong th:text="${pageInfo.total}"></strong> 条</span>
                     </div>
                     <hr>
@@ -36,12 +36,12 @@
                     <table class="layui-table text-c">
                         <thead>
                         <tr class="text-c">
-                            <th width="25"><input type="checkbox" value="" name=""/></th>
+                            <!--<th width="25"><input type="checkbox" value="" name=""/></th>-->
                             <th width="40">ID</th>
                             <th width="200">角色名</th>
                             <th>资源列表</th>
                             <th width="300">描述</th>
-                            <th width="70">操作</th>
+                            <!--<th width="70">操作</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -49,23 +49,24 @@
                             <td colspan="15"><strong>暂无数据</strong></td>
                         </tr>
                         <tr class="text-c" th:each="role,count:${pageInfo.list}">
-                            <td><input type="checkbox" th:value="${role.id}" value="" name="id"/></td>
+                            <!--<td><input type="checkbox" th:value="${role.id}" value="" name="id"/></td>-->
                             <td th:text="${count.count}" ></td>
                             <td th:text="${role.name}"></td>
                             <td>
                                 <span th:each="resource:${role.resources}"><span th:text="${resource.name}"></span>&nbsp;&nbsp;</span>
                             </td>
                             <td th:text="${role.description}"></td>
-                            <td>
-                                <a title="编辑" sec:authorize="hasAuthority('/role/editor-role')" href="javascript:;" th:onclick="'javascript:admin_role_edit(\'角色编辑\',\''+@{/role/editor-role/}+${role.id}+'\',\'1\',\'\',\'510\')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a title="删除" sec:authorize="hasAuthority('/role/delete')" href="javascript:;"  th:onclick="'javascript:admin_role_del(\''+${role.id}+'\',\''+@{/role/delete}+'\')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                            <!--<td>-->
+                                <!--<a title="编辑" sec:authorize="hasAuthority('/role/editor-role')" href="javascript:;" th:onclick="'javascript:admin_role_edit(\'角色编辑\',\''+@{/role/editor-role/}+${role.id}+'\',\'1\',\'\',\'510\')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>-->
+                                <!--<a title="删除" sec:authorize="hasAuthority('/role/delete')" href="javascript:;"  th:onclick="'javascript:admin_role_del(\''+${role.id}+'\',\''+@{/role/delete}+'\')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>-->
+                            <!--</td>-->
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </fieldset>
         </div>
-        <div th:include="_pagination :: page"></div>
+        <!--<div th:include="_pagination :: page"></div>-->
     </form>
 </div>
 <!--_footer 作为公共模版分离出去-->

@@ -60,7 +60,7 @@
                             <td colspan="15"><strong>暂无数据</strong></td>
                         </tr>
                         <tr class="text-c" th:each="user,count:${pageInfo.list}">
-                            <td><input type="checkbox" value="1" th:value="${user.id}" name="id"/></td>
+                            <td><input th:if="${user.id ne 1}" type="checkbox" value="1" th:value="${user.id}" name="id"/></td>
                             <td th:text="${count.count}"></td>
                             <td th:text="${user.username}"></td>
                             <td th:text="${user.name}"></td>
