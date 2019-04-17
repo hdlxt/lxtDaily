@@ -82,6 +82,7 @@ public class FileController extends BaseController  {
     @ResponseBody
     public AjaxResult add(File file, MultipartFile fileF){
         file.setPath(FileUtil.uploadFile(fileF));
+        file.setName(fileF.getOriginalFilename());
         return toAjax(fileService.save(file));
     }
     /**
@@ -103,6 +104,7 @@ public class FileController extends BaseController  {
     public AjaxResult edit(File file, @RequestParam(required = false) MultipartFile fileF){
         if(fileF != null){
             file.setPath(FileUtil.uploadFile(fileF));
+            file.setName(fileF.getOriginalFilename());
         }
         return toAjax(fileService.updateById(file));
     }

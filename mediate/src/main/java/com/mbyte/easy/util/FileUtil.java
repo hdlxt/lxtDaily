@@ -6,8 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 
 /**
  * @ClassName: FileUtil
@@ -80,6 +81,47 @@ public class FileUtil {
             return fileName.endsWith(suffix.toLowerCase()) || fileName.endsWith(suffix.toUpperCase());
         }
         return false;
+    }
+
+    /**
+     * 获取后缀名
+     * @param fileName
+     * @param suffix
+     * @return
+     */
+    public static String getSuffix(String fileName){
+        if(StringUtils.isNoneBlank(fileName)){
+            return fileName.substring(fileName.lastIndexOf("."));
+        }
+        return "";
+    }
+    /**
+     * @Title: downloadFile
+     * @Description: 文件下载工具类
+     * @param: filePath
+     * @throws:
+     */
+    public static void downloadFile(String filePath,String fileName, HttpServletResponse response){
+        try(
+                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(uploadLocalPath+File.separator+filePath));
+                BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());){
+            // 配置文件下载
+            response.setHeader("content-type", "application/octet-stream");
+            response.setContentType("application/octet-stream");
+            // 下载文件能正常显示中文
+            response.setHeader("Content-Disposition", "attachment;filename="
+                    + URLEncoder.encode(StringUtils.isBlank(fileName) ? Utility.getRandomStrByNum(6) : fileName, "UTF-8"));
+            // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
+            byte[] buff = new byte[2048];
+            int bytesRead;
+            while (-1 != (bytesRead = inputStream.read(buff, 0, buff.length))){
+                outputStream.write(buff, 0, bytesRead);
+            }
+            outputStream.flush();
+            logger.info("文件【"+filePath+"】下载成功");
+        } catch (Exception e) {
+            logger.error("下载异常！", e);
+        }
     }
 
 }

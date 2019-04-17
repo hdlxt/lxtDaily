@@ -19,7 +19,7 @@
 
                     <hr style="margin: 0">
                     <div class="cl pd-5 bg-1 bk-gray">
-						<span class="l">
+						<span class="l" th:if="${role ne 3}">
 						<a href="javascript:;"
                            onclick="deleteAll('/admin/message/deleteAll')"
                            class="layui-btn  layui-btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
@@ -70,10 +70,16 @@
                                     <td th:text="${message.replyUserName}"></td>
                                     <td th:text="${#temporals.format(message.upTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td class="td-manage">
-                                <a title="编辑" href="javascript:;"
+                                <a th:if="${(role ne 3 and message.replyUserName eq null)or role eq 1}" title="编辑" href="javascript:;"
                                    th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'message'+'/editBefore/'+${message.id}+'\',900,500)'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a title="删除" href="javascript:;"
+                                <a th:if="${role eq 3 and message.replyUserName eq null}" title="回复" href="javascript:;"
+                                   th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'message'+'/editBefore/'+${message.id}+'\',900,500)'"
+                                   class="ml-5" style="text-decoration:none">回复</a>
+                                <a th:if="${message.replyUserName ne null}" title="详情" href="javascript:;"
+                                   th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'message'+'/editBefore/'+${message.id}+'\',900,500)'"
+                                   class="ml-5" style="text-decoration:none">详情</a>
+                                <a th:if="${role ne 3}"  title="删除" href="javascript:;"
                                    th:onclick="'javascript:deleteById(\'/admin/'+'message'+'/delete/'+${message.id}+'\')'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                             </td>

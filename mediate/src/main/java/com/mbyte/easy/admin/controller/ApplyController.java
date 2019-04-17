@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -66,6 +67,12 @@ public class ApplyController extends BaseController  {
         if("1001".equals(flag)){
             apply.setStatus(Constants.APPLY_YES);
         }
+        Long role = Utility.getRole();
+        if(Constants.ROLE_USER.equals(role)){
+            apply.setApplyId(Utility.getUserId());
+            apply.setApplyedId(Utility.getUserId());
+        }
+        model.addAttribute("role",role);
         model.addAttribute("pageInfo", new PageInfo(applyService.listPage(apply,page)));
         return prefix+"apply-list";
     }
@@ -81,6 +88,7 @@ public class ApplyController extends BaseController  {
                 .filter(sysUser -> sysUser.getRoles().get(0).getId().equals(Constants.ROLE_USER)).collect(Collectors.toList());
         model.addAttribute("userList",userList);
         model.addAttribute("cUser", Utility.getCurrentUser());
+        model.addAttribute("role",Utility.getRole());
         model.addAttribute("fenTypes",fenTypeService.list());
         return prefix+"add";
     }
@@ -96,6 +104,7 @@ public class ApplyController extends BaseController  {
             return error("申请人和被申请不可是同一人！");
         }
         apply.setFilePath(FileUtil.uploadFile(applyFile));
+        apply.setFilePathSuffix(FileUtil.getSuffix(applyFile.getOriginalFilename()));
         apply.setCreTime(LocalDateTime.now());
         return toAjax(applyService.save(apply));
     }
@@ -128,11 +137,16 @@ public class ApplyController extends BaseController  {
     public AjaxResult edit(Apply apply
             , @RequestParam(value = "applyFile",required = false)MultipartFile applyFile
             , @RequestParam(value ="replyFile",required = false)MultipartFile replyFile){
+        if(apply.getApplyedId().equals(apply.getApplyId())){
+            return error("申请人和被申请不可是同一人！");
+        }
         if(applyFile != null){
             apply.setFilePath(FileUtil.uploadFile(applyFile));
+            apply.setFilePathSuffix(FileUtil.getSuffix(applyFile.getOriginalFilename()));
         }
         if(replyFile != null){
             apply.setReplyPath(FileUtil.uploadFile(replyFile));
+            apply.setReplyPathSuffix(FileUtil.getSuffix(replyFile.getOriginalFilename()));
         }
         return toAjax(applyService.updateById(apply));
     }
@@ -155,6 +169,18 @@ public class ApplyController extends BaseController  {
     @ResponseBody
     public AjaxResult deleteAll(@RequestBody List<Long> ids){
         return toAjax(applyService.removeByIds(ids));
+    }
+
+
+    /**
+     * 下载文件
+     * @param filePath
+     * @param fileName
+     * @param response
+     */
+    @PostMapping("downloadFile")
+    public void downloadFile(String filePath,String fileName, HttpServletResponse response){
+        FileUtil.downloadFile(filePath,fileName,response);
     }
 
 }

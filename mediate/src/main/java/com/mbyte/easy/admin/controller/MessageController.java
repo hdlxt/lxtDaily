@@ -9,6 +9,7 @@ import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
 import com.mbyte.easy.entity.SysUser;
 import com.mbyte.easy.mapper.SysUserMapper;
+import com.mbyte.easy.util.Constants;
 import com.mbyte.easy.util.PageInfo;
 import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
@@ -61,6 +62,10 @@ public class MessageController extends BaseController  {
         if(StringUtils.isBlank(message.getReplyUserName())){
             message.setReplyUserName(null);
         }
+        if(Constants.ROLE_USER.equals(Utility.getRole())){
+            message.setUserId(Utility.getUserId());
+        }
+        model.addAttribute("role", Utility.getRole());
         model.addAttribute("searchInfo", message);
         model.addAttribute("pageInfo", new PageInfo(messageService.listPage(message,page)));
         return prefix+"message-list";
@@ -94,6 +99,7 @@ public class MessageController extends BaseController  {
     public String editBefore(Model model,@PathVariable("id")Long id){
         Message message = messageService.getById(id);
         model.addAttribute("message",message);
+        model.addAttribute("role", Utility.getRole());
         model.addAttribute("user",sysUserMapper.selectByPrimaryKey(message.getUserId()));
         model.addAttribute("replyUser",sysUserMapper.selectByPrimaryKey(message.getReplyUserId()));
         return prefix+"edit";
@@ -106,6 +112,10 @@ public class MessageController extends BaseController  {
     @PostMapping("edit")
     @ResponseBody
     public AjaxResult edit(Message message){
+        if(StringUtils.isNoneBlank(message.getReply())){
+            message.setReplyUserId(Utility.getUserId());
+            message.setUpTime(LocalDateTime.now());
+        }
         return toAjax(messageService.updateById(message));
     }
     /**

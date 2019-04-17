@@ -8,14 +8,14 @@
     <form class="form form-horizontal" id="form-file-edit" action="#"
           th:action="@{/admin/file/edit}" th:object="${file}">
         <input type="hidden" name="id" th:value="${file.id}"/>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>名字：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${file.name}" name="name"  placeholder="修改名字" id="name"/>
-                            </div>
-                    </div>
-                </div>
+                <!--<div class="row cl">-->
+                    <!--<label class="form-label col-xs-2 col-sm-2"><span-->
+                                <!--class="c-red">*</span>名字：</label>-->
+                            <!--<div class="formControls col-xs-10 col-sm-10">-->
+                                <!--<input type="input-text" class="input-text" th:value="${file.name}" name="name"  placeholder="修改名字" id="name"/>-->
+                            <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>文件：</label>
                     <div class="formControls col-xs-10 col-sm-10">

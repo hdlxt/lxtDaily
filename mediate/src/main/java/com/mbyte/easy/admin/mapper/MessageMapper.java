@@ -34,6 +34,9 @@ public interface MessageMapper extends BaseMapper<Message> {
             "<if test='message.mTitle != null'>" +
             " and m.m_title like '%${message.mTitle}%'" +
             "</if>" +
+            "<if test='message.userId != null'>" +
+            " and m.user_id = ${message.userId}" +
+            "</if>" +
             "</script>")
     List<Message> listPage(@Param("message") Message message, Page<Message> page);
 }

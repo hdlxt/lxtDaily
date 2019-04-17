@@ -126,4 +126,7 @@ public class Utility {
 	public static Long getRole(){
 	    return ((SysUser)Utility.getCurrentUser()).getRoles().get(0).getId();
     }
+    public static Long getUserId(){
+        return ((SysUser)Utility.getCurrentUser()).getId();
+    }
 }

@@ -34,6 +34,9 @@ public interface ApplyMapper extends BaseMapper<Apply> {
             "<if test='apply.status != null'>" +
             " and a.status = ${apply.status}" +
             "</if>" +
+            "<if test='apply.applyId != null'>" +
+            " and (a.apply_id = ${apply.applyId} or a.applyed_id = ${apply.applyedId})" +
+            "</if>" +
             "</script>")
     List<Apply> listPage(@Param("apply") Apply apply, Page<Apply> page);
 }

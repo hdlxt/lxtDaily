@@ -76,11 +76,13 @@ public class Apply extends BaseEntity {
      * 申请资料
      */
     private String filePath;
+    private String filePathSuffix;
 
     /**
      * 处理信息资料
      */
     private String replyPath;
+    private String replyPathSuffix;
 
 
 }
