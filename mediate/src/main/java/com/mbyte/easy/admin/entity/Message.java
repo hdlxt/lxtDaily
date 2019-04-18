@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mbyte.easy.common.entity.BaseEntity;
 import java.time.LocalDateTime;
@@ -27,11 +28,15 @@ public class Message extends BaseEntity {
      * 留言者主键
      */
     private Long userId;
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 留言内容
      */
     private String message;
+    private String mTitle;
+
 
     /**
      * 回复内容
@@ -42,6 +47,8 @@ public class Message extends BaseEntity {
      * 回复者主键
      */
     private Long replyUserId;
+    @TableField(exist = false)
+    private String replyUserName;
 
     /**
      * 留言时间

@@ -5,17 +5,11 @@
 </head>
 <body>
 <article class="page-container">
-	<form class="form form-horizontal"  id="form-message-add" action="#" th:action="@{/admin/message/add}">
+	<form class="form form-horizontal"  id="form-fenType-add" action="#" th:action="@{/admin/fenType/add}">
         <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>标题：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>类型：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="mTitle" placeholder="请填写标题" id="message"/>
-            </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>内容：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <textarea type="input-text" class="input-text" name="message" style="height: 200px;" placeholder="请填写内容" id="message"></textarea>
+                <input type="input-text" class="input-text" name="name" placeholder="请填写类型" id="name"/>
             </div>
         </div>
 	<div class="row cl">
@@ -34,25 +28,9 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script>
  $(function(){
-	$("#form-message-add").validate({
+	$("#form-fenType-add").validate({
 		rules:{
-            mTitle:{
-                required: true,
-			},
-            message:{
-                required: true,
-                maxlength:1000
-			},
-            reply:{
-                required: true,
-			},
-            replyUserId:{
-                required: true,
-			},
-            creTime:{
-                required: true,
-			},
-            upTime:{
+            name:{
                 required: true,
 			},
 		},
@@ -62,7 +40,7 @@
 		submitHandler:function(form){
 				$(form).ajaxSubmit({
 				type: 'POST',
-				url: "/admin/message/add" ,
+				url: "/admin/fenType/add" ,
 				success: function(data){
 					if(data.code == "0"){
 						layer.designMsg('添加成功!',1,function(){

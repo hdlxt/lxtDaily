@@ -7,7 +7,11 @@ import com.mbyte.easy.admin.entity.Message;
 import com.mbyte.easy.admin.service.IMessageService;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
+import com.mbyte.easy.entity.SysUser;
+import com.mbyte.easy.mapper.SysUserMapper;
+import com.mbyte.easy.util.Constants;
 import com.mbyte.easy.util.PageInfo;
+import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +36,8 @@ public class MessageController extends BaseController  {
 
     @Autowired
     private IMessageService messageService;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     /**
     * 查询列表
@@ -45,42 +51,23 @@ public class MessageController extends BaseController  {
     @RequestMapping
     public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, String creTimeSpace, String upTimeSpace, Message message) {
         Page<Message> page = new Page<Message>(pageNo, pageSize);
-        QueryWrapper<Message> queryWrapper = new QueryWrapper<Message>();
-
-        if(message.getUserId() != null  && !"".equals(message.getUserId() + "")) {
-            queryWrapper = queryWrapper.like("user_id",message.getUserId());
-         }
-
-
-        if(message.getMessage() != null  && !"".equals(message.getMessage() + "")) {
-            queryWrapper = queryWrapper.like("message",message.getMessage());
-         }
-
-
-        if(message.getReply() != null  && !"".equals(message.getReply() + "")) {
-            queryWrapper = queryWrapper.like("reply",message.getReply());
-         }
-
-
-        if(message.getReplyUserId() != null  && !"".equals(message.getReplyUserId() + "")) {
-            queryWrapper = queryWrapper.like("reply_user_id",message.getReplyUserId());
-         }
-
-
-        if(message.getCreTime() != null  && !"".equals(message.getCreTime() + "")) {
-            queryWrapper = queryWrapper.like("cre_time",message.getCreTime());
-         }
-
-
-        if(message.getUpTime() != null  && !"".equals(message.getUpTime() + "")) {
-            queryWrapper = queryWrapper.like("up_time",message.getUpTime());
-         }
-
-        IPage<Message> pageInfo = messageService.page(page, queryWrapper);
         model.addAttribute("creTimeSpace", creTimeSpace);
         model.addAttribute("upTimeSpace", upTimeSpace);
+        if(StringUtils.isBlank(message.getMTitle())){
+            message.setMTitle(null);
+        }
+        if(StringUtils.isBlank(message.getUserName())){
+            message.setUserName(null);
+        }
+        if(StringUtils.isBlank(message.getReplyUserName())){
+            message.setReplyUserName(null);
+        }
+        if(Constants.ROLE_USER.equals(Utility.getRole())){
+            message.setUserId(Utility.getUserId());
+        }
+        model.addAttribute("role", Utility.getRole());
         model.addAttribute("searchInfo", message);
-        model.addAttribute("pageInfo", new PageInfo(pageInfo));
+        model.addAttribute("pageInfo", new PageInfo(messageService.listPage(message,page)));
         return prefix+"message-list";
     }
 
@@ -100,6 +87,8 @@ public class MessageController extends BaseController  {
     @PostMapping("add")
     @ResponseBody
     public AjaxResult add(Message message){
+        message.setUserId(((SysUser)Utility.getCurrentUser()).getId());
+        message.setCreTime(LocalDateTime.now());
         return toAjax(messageService.save(message));
     }
     /**
@@ -108,7 +97,11 @@ public class MessageController extends BaseController  {
     */
     @GetMapping("editBefore/{id}")
     public String editBefore(Model model,@PathVariable("id")Long id){
-        model.addAttribute("message",messageService.getById(id));
+        Message message = messageService.getById(id);
+        model.addAttribute("message",message);
+        model.addAttribute("role", Utility.getRole());
+        model.addAttribute("user",sysUserMapper.selectByPrimaryKey(message.getUserId()));
+        model.addAttribute("replyUser",sysUserMapper.selectByPrimaryKey(message.getReplyUserId()));
         return prefix+"edit";
     }
     /**
@@ -119,6 +112,10 @@ public class MessageController extends BaseController  {
     @PostMapping("edit")
     @ResponseBody
     public AjaxResult edit(Message message){
+        if(StringUtils.isNoneBlank(message.getReply())){
+            message.setReplyUserId(Utility.getUserId());
+            message.setUpTime(LocalDateTime.now());
+        }
         return toAjax(messageService.updateById(message));
     }
     /**

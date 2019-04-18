@@ -20,7 +20,7 @@
 
                     <hr style="margin: 0">
                     <div class="cl pd-5 bg-1 bk-gray">
-						<span class="l">
+						<span class="l" th:if="${flag eq 1001}">
                             <a sec:authorize="hasAuthority('/user/delete-user')"  href="javascript:;" th:onclick="'javascript:deleteAll(\''+@{/user/deleteAll-user}+'\')'"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
                             <a sec:authorize="hasAuthority('/user/add-user')" href="javascript:;" onclick="admin_add('添加','/user/add-user',800,500)" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
                         </span>
@@ -29,7 +29,7 @@
                     <hr>
 
                     <div class="cl pd-5 bg-1 bk-gray ">
-                        <div class="searchByField">
+                        <div class="searchByField" th:if="${flag eq 1001}">
                             <input type="input-text" class="input-text" th:value="${user.username}" name="author" placeholder="输入用户名" sid="name"/>
                             <input type="input-text" class="input-text" th:value="${user.name}" name="author" placeholder="输入姓名" sid="name"/>
                             <button type="submit"
@@ -60,7 +60,7 @@
                             <td colspan="15"><strong>暂无数据</strong></td>
                         </tr>
                         <tr class="text-c" th:each="user,count:${pageInfo.list}">
-                            <td><input type="checkbox" value="1" th:value="${user.id}" name="id"/></td>
+                            <td><input th:if="${user.id ne 1}" type="checkbox" value="1" th:value="${user.id}" name="id"/></td>
                             <td th:text="${count.count}"></td>
                             <td th:text="${user.username}"></td>
                             <td th:text="${user.name}"></td>
@@ -75,12 +75,12 @@
                             <td class="td-status" th:unless="${user.available}"><span class="label radius">已停用</span></td>
                             <td class="td-manage">
 
-                                <a title="停用" sec:authorize="hasAuthority('/user/available-user')"  style="text-decoration:none" th:if="${user.available and user.id != 1}" th:onclick="'javascript:admin_stop(this,\'user'+@{/available-user}+'/'+${user.id}+'\')'" href="javascript:;"><i class="Hui-iconfont">&#xe631;</i></a>
-                                <a title="启用" th:if="${!user.available and user.id != 1}" sec:authorize="hasAuthority('/user/available-user')"  style="text-decoration:none" th:unless="${user.available}" th:onclick="'javascript:admin_start(this,\'user'+@{/available-user}+'/'+${user.id}+'\')'" href="javascript:;"><i class="Hui-iconfont">&#xe615;</i></a>
+                                <a title="停用" sec:authorize="hasAuthority('/user/available-user')"  style="text-decoration:none" th:if="${user.available and user.id != 1 and flag eq 1001}" th:onclick="'javascript:admin_stop(this,\'user'+@{/available-user}+'/'+${user.id}+'\')'" href="javascript:;"><i class="Hui-iconfont">&#xe631;</i></a>
+                                <a title="启用" th:if="${!user.available and user.id != 1 and flag eq 1001}" sec:authorize="hasAuthority('/user/available-user')"  style="text-decoration:none" th:unless="${user.available}" th:onclick="'javascript:admin_start(this,\'user'+@{/available-user}+'/'+${user.id}+'\')'" href="javascript:;"><i class="Hui-iconfont">&#xe615;</i></a>
 
                                 <a title="修改密码" sec:authorize="hasAuthority('/user/modify-password')"  href="javascript:;" th:onclick="'javascript:admin_edit(\'修改管理员密码\',\'user'+@{/modify-password}+'/'+${user.id}+'\',800,400)'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe63f;</i></a>
                                 <a title="编辑信息" sec:authorize="hasAuthority('/user/edit-user')"  href="javascript:;" th:onclick="'javascript:admin_edit(\'编辑管理员信息\',\'user'+@{/edit-user}+'/'+${user.id}+'\',800,400)'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a title="删除" th:if="${user.id != 1}"    sec:authorize="hasAuthority('/user/delete-user')"  href="javascript:;" th:onclick="'javascript:admin_del(this,\'user'+@{/delete-user}+'/'+${user.id}+'\')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                                <a title="删除" th:if="${user.id != 1 and flag eq 1001}"    sec:authorize="hasAuthority('/user/delete-user')"  href="javascript:;" th:onclick="'javascript:admin_del(this,\'user'+@{/delete-user}+'/'+${user.id}+'\')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 
                             </td>
                         </tr>

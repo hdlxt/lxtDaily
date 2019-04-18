@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mbyte.easy.common.entity.BaseEntity;
 import java.time.LocalDate;
@@ -28,16 +29,22 @@ public class Apply extends BaseEntity {
      * 申请人主键
      */
     private Long applyId;
+    @TableField(exist = false)
+    private String applyName;
 
     /**
      * 被申请人主键
      */
     private Long applyedId;
+    @TableField(exist = false)
+    private String applyedName;
 
     /**
      * 纠纷类型
      */
     private Integer typeId;
+    @TableField(exist = false)
+    private String typeName;
 
     /**
      * 申请时间
@@ -53,7 +60,8 @@ public class Apply extends BaseEntity {
      * 调解员主键
      */
     private Long userId;
-
+    @TableField(exist = false)
+    private String userName;
     /**
      * 进度百分比
      */
@@ -68,11 +76,13 @@ public class Apply extends BaseEntity {
      * 申请资料
      */
     private String filePath;
+    private String filePathSuffix;
 
     /**
      * 处理信息资料
      */
     private String replyPath;
+    private String replyPathSuffix;
 
 
 }

@@ -4,22 +4,23 @@
     <title>列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>XX管理 <span
-            class="c-gray en">&gt;</span>XX模块<a class="btn btn-success radius r"
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>申请调解管理 <span
+            class="c-gray en">&gt;</span>申请调解管理<a class="btn btn-success radius r"
                                                 style="line-height:1.6em;margin-top:3px"
                                                 href="javascript:location.replace(location.href);" title="刷新"><i
                 class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <form action="#" th:action="@{/admin/apply}" method="post">
+        <input type="hidden" th:value="${flag}" name="flag"/>
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field">
-                <legend>XXX列表</legend>
+                <legend>申请调解列表</legend>
                 <div class="layui-field-box">
 
                     <hr style="margin: 0">
                     <div class="cl pd-5 bg-1 bk-gray">
-						<span class="l">
+						<span class="l" th:if="${flag eq '1000' or role eq 1}">
 						<a href="javascript:;"
                            onclick="deleteAll('/admin/apply/deleteAll')"
                            class="layui-btn  layui-btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
@@ -33,16 +34,8 @@
 
                     <div class="cl pd-5 bg-1 bk-gray ">
                         <div class="searchByField">
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.applyId}" name="applyId" placeholder="搜索申请人主键" sid="applyId"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.applyedId}" name="applyedId" placeholder="搜索被申请人主键" sid="applyedId"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.typeId}" name="typeId" placeholder="搜索纠纷类型" sid="typeId"/>
-                                         <input type="input-text" placeholder="搜索申请时间" name="creTimeSpace" th:value="${creTimeSpace}" class="input-text  timeSpace"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.applyTime}" name="applyTime" placeholder="搜索申请调解日期" sid="applyTime"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.userId}" name="userId" placeholder="搜索调解员主键" sid="userId"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo. percent}" name=" percent" placeholder="搜索进度百分比" sid=" percent"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.status}" name="status" placeholder="搜索状态" sid="status"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.filePath}" name="filePath" placeholder="搜索申请资料" sid="filePath"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.replyPath}" name="replyPath" placeholder="搜索处理信息资料" sid="replyPath"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.applyName}" name="applyName" placeholder="搜索申请人" sid="applyId"/>
+                                         <input type="input-text" class="input-text" th:value="${searchInfo.applyedName}" name="applyedName" placeholder="搜索被申请人" sid="applyedId"/>
                             <button type="submit"
                                     class="layui-btn  layui-btn-success radius"><i
                                         class="Hui-iconfont">&#xe665;</i> 搜索
@@ -55,16 +48,13 @@
                         <tr class="text-c">
                             <th width="25"><input type="checkbox" name="" value=""/></th>
                             <th width="25">序号</th>
-                                <th width="40">申请人主键</th>
-                                <th width="40">被申请人主键</th>
+                                <th width="40">申请人</th>
+                                <th width="40">被申请人</th>
                                 <th width="40">纠纷类型</th>
-                                <th width="40">申请时间</th>
-                                <th width="40">申请调解日期</th>
-                                <th width="40">调解员主键</th>
+                                <th width="40" >调解日期</th>
+                                <th width="40">调解员</th>
                                 <th width="40">进度百分比</th>
                                 <th width="40">状态</th>
-                                <th width="40">申请资料</th>
-                                <th width="40">处理信息资料</th>
                             <th width="100">操作</th>
                         </tr>
                         </thead>
@@ -76,23 +66,24 @@
                             <td><input type="checkbox" value="1" th:value="${apply.id}"
                                        name="id"/></td>
                             <td th:text="${count.count}"></td>
-                                    <td th:text="${apply.applyId}"></td>
-                                    <td th:text="${apply.applyedId}"></td>
-                                    <td th:text="${apply.typeId}"></td>
-                                    <td th:text="${#temporals.format(apply.creTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td th:text="${apply.applyTime}"></td>
-                                    <td th:text="${apply.userId}"></td>
-                                    <td th:text="${apply. percent}"></td>
-                                    <td th:text="${apply.status}"></td>
-                                    <td th:text="${apply.filePath}"></td>
-                                    <td th:text="${apply.replyPath}"></td>
+                                    <td th:text="${apply.applyName}"></td>
+                                    <td th:text="${apply.applyedName}"></td>
+                                    <td th:text="${apply.typeName}"></td>
+                                    <td th:text="${#temporals.format(apply.applyTime, 'yyyy-MM-dd')}"></td>
+                                    <td  th:text="${apply.userName}"></td>
+                                    <td th:text="${apply. percent+'%'}"></td>
+                                    <td th:if="${apply.status eq 0}">未回复</td>
+                                    <td th:if="${apply.status eq 1}">已回复</td>
                             <td class="td-manage">
-                                <a title="编辑" href="javascript:;"
+                                <a th:if="${apply.status eq 0 or role eq 1}" title="编辑" href="javascript:;"
                                    th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'apply'+'/editBefore/'+${apply.id}+'\',900,500)'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a title="删除" href="javascript:;"
+                                <a th:if="${(flag eq '1000' and apply.status eq 0)or role eq 1}" title="删除" href="javascript:;"
                                    th:onclick="'javascript:deleteById(\'/admin/'+'apply'+'/delete/'+${apply.id}+'\')'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                                <a th:if="${apply.status eq 1 and role ne 1}" title="详情" href="javascript:;"
+                                   th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'apply'+'/editBefore/'+${apply.id}+'\',900,500)'"
+                                   class="ml-5" style="text-decoration:none">详情</a>
                             </td>
                         </tr>
                         </tbody>
