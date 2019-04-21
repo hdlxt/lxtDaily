@@ -1,6 +1,6 @@
 package com.mbyte.easy.admin.service;
 
-import com.mbyte.easy.admin.entity.Person;
+import com.mbyte.easy.admin.entity.Check;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
-
- * @since 2019-04-05
+ * @author 黄润宣
+ * @since 2019-04-21
  */
-public interface IPersonService extends IService<Person> {
+public interface ICheckService extends IService<Check> {
 
 }

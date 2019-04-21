@@ -1,6 +1,6 @@
 package com.mbyte.easy.admin.mapper;
 
-import com.mbyte.easy.admin.entity.Person;
+import com.mbyte.easy.admin.entity.Check;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
-
- * @since 2019-04-05
+ * @author 黄润宣
+ * @since 2019-04-21
  */
-public interface PersonMapper extends BaseMapper<Person> {
+public interface CheckMapper extends BaseMapper<Check> {
 
 }

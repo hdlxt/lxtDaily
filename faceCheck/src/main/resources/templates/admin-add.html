@@ -26,31 +26,37 @@
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-		<div class="formControls col-xs-7 col-sm-8 skin-minimal">
-			<div class="radio-box">
-				<input type="radio" id="sex-1" name="sexType" value="1" checked="checked"/>
-				<label for="sex-1" >男</label>
-			</div>
-			<div class="radio-box">
-				<input type="radio" id="sex-0" name="sexType" value="0" />
-				<label for="sex-0" >女</label>
-			</div>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>照片：</label>
+		<div class="formControls col-xs-7 col-sm-8">
+			<input type="file" name="file"/>
 		</div>
 	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否启用：</label>
-		<div class="formControls col-xs-7 col-sm-8 skin-minimal">
-			<div class="radio-box">
-				<input type="radio" id="qd"  name="available" value="1" />
-				<label for="qd">启用</label>
-			</div>
-			<div class="radio-box">
-				<input type="radio" id="nqd" name="available" value="0" checked="checked"/>
-				<label for="nqd">不启用</label>
-			</div>
-		</div>
-	</div>
+	<!--<div class="row cl">-->
+		<!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>-->
+		<!--<div class="formControls col-xs-7 col-sm-8 skin-minimal">-->
+			<!--<div class="radio-box">-->
+				<!--<input type="radio" id="sex-1" name="sexType" value="1" checked="checked"/>-->
+				<!--<label for="sex-1" >男</label>-->
+			<!--</div>-->
+			<!--<div class="radio-box">-->
+				<!--<input type="radio" id="sex-0" name="sexType" value="0" />-->
+				<!--<label for="sex-0" >女</label>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+	<!--<div class="row cl">-->
+		<!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否启用：</label>-->
+		<!--<div class="formControls col-xs-7 col-sm-8 skin-minimal">-->
+			<!--<div class="radio-box">-->
+				<!--<input type="radio" id="qd"  name="available" value="1" checked="checked"/>-->
+				<!--<label for="qd">启用</label>-->
+			<!--</div>-->
+			<!--<div class="radio-box">-->
+				<!--<input type="radio" id="nqd" name="available" value="0" />-->
+				<!--<label for="nqd">不启用</label>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">手机：</label>
 		<div class="formControls col-xs-7 col-sm-8">
@@ -106,6 +112,9 @@ $(function(){
 				maxlength:16
 			},
 			password:{
+				required:true,
+			},
+			file:{
 				required:true,
 			},
 			password2:{

@@ -10,6 +10,7 @@
     <result column="available" jdbcType="BIT" property="available" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="sex_type" jdbcType="INTEGER" property="sexType" />
     <collection property="roles"  column="id"   select="selectRolesByUserID">
         <id column="id" jdbcType="BIGINT" property="id" />
@@ -29,7 +30,7 @@
     </collection>
   </resultMap>
   <sql id="Base_Column_List">
-    id, createtime, password, updatetime, username, available, email, tel, sex_type
+    id, createtime, password, updatetime, username, available, email, tel, sex_type,img
   </sql>
   <select id="selectResourceByRoleId" parameterType="java.lang.Long"  resultType="com.mbyte.easy.entity.SysResource">
     SELECT
@@ -100,11 +101,11 @@
   <insert id="insert" parameterType="com.mbyte.easy.entity.SysUser">
     insert into sys_user (id, createtime, password, 
       updatetime, username, available, 
-      email, tel, sex_type
+      email, tel, sex_type,img
       )
     values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, 
       #{updatetime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR}, #{available,jdbcType=BIT}, 
-      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sexType,jdbcType=INTEGER}
+      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sexType,jdbcType=INTEGER},#{img,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.mbyte.easy.entity.SysUser">
@@ -133,6 +134,9 @@
       </if>
       <if test="tel != null">
         tel,
+      </if>
+      <if test="img != null">
+        img,
       </if>
       <if test="sexType != null">
         sex_type,
@@ -163,9 +167,13 @@
       <if test="tel != null">
         #{tel,jdbcType=VARCHAR},
       </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
       <if test="sexType != null">
         #{sexType,jdbcType=INTEGER},
       </if>
+
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mbyte.easy.entity.SysUser">
@@ -192,6 +200,9 @@
       <if test="tel != null">
         tel = #{tel,jdbcType=VARCHAR},
       </if>
+      <if test="tel != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
       <if test="sexType != null">
         sex_type = #{sexType,jdbcType=INTEGER},
       </if>
@@ -207,6 +218,7 @@
       available = #{available,jdbcType=BIT},
       email = #{email,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
       sex_type = #{sexType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

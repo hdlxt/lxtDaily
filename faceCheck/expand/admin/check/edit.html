@@ -5,28 +5,30 @@
 </head>
 <body>
 <article class="page-container">
-    <form class="form form-horizontal" id="form-person-edit" action="#"
-          th:action="@{/admin/person/edit}" th:object="${person}" >
-        <input type="hidden" name="id" th:value="${person.id}"/>
+    <form class="form form-horizontal" id="form-check-edit" action="#"
+          th:action="@{/admin/check/edit}" th:object="${check}">
+        <input type="hidden" name="id" th:value="${check.id}"/>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>姓名：</label>
+                                class="c-red">*</span>标题：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${person.name}" name="name"  placeholder="修改" id="name"/>
+                                <input type="input-text" class="input-text" th:value="${check.title}" name="title"  placeholder="修改标题" id="title"/>
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"></label>
-                    <div class="formControls col-xs-10 col-sm-10">
-                        <img th:src="${person.photo}" style="width: 400px;"/>
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>合照：</label>
+                            <div class="formControls col-xs-10 col-sm-10">
+                                <input type="input-text" class="input-text" th:value="${check.img}" name="img"  placeholder="修改合照" id="img"/>
+                            </div>
                     </div>
                 </div>
-                </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">照片:</label>
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>创建时间：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="file" name="file"/>
+                                <input type="input-text" class="input-text timeSpace" readonly="readonly" autocomplete="off" th:value="${#temporals.format(check.creTime, 'yyyy-MM-dd HH:mm:ss')}" name="creTime" placeholder="请选择创建时间"/>
                             </div>
                     </div>
                 </div>
@@ -45,9 +47,17 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script>
     $(function () {
-        $("#form-person-edit").validate({
+        $("#form-check-edit").validate({
             rules: {
-        name:
+        title:
+        {
+            required: true,
+        },
+        img:
+        {
+            required: true,
+        },
+        creTime:
         {
             required: true,
         },
@@ -65,7 +75,7 @@
         function (form) {
             $(form).ajaxSubmit({
                 type: 'POST',
-                url: "/admin/person/edit",
+                url: "/admin/check/edit",
                 success: function (data) {
                     if (data.code == "0") {
                         layer.designMsg('编辑成功!', 1, function () {

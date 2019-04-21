@@ -5,18 +5,25 @@
 </head>
 <body>
 <article class="page-container">
-	<form class="form form-horizontal"  id="form-person-add" action="#" th:action="@{/admin/person/add}">
+	<form class="form form-horizontal"  id="form-check-add" action="#" th:action="@{/admin/check/add}">
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>姓名：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>标题：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="name" placeholder="请填写" id="name"/>
+                <input type="input-text" class="input-text" name="title" placeholder="请填写标题" id="title"/>
             </div>
         </div>
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>照片：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>合照：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="file" name="file"/>
+                <input type="input-text" class="input-text" name="img" placeholder="请填写合照" id="img"/>
             </div>
+        </div>
+        <div class="row cl">
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>创建时间：</label>
+             <div class="formControls col-xs-10 col-sm-10">
+                 <input type="input-text" class="input-text timeSpace" readonly="readonly"
+                        autocomplete="off" name="creTime" placeholder="请选择创建时间"/>
+             </div>
         </div>
 	<div class="row cl">
 	<div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
@@ -34,12 +41,15 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script>
  $(function(){
-	$("#form-person-add").validate({
+	$("#form-check-add").validate({
 		rules:{
-            name:{
+            title:{
                 required: true,
 			},
-            file:{
+            img:{
+                required: true,
+			},
+            creTime:{
                 required: true,
 			},
 		},
@@ -49,7 +59,7 @@
 		submitHandler:function(form){
 				$(form).ajaxSubmit({
 				type: 'POST',
-				url: "/admin/person/add" ,
+				url: "/admin/check/add" ,
 				success: function(data){
 					if(data.code == "0"){
 						layer.designMsg('添加成功!',1,function(){

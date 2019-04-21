@@ -14,32 +14,31 @@
 			<input type="text" class="input-text" value="" readonly="readonly" placeholder="" id="username" th:field="*{username}"/>
 		</div>
 	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-		<div class="formControls col-xs-7 col-sm-8 skin-minimal">
-			<div class="radio-box">
-				<input  type="radio" value="1" th:field="*{sexType}"  />
-				<label >男</label>
-			</div>
-			<div class="radio-box">
-				<input  type="radio" value="0"  th:field="*{sexType}"  checked="checked" />
-				<label >女</label>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"></label>
+			<div class="formControls col-xs-7 col-sm-8">
+				<img th:src="${user.img}" style="widows: 200px;height:200px">
 			</div>
 		</div>
-	</div>
-	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否启用：</label>
-		<div class="formControls col-xs-7 col-sm-8 skin-minimal">
-		<div class="radio-box">
-			<input type="radio"  value="1" th:field="*{available}" checked="checked"/>
-			<label >启用</label>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">照片：</label>
+			<div class="formControls col-xs-7 col-sm-8">
+				<input type="file" name="file"/>
+			</div>
 		</div>
-		<div class="radio-box">
-			<input type="radio"   value="0" th:field="*{available}"/>
-			<label >不启用</label>
-		</div>
-		</div>
-	</div>
+	<!--<div class="row cl">-->
+		<!--<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>-->
+		<!--<div class="formControls col-xs-7 col-sm-8 skin-minimal">-->
+			<!--<div class="radio-box">-->
+				<!--<input  type="radio" value="1" th:field="*{sexType}"  />-->
+				<!--<label >男</label>-->
+			<!--</div>-->
+			<!--<div class="radio-box">-->
+				<!--<input  type="radio" value="0"  th:field="*{sexType}"  checked="checked" />-->
+				<!--<label >女</label>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">手机：</label>
 		<div class="formControls col-xs-7 col-sm-8">
@@ -52,7 +51,7 @@
 			<input type="text" class="input-text" placeholder="@"  id="email"  th:field="*{email}" />
 		</div>
 	</div>
-	<div class="row cl">
+	<div class="row cl" th:if="${role eq 1}">
 		<label class="form-label col-xs-4 col-sm-3">角色：</label>
 		<div class="formControls col-xs-7 col-sm-8">
 			<!-- th:checked="${userrole.id == role.id}" -->

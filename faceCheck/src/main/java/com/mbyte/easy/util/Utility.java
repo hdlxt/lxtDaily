@@ -1,5 +1,6 @@
 package com.mbyte.easy.util;
 
+import com.mbyte.easy.entity.SysUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,10 @@ import java.util.Random;
  * @Version:1.1.0
  */
 public class Utility {
+
+	public final static Long ROLE_ADMIN = 1L;
+	public final static Long ROLE_TEA  = 2L;
+	public final static Long ROLE_STu = 3L;
 
 	/**
 	 * 密码加密
@@ -69,6 +74,11 @@ public class Utility {
 	public static UserDetails getCurrentUser() {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userDetails;
+	}
+
+	public static Long getRoleId() {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return ((SysUser)userDetails).getRoles().get(0).getId();
 	}
 
 	public static String CHAR_STR = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";

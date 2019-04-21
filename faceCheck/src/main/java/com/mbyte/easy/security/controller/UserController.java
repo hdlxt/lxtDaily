@@ -8,6 +8,7 @@ import com.mbyte.easy.entity.SysUserRoles;
 import com.mbyte.easy.mapper.SysRoleMapper;
 import com.mbyte.easy.mapper.SysUserMapper;
 import com.mbyte.easy.mapper.SysUserRolesMapper;
+import com.mbyte.easy.util.FileUtil;
 import com.mbyte.easy.util.PageInfo;
 import com.mbyte.easy.util.Utility;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -63,11 +65,14 @@ public class UserController {
 			user.setUsername(name);
 			model.addAttribute("name", name.trim());
 		}
-
+		if(!Utility.ROLE_ADMIN.equals(Utility.getRoleId())){
+			name = Utility.getCurrentUsername();
+		}
 		Page<SysUser> page = new Page<SysUser>(pageNo, pageSize);
 		IPage<SysUser> pageInfo = userMapper.selectByUserForPage(page, name);
 
 		model.addAttribute("pageInfo", new PageInfo<SysUser>(pageInfo));
+		model.addAttribute("role",Utility.getRoleId());
 		return "admin-list";
 	}
 
@@ -86,7 +91,7 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/add-user", params = "save=true")
-	public String addRole(Model model, @ModelAttribute(value = "user") SysUser user,
+	public String addRole(Model model, @ModelAttribute(value = "user") SysUser user, MultipartFile file,
 			@RequestParam(required = false) String userRoles) {
 		SysUserRoles sysUserRoles = new SysUserRoles();
 		SysUser dbUser = userMapper.selectByUsername(user.getUsername());
@@ -98,6 +103,8 @@ public class UserController {
 			user.setPassword(Utility.QuickPassword(user.getPassword()));
 			user.setCreatetime(new Date());
 			user.setUpdatetime(new Date());
+			user.setImg(FileUtil.uploadSuffixPath+FileUtil.uploadFile(file));
+			user.setAvailable(true);
 			userMapper.insert(user);
 			user = userMapper.selectByUsername(user.getUsername());
 			if (!"".equals(userRoles) && userRoles != null) {
@@ -202,12 +209,13 @@ public class UserController {
 		user.setRoles(userroles);
 		model.addAttribute("userroles", userroles);
 		model.addAttribute("user", user);
+		model.addAttribute("role",Utility.getRoleId());
 		return "admin-editor";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/edit-user", params = "save=true")
-	public String editRole(Model model, @ModelAttribute(value = "user") SysUser user,
+	public String editRole(Model model, @ModelAttribute(value = "user") SysUser user,@RequestParam(required = false) MultipartFile file,
 			@RequestParam(required = false) String userRoles) {
 		if (user != null) {
 			SysUserRoles sysUserRoles = new SysUserRoles();
@@ -215,6 +223,9 @@ public class UserController {
 			user.setPassword(dbUser.getPassword());
 			user.setCreatetime(dbUser.getCreatetime());
 			user.setUpdatetime(new Date());
+			if(file != null){
+				user.setImg(FileUtil.uploadSuffixPath+FileUtil.uploadFile(file));
+			}
 			userMapper.updateByPrimaryKey(user);
 			if (!"".equals(userRoles) && userRoles != null) {
 				userRolesMapper.deleteByUserRoleId(user.getId());
