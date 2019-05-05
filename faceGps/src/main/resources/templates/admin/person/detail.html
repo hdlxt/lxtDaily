@@ -5,37 +5,57 @@
 </head>
 <body>
 <article class="page-container">
-    <form class="form form-horizontal" id="form-person-edit" action="#"
-          th:action="@{/admin/person/edit}" th:object="${person}" >
+    <form class="form form-horizontal" >
         <input type="hidden" name="id" th:value="${person.id}"/>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>名称：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${person.name}" name="name"  placeholder="修改" id="name"/>
+                    <label class="form-label col-xs-2 col-sm-2">名称：</label>
+                            <div class="formControls col-xs-10 col-sm-10" style="line-height: 30px">
+                                [[${person.name}]]
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"></label>
+                    <label class="form-label col-xs-2 col-sm-2">照片：</label>
                     <div class="formControls col-xs-10 col-sm-10">
                         <img th:src="${person.photo}" style="width: 600px;"/>
                     </div>
                 </div>
-                </div>
+                <br/>
+                <hr/>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">照片:</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="file" name="file"/>
-                            </div>
-                    </div>
+                    <label class="form-label col-xs-2 col-sm-2"><strong>人脸个数：[[${detectFaceVoList.size()}]]</strong></label>
                 </div>
-        <div class="row cl">
-            <div class="col-xs-3 col-sm-3 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-primary radius" id="subbtn" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
-                <input class="btn radius" id="reset" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
-            </div>
-        </div>
+                <table class="layui-table text-c">
+                    <thead>
+                    <tr class="text-c">
+                        <!--<th width="25"><input type="checkbox" name="" value=""/></th>-->
+                        <th width="25">序号</th>
+                        <th width="40">年龄</th>
+                        <th width="40">形状</th>
+                        <th width="40">可信度</th>
+                        <th width="40">性别</th>
+                        <th width="40">可信度</th>
+                        <th width="40">类型</th>
+                        <th width="40">可信度</th>
+                        <th width="40">表情</th>
+                        <th width="40">可信度</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-c" th:each="detectFaceVo,count:${detectFaceVoList}">
+                        <td th:text="${count.count}"></td>
+                        <td th:text="${detectFaceVo.age}"></td>
+                        <td th:text="${detectFaceVo.faceShape}"></td>
+                        <td th:text="${detectFaceVo.faceShapePro}"></td>
+                        <td th:text="${detectFaceVo.gender}"></td>
+                        <td th:text="${detectFaceVo.genderPro}"></td>
+                        <td th:text="${detectFaceVo.faceType}"></td>
+                        <td th:text="${detectFaceVo.faceTypePro}"></td>
+                        <td th:text="${detectFaceVo.emotion}"></td>
+                        <td th:text="${detectFaceVo.emotionPro}"></td>
+                    </tr>
+                    </tbody>
+                </table>
     </form>
 </article>
 <!--_footer 作为公共模版分离出去-->

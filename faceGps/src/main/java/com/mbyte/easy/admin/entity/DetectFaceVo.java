@@ -48,7 +48,7 @@ public class DetectFaceVo {
             case "male":
                 return "男";
             case "female":
-                return "卡通人脸";
+                return "女";
             default:
                 return null;
         }
@@ -56,9 +56,9 @@ public class DetectFaceVo {
 
     public String getFaceType() {
         switch (this.faceType){
-            case "male":
-                return "男";
-            case "female":
+            case "human":
+                return "真实人脸";
+            case "cartoon":
                 return "卡通人脸";
             default:
                 return null;

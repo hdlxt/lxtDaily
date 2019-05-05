@@ -130,6 +130,13 @@ public class BaiDuUtil {
         JSONObject jsonObject =  getFaceClient().faceDelete(USER_ID,GROUP_ID,faceToken,new HashMap<String, String>());
         System.out.println(jsonObject);
     }
+
+    /**
+     * 删除
+     */
+    public static void deleteUser(){
+        getFaceClient().deleteUser(GROUP_ID,USER_ID,new HashMap<String, String>());
+    }
     /**
      *  M：1人脸搜索
      * @return
@@ -137,12 +144,13 @@ public class BaiDuUtil {
     public static boolean searchMul(String imageLocalPath) {
         // 传入可选参数调用接口
         HashMap<String, String> options = new HashMap<String, String>();
-        options.put("quality_control", "NORMAL");
+        options.put("quality_control", "LOW");
         options.put("liveness_control", "LOW");
         options.put("max_user_num", "20");
         options.put("max_face_num", "10");
         // 人脸搜索
         JSONObject jsonObject = getFaceClient().searchMul(getImageStr(imageLocalPath),IMAGE_TYPE_BASE64, GROUP_ID, options);
+        System.out.println(jsonObject);
         return jsonObject.toMap().get("result") != null;
     }
     /**
@@ -206,12 +214,16 @@ public class BaiDuUtil {
                 .append("_").append(Utility.getRandomStrByNum(6)).toString();
     }
     public static void main(String[] args) {
-        String imgLocalPath = "/home/lxt/Desktop/测试图片/合照/2";
+//        String imgLocalPath = "/home/lxt/Desktop/测试图片/合照/6";
+        String imgLocalPath1 = "/home/lxt/Desktop/0505/3.jpg";
+//        deleteUser();
         //人脸注册
 //        String faceToken = addUser(imgLocalPath);
-//        delete(faceToken);
+//        System.out.println(faceToken);
         //M：1人脸搜索
-//        System.out.println(searchMul(imgLocalPath));
+        System.out.println(searchMul(imgLocalPath1));
+        //删除人脸
+//        delete(faceToken);
         //        System.out.println(search(imgLocalPath));
         //人脸监测
 //        System.out.println(detectNew(imgLocalPath));
