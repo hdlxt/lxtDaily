@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.CheckDetail;
 import com.mbyte.easy.admin.service.ICheckDetailService;
+import com.mbyte.easy.admin.service.ICheckService;
 import com.mbyte.easy.common.controller.BaseController;
+import com.mbyte.easy.common.excel.ExcelUtil;
+import com.mbyte.easy.common.excel.ExportInfo;
 import com.mbyte.easy.common.web.AjaxResult;
 import com.mbyte.easy.util.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,6 +40,9 @@ public class CheckDetailController extends BaseController  {
     @Autowired
     private ICheckDetailService checkDetailService;
 
+
+    @Autowired
+    private ICheckService checkService;
     /**
     * 查询列表
     *
@@ -125,5 +135,20 @@ public class CheckDetailController extends BaseController  {
         return toAjax(checkDetailService.removeByIds(ids));
     }
 
+
+    /**
+     * 导出
+     */
+    @RequestMapping(value = "writeExcel", method = RequestMethod.GET)
+    public void writeExcel(HttpServletResponse response,Long checkId,String name) throws IOException {
+        List<CheckDetail> list = checkDetailService.list(new QueryWrapper<CheckDetail>().lambda()
+                .eq(CheckDetail::getCheckId,checkId));
+        String sheetName = "学生出勤情况";
+        List<ExportInfo> exportInfos = new ArrayList<>();
+//        for (CheckDetail checkDetail : list) {
+//            exportInfos.add(new ExportInfo().setName());
+//        }
+//        ExcelUtil.writeExcel(response, list, name, sheetName, new ExportInfo());
+    }
 }
 
