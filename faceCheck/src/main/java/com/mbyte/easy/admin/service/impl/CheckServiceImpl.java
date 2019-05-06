@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
  *  服务实现类
  * </p>
  *
- * @author 黄润宣
+ *
  * @since 2019-04-21
  */
 @Service
 public class CheckServiceImpl extends ServiceImpl<CheckMapper, Check> implements ICheckService {
 
+    @Override
+    public void insertCheck(Check check) {
+        this.baseMapper.insertCheck(check);
+    }
 }

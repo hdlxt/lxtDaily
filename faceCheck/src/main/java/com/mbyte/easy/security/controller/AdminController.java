@@ -6,6 +6,7 @@ import com.mbyte.easy.entity.SysUserRoles;
 import com.mbyte.easy.mapper.SysResourceMapper;
 import com.mbyte.easy.mapper.SysUserMapper;
 import com.mbyte.easy.mapper.SysUserRolesMapper;
+import com.mbyte.easy.util.BaiDuUtil;
 import com.mbyte.easy.util.FileUtil;
 import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
@@ -117,7 +118,10 @@ public class AdminController {
 			user.setUpdatetime(new Date());
 			user.setAvailable(true);
 			if(file != null){
-				user.setImg(FileUtil.uploadSuffixPath+ FileUtil.uploadFile(file));
+				String filePath = FileUtil.uploadFile(file);
+				user.setImg(FileUtil.uploadSuffixPath+filePath);
+				//注册到百度人脸库中
+				BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,user.getUsername());
 			}
 			Long roleId = user.getRoleId();
 			userMapper.insert(user);

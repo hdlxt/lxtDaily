@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author 黄润宣
+ *
  * @since 2019-04-21
  */
 public interface ICheckDetailService extends IService<CheckDetail> {

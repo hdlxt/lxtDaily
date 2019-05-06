@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
- * @author 黄润宣
+ *
  * @since 2019-04-21
  */
 public interface CheckDetailMapper extends BaseMapper<CheckDetail> {

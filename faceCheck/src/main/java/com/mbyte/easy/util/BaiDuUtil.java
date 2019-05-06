@@ -23,7 +23,7 @@ public class BaiDuUtil {
     public static final String APP_ID = "15773933";
     public static final String API_KEY = "Pi9sFpvyQxGGFEPK8CCdGpeP";
     public static final String SECRET_KEY = "SSlVhee7KcKyDR0OLMdnVFhUb7MoavBm";
-    public static final String GROUP_ID = "face_gps";
+    public static final String GROUP_ID = "face_check";
     public static final int FACE_MIN_SCORE = 70;
 
     /**
@@ -34,9 +34,9 @@ public class BaiDuUtil {
      * 获取客户端
      * @return
      */
-    public static AipFace getFaceClient(){
+    public static BaiDuFace getFaceClient(){
         // 初始化一个AipFace
-        AipFace client = new AipFace(APP_ID, API_KEY, SECRET_KEY);
+        BaiDuFace client = new BaiDuFace(APP_ID, API_KEY, SECRET_KEY);
         // 可选：设置网络连接参数
         client.setConnectionTimeoutInMillis(2000);
         client.setSocketTimeoutInMillis(60000);
@@ -83,6 +83,29 @@ public class BaiDuUtil {
             return userIdList;
         }
         return userIdList;
+    }
+    public static List<String> searchMul(String imageLocalPath) {
+        // 传入可选参数调用接口
+        HashMap<String, String> options = new HashMap<String, String>();
+        options.put("quality_control", "NORMAL");
+        options.put("liveness_control", "LOW");
+        options.put("max_user_num", "20");
+        // 人脸搜索
+        JSONObject jsonObject = getFaceClient().searchMul(getImageStr(imageLocalPath),IMAGE_TYPE_BASE64, GROUP_ID, options);
+        List<String> userNameList = new ArrayList<>();
+        if(jsonObject.toMap().get("result") != null){
+            Map map = (Map)jsonObject.toMap().get("result");
+            ArrayList<Map> arrayList = ( ArrayList<Map>)map.get("user_list");
+            for (Map m : arrayList) {
+                //相似度大于该值之后为匹配
+                if(Double.valueOf(m.get("score").toString()) > FACE_MIN_SCORE){
+                    userNameList.add(m.get("user_id").toString());
+                }
+            }
+        }else{
+            return userNameList;
+        }
+        return userNameList;
     }
     /**
      * 人脸注册
