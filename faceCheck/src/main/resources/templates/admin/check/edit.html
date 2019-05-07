@@ -7,34 +7,38 @@
 <article class="page-container">
     <form class="form form-horizontal" id="form-check-edit" action="#"
           th:action="@{/admin/check/edit}" th:object="${check}">
-        <input type="hidden" name="id" th:value="${check.id}"/>
-                <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>标题：</label>
-                            <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${check.title}" name="title"  placeholder="修改标题" id="title"/>
-                            </div>
-                    </div>
-                </div>
-        <div class="row cl">
-            <label class="form-label col-xs-2 col-sm-2"></label>
-                    <div class="formControls col-xs-10 col-sm-10">
-                        <img th:src="${check.img}" style="width: 400px;height:400px;"/>
-                    </div>
-            </div>
-        </div>
+        <input type="hidden" id="checkId" th:value="${check.id}"/>
+        <input type="hidden" id="name" th:value="${check.title}"/>
+        <span class="r" style="margin-bottom: 20px;">
+            <a href="javascript:;"
+               onclick="exportExcel();"
+               class="layui-btn  layui-btn-normal radius">导出</a>
+        </span>
+        <br/>
         <div class="row cl">
             <label class="form-label col-xs-2 col-sm-2">合照：</label>
-            <div class="formControls col-xs-10 col-sm-10">
-                <input type="file" name="file" >
+            <div class="formControls col-xs-8 col-sm-8">
+                <img th:src="${check.img}" style="width: 400px"/>
             </div>
         </div>
-        <div class="row cl">
-            <div class="col-xs-3 col-sm-3 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-primary radius" id="subbtn" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
-                <input class="btn radius" id="reset" type="reset" value="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
-            </div>
-        </div>
+        <table class="layui-table text-c">
+            <thead>
+            <tr class="text-c">
+                <th width="40">学生</th>
+                <th width="40">状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-c" th:if="${pageInfo.list.size() == 0}">
+                <td colspan="15"><strong>暂无数据</strong></td>
+            </tr>
+            <tr class="text-c" th:each="checkDetail,count:${pageInfo.list}">
+                <td th:text="${checkDetail.userName}"></td>
+                <td th:if="${checkDetail.status eq 0}">缺勤</td>
+                <td th:if="${checkDetail.status eq 1}">出勤</td>
+            </tr>
+            </tbody>
+        </table>
     </form>
 </article>
 <!--_footer 作为公共模版分离出去-->
@@ -101,6 +105,9 @@
         });
     });
 
+    function exportExcel(){
+        window.location.href ="/admin/check/writeExcel?checkId="+$('#checkId').val()+"&name="+$('#name').val();
+    }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

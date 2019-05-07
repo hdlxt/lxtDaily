@@ -120,20 +120,6 @@ public class CheckDetailController extends BaseController  {
     }
 
 
-    /**
-     * 导出
-     */
-    @RequestMapping(value = "writeExcel", method = RequestMethod.GET)
-    public void writeExcel(HttpServletResponse response,Long checkId,String name) throws IOException {
-        List<CheckDetail> list = checkDetailService.list(new QueryWrapper<CheckDetail>().lambda()
-                .eq(CheckDetail::getCheckId,checkId));
-        String sheetName = "学生出勤情况";
-        List<ExportInfo> exportInfos = new ArrayList<>();
-        for (CheckDetail checkDetail : list) {
-            exportInfos.add(new ExportInfo()
-                .setName("").setStatus(checkDetail.getStatus()+""));
-        }
-        ExcelUtil.writeExcel(response, exportInfos, name, sheetName, new ExportInfo());
-    }
+
 }
 

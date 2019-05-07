@@ -117,11 +117,10 @@ public class AdminController {
 			user.setCreatetime(new Date());
 			user.setUpdatetime(new Date());
 			user.setAvailable(true);
+			String filePath = null;
 			if(file != null){
-				String filePath = FileUtil.uploadFile(file);
+				filePath = FileUtil.uploadFile(file);
 				user.setImg(FileUtil.uploadSuffixPath+filePath);
-				//注册到百度人脸库中
-				BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,user.getUsername());
 			}
 			Long roleId = user.getRoleId();
 			userMapper.insert(user);
@@ -129,6 +128,8 @@ public class AdminController {
 			sysUserRoles.setRolesId(roleId);
 			sysUserRoles.setSysUserId(user.getId());
 			userRolesMapper.insert(sysUserRoles);
+			//注册到百度人脸库中
+			BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,user.getId()+"");
 		}
 		model.addAttribute("msg","注冊成功！");
 		return "register";

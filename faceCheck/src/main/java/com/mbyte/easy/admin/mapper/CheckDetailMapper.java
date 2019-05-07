@@ -21,6 +21,9 @@ public interface CheckDetailMapper extends BaseMapper<CheckDetail> {
             " left join t_check c on  cd.check_id = c.id" +
             " left join sys_user u on  cd.user_id = u.id" +
             " where 1=1" +
+            "<if test='checkDetail.checkId != null'> " +
+            " and cd.check_id = ${checkDetail.checkId}" +
+            "</if>" +
             "<if test='checkDetail.userName != null'> " +
             " and u.username like '%${checkDetail.userName}%'" +
             "</if>" +

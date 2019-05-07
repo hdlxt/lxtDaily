@@ -8,6 +8,7 @@ import com.mbyte.easy.entity.SysUserRoles;
 import com.mbyte.easy.mapper.SysRoleMapper;
 import com.mbyte.easy.mapper.SysUserMapper;
 import com.mbyte.easy.mapper.SysUserRolesMapper;
+import com.mbyte.easy.util.BaiDuUtil;
 import com.mbyte.easy.util.FileUtil;
 import com.mbyte.easy.util.PageInfo;
 import com.mbyte.easy.util.Utility;
@@ -103,10 +104,13 @@ public class UserController {
 			user.setPassword(Utility.QuickPassword(user.getPassword()));
 			user.setCreatetime(new Date());
 			user.setUpdatetime(new Date());
-			user.setImg(FileUtil.uploadSuffixPath+FileUtil.uploadFile(file));
+			String filePath = FileUtil.uploadFile(file);
+			user.setImg(FileUtil.uploadSuffixPath+filePath);
 			user.setAvailable(true);
 			userMapper.insert(user);
 			user = userMapper.selectByUsername(user.getUsername());
+			//注册到百度人脸库中
+			BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,user.getId()+"");
 			if (!"".equals(userRoles) && userRoles != null) {
 				// 角色字段处理
 				String[] roleIds = userRoles.split(",");
@@ -224,7 +228,10 @@ public class UserController {
 			user.setCreatetime(dbUser.getCreatetime());
 			user.setUpdatetime(new Date());
 			if(file != null){
-				user.setImg(FileUtil.uploadSuffixPath+FileUtil.uploadFile(file));
+				String filePath = FileUtil.uploadFile(file);
+				user.setImg(FileUtil.uploadSuffixPath+filePath);
+				//注册到百度人脸库中
+				BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,user.getId()+"");
 			}
 			userMapper.updateByPrimaryKey(user);
 			if (!"".equals(userRoles) && userRoles != null) {

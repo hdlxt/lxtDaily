@@ -23,7 +23,7 @@ public class BaiDuUtil {
     public static final String APP_ID = "15773933";
     public static final String API_KEY = "Pi9sFpvyQxGGFEPK8CCdGpeP";
     public static final String SECRET_KEY = "SSlVhee7KcKyDR0OLMdnVFhUb7MoavBm";
-    public static final String GROUP_ID = "face_check";
+    public static final String GROUP_ID = "face_check_new";
     public static final int FACE_MIN_SCORE = 70;
 
     /**
@@ -84,22 +84,24 @@ public class BaiDuUtil {
         }
         return userIdList;
     }
-    public static List<String> searchMul(String imageLocalPath) {
+    public static List<Long> searchMul(String imageLocalPath) {
         // 传入可选参数调用接口
         HashMap<String, String> options = new HashMap<String, String>();
         options.put("quality_control", "NORMAL");
         options.put("liveness_control", "LOW");
         options.put("max_user_num", "20");
+        options.put("max_face_num", "10");
         // 人脸搜索
         JSONObject jsonObject = getFaceClient().searchMul(getImageStr(imageLocalPath),IMAGE_TYPE_BASE64, GROUP_ID, options);
-        List<String> userNameList = new ArrayList<>();
+        List<Long> userNameList = new ArrayList<>();
         if(jsonObject.toMap().get("result") != null){
             Map map = (Map)jsonObject.toMap().get("result");
-            ArrayList<Map> arrayList = ( ArrayList<Map>)map.get("user_list");
+            ArrayList<Map> arrayList = ( ArrayList<Map>)map.get("face_list");
             for (Map m : arrayList) {
+                ArrayList<Map> arr =  ( ArrayList<Map>)m.get("user_list");
                 //相似度大于该值之后为匹配
-                if(Double.valueOf(m.get("score").toString()) > FACE_MIN_SCORE){
-                    userNameList.add(m.get("user_id").toString());
+                if(Double.valueOf(arr.get(0).get("score").toString()) > FACE_MIN_SCORE){
+                    userNameList.add(Long.valueOf(arr.get(0).get("user_id").toString()));
                 }
             }
         }else{
@@ -153,9 +155,9 @@ public class BaiDuUtil {
                 .append("_").append(Utility.getRandomStrByNum(6)).toString();
     }
     public static void main(String[] args) {
-        String imgLocalPath = "/home/lxt/Desktop/1.jpeg";
+        String imgLocalPath = "/home/lxt/Desktop/0507/刘开胃.jpeg";
         //人脸注册
-//        System.out.println(addUser(imgLocalPath,getUserId()));
+        System.out.println(addUser(imgLocalPath,getUserId()));
         //人脸搜索
 //        System.out.println(search(imgLocalPath));
         //人脸监测
