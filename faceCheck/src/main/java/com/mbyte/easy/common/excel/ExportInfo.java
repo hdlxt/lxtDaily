@@ -13,11 +13,11 @@ public class ExportInfo extends BaseRowModel {
     private String name;
 
     @ExcelProperty(value = "状态",index = 1)
-    private int status;
+    private String status;
 
 
     public String getStatus() {
-        if(Constants.CHECK_YES == status){
+        if(Constants.CHECK_YES == Integer.valueOf(status)){
             return "出勤";
         }
         return "缺勤";

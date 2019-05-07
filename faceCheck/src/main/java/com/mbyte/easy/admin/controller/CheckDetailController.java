@@ -55,23 +55,7 @@ public class CheckDetailController extends BaseController  {
     @RequestMapping
     public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, CheckDetail checkDetail) {
         Page<CheckDetail> page = new Page<CheckDetail>(pageNo, pageSize);
-        QueryWrapper<CheckDetail> queryWrapper = new QueryWrapper<CheckDetail>();
-
-        if(checkDetail.getCheckId() != null  && !"".equals(checkDetail.getCheckId() + "")) {
-            queryWrapper = queryWrapper.like("check_id",checkDetail.getCheckId());
-         }
-
-
-        if(checkDetail.getUserId() != null  && !"".equals(checkDetail.getUserId() + "")) {
-            queryWrapper = queryWrapper.like("user_id",checkDetail.getUserId());
-         }
-
-
-        if(checkDetail.getStatus() != null  && !"".equals(checkDetail.getStatus() + "")) {
-            queryWrapper = queryWrapper.like("status",checkDetail.getStatus());
-         }
-
-        IPage<CheckDetail> pageInfo = checkDetailService.page(page, queryWrapper);
+        IPage<CheckDetail> pageInfo = checkDetailService.listPage(checkDetail,page);
         model.addAttribute("searchInfo", checkDetail);
         model.addAttribute("pageInfo", new PageInfo(pageInfo));
         return prefix+"checkDetail-list";
@@ -145,10 +129,11 @@ public class CheckDetailController extends BaseController  {
                 .eq(CheckDetail::getCheckId,checkId));
         String sheetName = "学生出勤情况";
         List<ExportInfo> exportInfos = new ArrayList<>();
-//        for (CheckDetail checkDetail : list) {
-//            exportInfos.add(new ExportInfo().setName());
-//        }
-//        ExcelUtil.writeExcel(response, list, name, sheetName, new ExportInfo());
+        for (CheckDetail checkDetail : list) {
+            exportInfos.add(new ExportInfo()
+                .setName("").setStatus(checkDetail.getStatus()+""));
+        }
+        ExcelUtil.writeExcel(response, exportInfos, name, sheetName, new ExportInfo());
     }
 }
 
