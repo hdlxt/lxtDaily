@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mbyte.easy.common.entity.BaseEntity;
 import lombok.Data;
@@ -26,6 +27,10 @@ public class App extends BaseEntity {
      * 名称
      */
     private String name;
+    @TableField(exist = false)
+    private Long scoreId;
+    @TableField(exist = false)
+    private Long userId;
 
     /**
      * 图标

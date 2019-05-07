@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.App;
 import com.mbyte.easy.admin.mapper.AppMapper;
 import com.mbyte.easy.admin.service.IAppService;
@@ -17,4 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements IAppService {
 
+    @Override
+    public Page<App> listPage(App app, Page<App> page) {
+        return page.setRecords(this.baseMapper.listPage(app,page));
+    }
 }

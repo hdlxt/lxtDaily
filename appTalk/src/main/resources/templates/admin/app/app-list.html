@@ -19,7 +19,7 @@
 
                     <hr style="margin: 0">
                     <div class="cl pd-5 bg-1 bk-gray">
-						<span class="l">
+						<span th:if="${role eq 1}" class="l">
 						<a href="javascript:;"
                            onclick="deleteAll('/admin/app/deleteAll')"
                            class="layui-btn  layui-btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
@@ -35,7 +35,6 @@
                         <div class="searchByField">
                                          <input type="input-text" class="input-text" th:value="${searchInfo.name}" name="name" placeholder="搜索名称" sid="name"/>
                                          <input type="input-text" class="input-text" th:value="${searchInfo.type}" name="type" placeholder="搜索类型" sid="type"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.remark}" name="remark" placeholder="搜索备注" sid="remark"/>
                             <button type="submit"
                                     class="layui-btn  layui-btn-success radius"><i
                                         class="Hui-iconfont">&#xe665;</i> 搜索
@@ -49,6 +48,7 @@
                             <th width="25"><input type="checkbox" name="" value=""/></th>
                             <th width="25">序号</th>
                                 <th width="40">名称</th>
+                                <th width="40">图标</th>
                                 <th width="40">类型</th>
                                 <th width="40">备注</th>
                             <th width="100">操作</th>
@@ -63,16 +63,17 @@
                                        name="id"/></td>
                             <td th:text="${count.count}"></td>
                                     <td th:text="${app.name}"></td>
+                                    <td><img th:src="${app.img}" style="width: 100px;height: 100px;"/></td>
                                     <td th:text="${app.type}"></td>
                                     <td th:text="${app.remark}"></td>
                             <td class="td-manage">
-                                <a title="编辑" href="javascript:;"
+                                <a th:if="${role eq 1}" title="编辑" href="javascript:;"
                                    th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'app'+'/editBefore/'+${app.id}+'\',900,500)'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a title="编辑" href="javascript:;"
-                                   th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'app'+'/editBefore/'+${app.id}+'\',900,500)'"
+                                <a title="评分" th:if="${app.scoreId eq null}"   href="javascript:;"
+                                   th:onclick="'javascript:layer_show(\'评分\',\'/admin/'+'app'+'/talkBefore/'+${app.id}+'\',900,500)'"
                                    class="ml-5" style="text-decoration:none">评分</a>
-                                <a title="删除" href="javascript:;"
+                                <a th:if="${role eq 1}" title="删除" href="javascript:;"
                                    th:onclick="'javascript:deleteById(\'/admin/'+'app'+'/delete/'+${app.id}+'\')'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                             </td>

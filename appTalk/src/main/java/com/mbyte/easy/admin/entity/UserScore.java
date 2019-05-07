@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mbyte.easy.common.entity.BaseEntity;
 import lombok.Data;
@@ -26,11 +27,15 @@ public class UserScore extends BaseEntity {
      * 用户
      */
     private Long userId;
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * app
      */
     private Long appId;
+    @TableField(exist = false)
+    private String appName;
 
     /**
      * 评分

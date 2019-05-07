@@ -17,10 +17,16 @@
                     </div>
                 </div>
                 <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"></label>
+                    <div class="formControls col-xs-10 col-sm-10">
+                        <img th:src="${app.img}" style="width: 400px"/>
+                    </div>
+                </div>
+                <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
                                 class="c-red">*</span>图标：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${app.img}" name="img"  placeholder="修改图标" id="img"/>
+                                <input type="file" name="file"/>
                             </div>
                     </div>
                 </div>
@@ -61,7 +67,7 @@
         {
             required: true,
         },
-        img:
+                file:
         {
             required: true,
         },

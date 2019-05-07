@@ -7,7 +7,9 @@ import com.mbyte.easy.admin.entity.UserScore;
 import com.mbyte.easy.admin.service.IUserScoreService;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
+import com.mbyte.easy.entity.SysUser;
 import com.mbyte.easy.util.PageInfo;
+import com.mbyte.easy.util.Utility;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,30 +47,14 @@ public class UserScoreController extends BaseController  {
     @RequestMapping
     public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, UserScore userScore) {
         Page<UserScore> page = new Page<UserScore>(pageNo, pageSize);
-        QueryWrapper<UserScore> queryWrapper = new QueryWrapper<UserScore>();
-
-        if(userScore.getUserId() != null  && !"".equals(userScore.getUserId() + "")) {
-            queryWrapper = queryWrapper.like("user_id",userScore.getUserId());
-         }
-
-
-        if(userScore.getAppId() != null  && !"".equals(userScore.getAppId() + "")) {
-            queryWrapper = queryWrapper.like("app_id",userScore.getAppId());
-         }
-
-
-        if(userScore.getUserScore() != null  && !"".equals(userScore.getUserScore() + "")) {
-            queryWrapper = queryWrapper.like("user_score",userScore.getUserScore());
-         }
-
-
-        if(userScore.getRemark() != null  && !"".equals(userScore.getRemark() + "")) {
-            queryWrapper = queryWrapper.like("remark",userScore.getRemark());
-         }
-
-        IPage<UserScore> pageInfo = userScoreService.page(page, queryWrapper);
+        SysUser sysUser = (SysUser) Utility.getCurrentUser();
+        if(sysUser.getRoles().get(0).getId().equals(2L)){
+            userScore.setUserId(sysUser.getId());
+        }
+        IPage<UserScore> pageInfo = userScoreService.listPage(userScore, page);
         model.addAttribute("searchInfo", userScore);
         model.addAttribute("pageInfo", new PageInfo(pageInfo));
+        model.addAttribute("role", ((SysUser)Utility.getCurrentUser()).getRoles().get(0).getId());
         return prefix+"userScore-list";
     }
 
