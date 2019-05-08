@@ -277,9 +277,9 @@ public class UserController {
 		String loginUserName = Utility.getCurrentUsername();
 		SysUser loginUser = userMapper.selectByUsername(loginUserName);
 
-		if (!Utility.checkPassword(adminPassword, loginUser.getPassword())) {
-			return "2";// 管理员密码不正确
-		}
+//		if (!Utility.checkPassword(adminPassword, loginUser.getPassword())) {
+//			return "2";// 管理员密码不正确
+//		}
 		if (dbUser != null) {
 			dbUser.setPassword(Utility.QuickPassword(user.getPassword()));
 			userMapper.updateByPrimaryKey(dbUser);

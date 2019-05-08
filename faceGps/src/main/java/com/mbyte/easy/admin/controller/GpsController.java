@@ -65,8 +65,7 @@ public class GpsController extends BaseController  {
                         person.setName("序号："+count);
                         persons.add(person);
                     }
-
-                }
+}
                 model.addAttribute("users",persons);
                 //删除人脸照片
 //                BaiDuUtil.delete(faceToken);
