@@ -5,18 +5,26 @@
 </head>
 <body>
 <article class="page-container">
-	<form class="form form-horizontal"  id="form-person-add" action="#" th:action="@{/admin/person/add}">
+	<form class="form form-horizontal"  id="form-back-add" action="#" th:action="@{/admin/back/add}">
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>姓名：</label>
+             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>名称：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="name" placeholder="请填写" id="name"/>
+                <input type="input-text" class="input-text" name="name" placeholder="请填写名称" id="name"/>
             </div>
         </div>
         <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>照片：</label>
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>编号：</label>
+            <div class="formControls col-xs-10 col-sm-10">
+                <input type="input-text" class="input-text" name="code" placeholder="请填写编号" id="code"/>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span
+                    class="c-red">*</span>背景：</label>
             <div class="formControls col-xs-10 col-sm-10">
                 <input type="file" name="file"/>
             </div>
+        </div>
         </div>
 	<div class="row cl">
 	<div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
@@ -34,12 +42,15 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script>
  $(function(){
-	$("#form-person-add").validate({
+	$("#form-back-add").validate({
 		rules:{
             name:{
                 required: true,
 			},
             file:{
+                required: true,
+			},
+            creTime:{
                 required: true,
 			},
 		},
@@ -49,7 +60,7 @@
 		submitHandler:function(form){
 				$(form).ajaxSubmit({
 				type: 'POST',
-				url: "/admin/person/add" ,
+				url: "/admin/back/add" ,
 				success: function(data){
 					if(data.code == "0"){
 						layer.designMsg('添加成功!',1,function(){

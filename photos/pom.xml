@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mbyte</groupId>
-    <artifactId>faceGps</artifactId>
+    <artifactId>photos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>easy</name>
     <description>faceGps</description>

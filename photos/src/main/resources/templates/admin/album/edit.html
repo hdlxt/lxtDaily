@@ -5,28 +5,49 @@
 </head>
 <body>
 <article class="page-container">
-    <form class="form form-horizontal" id="form-person-edit" action="#"
-          th:action="@{/admin/person/edit}" th:object="${person}" >
-        <input type="hidden" name="id" th:value="${person.id}"/>
+    <form class="form form-horizontal" id="form-album-edit" action="#"
+          th:action="@{/admin/album/edit}" th:object="${album}">
+        <input type="hidden" name="id" th:value="${album.id}"/>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>姓名：</label>
+                                class="c-red">*</span>名称：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="input-text" class="input-text" th:value="${person.name}" name="name"  placeholder="修改" id="name"/>
+                                <input type="input-text" class="input-text" th:value="${album.name}" name="name"  placeholder="修改名称" id="name"/>
+                            </div>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">分类名称：</label>
+                            <div class="formControls col-xs-10 col-sm-10">
+                                <input type="input-text" class="input-text" th:value="${album.typeName}" name="typeName"  placeholder="若不填写则系统自动分类(合照、单人照、植物等)" id="typeName"/>
+                            </div>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>相册编号：</label>
+                            <div class="formControls col-xs-10 col-sm-10">
+                                <input type="input-text" class="input-text" th:value="${album.code}" name="code"  placeholder="修改相册编号" id="code"/>
                             </div>
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"></label>
                     <div class="formControls col-xs-10 col-sm-10">
-                        <img th:src="${person.photo}" style="width: 400px;"/>
+                        <img th:src="${album.img}" style="widows: 200px;height: 200px;"/>
                     </div>
                 </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">封面：</label>
+                            <div class="formControls col-xs-10 col-sm-10">
+                                <input type="file" name="fileFeng"/>
+                            </div>
                 </div>
                 <div class="row cl">
-                    <label class="form-label col-xs-2 col-sm-2">照片:</label>
+                    <label class="form-label col-xs-2 col-sm-2"><span
+                                class="c-red">*</span>背景：</label>
                             <div class="formControls col-xs-10 col-sm-10">
-                                <input type="file" name="file"/>
+                                <input type="input-text" class="input-text" th:value="${album.backId}" name="backId"  placeholder="修改背景" id="backId"/>
                             </div>
                     </div>
                 </div>
@@ -45,9 +66,29 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script>
     $(function () {
-        $("#form-person-edit").validate({
+        $("#form-album-edit").validate({
             rules: {
         name:
+        {
+            required: true,
+        },
+        typeName:
+        {
+            required: true,
+        },
+        creTime:
+        {
+            required: true,
+        },
+        code:
+        {
+            required: true,
+        },
+                fileFeng:
+        {
+            required: true,
+        },
+        backId:
         {
             required: true,
         },
@@ -65,7 +106,7 @@
         function (form) {
             $(form).ajaxSubmit({
                 type: 'POST',
-                url: "/admin/person/edit",
+                url: "/admin/album/edit",
                 success: function (data) {
                     if (data.code == "0") {
                         layer.designMsg('编辑成功!', 1, function () {
