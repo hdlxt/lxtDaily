@@ -31,4 +31,9 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
             "</if>" +
             "</script>")
     List<UserScore> listPage(UserScore userScore, Page<UserScore> page);
+
+    @Select("select a.name as appName,AVG(user_score) as scoreAvg  from t_user_score us" +
+            " left join t_app a on  us.app_id = a.id" +
+            " group by app_id")
+    List<UserScore> statistics();
 }

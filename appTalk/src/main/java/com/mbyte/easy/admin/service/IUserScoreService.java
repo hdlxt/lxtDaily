@@ -16,4 +16,6 @@ import java.util.List;
  */
 public interface IUserScoreService extends IService<UserScore> {
     Page<UserScore> listPage(UserScore userScore, Page<UserScore> page);
+
+    List<UserScore> statistics();
 }

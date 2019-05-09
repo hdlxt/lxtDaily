@@ -41,6 +41,11 @@ public class UserScore extends BaseEntity {
      * 评分
      */
     private Integer userScore;
+    /**
+     * 评分评分
+     */
+    @TableField(exist = false)
+    private Double scoreAvg;
 
     /**
      * 备注

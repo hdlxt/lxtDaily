@@ -59,6 +59,16 @@ public class UserScoreController extends BaseController  {
     }
 
     /**
+     * 统计分析栏目
+     * @return
+     */
+    @RequestMapping("statistics")
+    public String statistics(Model model) {
+        model.addAttribute("userScores",userScoreService.statistics());
+        return prefix+"statistics";
+    }
+
+    /**
     * 添加跳转页面
     * @return
     */
