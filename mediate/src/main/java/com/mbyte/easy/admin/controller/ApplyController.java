@@ -103,6 +103,9 @@ public class ApplyController extends BaseController  {
         if(apply.getApplyedId().equals(apply.getApplyId())){
             return error("申请人和被申请不可是同一人！");
         }
+        if(Constants.ROLE_USER.equals(Utility.getRole())){
+            apply.setApplyId(Utility.getUserId());
+        }
         apply.setFilePath(FileUtil.uploadFile(applyFile));
         apply.setFilePathSuffix(FileUtil.getSuffix(applyFile.getOriginalFilename()));
         apply.setCreTime(LocalDateTime.now());
@@ -147,6 +150,9 @@ public class ApplyController extends BaseController  {
         if(replyFile != null){
             apply.setReplyPath(FileUtil.uploadFile(replyFile));
             apply.setReplyPathSuffix(FileUtil.getSuffix(replyFile.getOriginalFilename()));
+        }
+        if(Constants.ROLE_TIAO.equals(Utility.getRole()) && Constants.APPLY_YES == apply.getStatus()){
+            apply.setUserId(Utility.getUserId());
         }
         return toAjax(applyService.updateById(apply));
     }

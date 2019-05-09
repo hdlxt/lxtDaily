@@ -8,6 +8,8 @@
     <form class="form form-horizontal" id="form-apply-edit" action="#"
           th:action="@{/admin/apply/edit}" th:object="${apply}">
         <input type="hidden" name="id" th:value="${apply.id}"/>
+        <input type="hidden" name="applyId" th:if="${role ne 1}" th:value="${apply.applyId}"/>
+        <input type="hidden" name="applyedId" th:if="${role eq 3}" th:value="${apply.applyedId}"/>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>申请人：</label>
                     <div class="formControls col-xs-10 col-sm-10">
@@ -57,7 +59,7 @@
                     <div class="formControls col-xs-10 col-sm-10">
                                 <span class="select-box" style="width:300px;">
                                     <select  class="select" size="1" name="replyId" th:field="*{userId}">
-                                      <option th:if="${tiao.id ne cUser.id}" th:each="tiao : ${tiaoList}"
+                                      <option th:each="tiao : ${tiaoList}"
                                               th:value="${tiao.id}"
                                               th:text="${tiao.name}"></option>
                                     </select>
