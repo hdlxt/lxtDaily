@@ -15,15 +15,8 @@
         <div class="row cl">
              <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>合照：</label>
             <div class="formControls col-xs-10 col-sm-10">
-                <input type="input-text" class="input-text" name="img" placeholder="请填写合照" id="img"/>
+                <input type="file" name="file" >
             </div>
-        </div>
-        <div class="row cl">
-             <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>创建时间：</label>
-             <div class="formControls col-xs-10 col-sm-10">
-                 <input type="input-text" class="input-text timeSpace" readonly="readonly"
-                        autocomplete="off" name="creTime" placeholder="请选择创建时间"/>
-             </div>
         </div>
 	<div class="row cl">
 	<div class="col-xs-4 col-sm-3 col-xs-offset-4 col-sm-offset-3">
@@ -46,7 +39,7 @@
             title:{
                 required: true,
 			},
-            img:{
+            file:{
                 required: true,
 			},
             creTime:{

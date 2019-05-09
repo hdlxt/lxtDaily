@@ -58,16 +58,17 @@
                         [users[i+1].lon,users[i+1].lat]
                     ]
                 });
+                break;
             }else if (users.length  > 2) {
                 if (i == users.length-1) {
-                    dataLines.push({
-                        fromName: users[i].name,
-                        toName: users[0].name,
-                        coords: [
-                            [users[i].lon,users[i].lat],
-                            [users[0].lon,users[0].lat]
-                        ]
-                    });
+                    // dataLines.push({
+                    //     fromName: users[i].name,
+                    //     toName: users[0].name,
+                    //     coords: [
+                    //         [users[i].lon,users[i].lat],
+                    //         [users[0].lon,users[0].lat]
+                    //     ]
+                    // });
                 }else{
                     dataLines.push({
                         fromName: users[i].name,

@@ -34,8 +34,6 @@
                     <div class="cl pd-5 bg-1 bk-gray ">
                         <div class="searchByField">
                                          <input type="input-text" class="input-text" th:value="${searchInfo.title}" name="title" placeholder="搜索标题" sid="title"/>
-                                         <input type="input-text" class="input-text" th:value="${searchInfo.img}" name="img" placeholder="搜索合照" sid="img"/>
-                                         <input type="input-text" placeholder="搜索创建时间" name="creTimeSpace" th:value="${creTimeSpace}" class="input-text  timeSpace"/>
                             <button type="submit"
                                     class="layui-btn  layui-btn-success radius"><i
                                         class="Hui-iconfont">&#xe665;</i> 搜索
@@ -63,12 +61,12 @@
                                        name="id"/></td>
                             <td th:text="${count.count}"></td>
                                     <td th:text="${check.title}"></td>
-                                    <td th:text="${check.img}"></td>
+                                    <td><img th:src="${check.img}" style="width: 100px;height:100px;"/></td>
                                     <td th:text="${#temporals.format(check.creTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td class="td-manage">
-                                <a title="编辑" href="javascript:;"
-                                   th:onclick="'javascript:layer_show(\'编辑\',\'/admin/'+'check'+'/editBefore/'+${check.id}+'\',900,500)'"
-                                   class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                                <a title="详情" href="javascript:;"
+                                   th:onclick="'javascript:layer_show(\'考勤详情\',\'/admin/'+'check'+'/editBefore/'+${check.id}+'\',900,500)'"
+                                   class="ml-5" style="text-decoration:none">详情</a>
                                 <a title="删除" href="javascript:;"
                                    th:onclick="'javascript:deleteById(\'/admin/'+'check'+'/delete/'+${check.id}+'\')'"
                                    class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>

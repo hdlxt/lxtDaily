@@ -10,7 +10,7 @@
         <input type="hidden" name="id" th:value="${person.id}"/>
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"><span
-                                class="c-red">*</span>姓名：</label>
+                                class="c-red">*</span>名称：</label>
                             <div class="formControls col-xs-10 col-sm-10">
                                 <input type="input-text" class="input-text" th:value="${person.name}" name="name"  placeholder="修改" id="name"/>
                             </div>
@@ -19,7 +19,7 @@
                 <div class="row cl">
                     <label class="form-label col-xs-2 col-sm-2"></label>
                     <div class="formControls col-xs-10 col-sm-10">
-                        <img th:src="${person.photo}" style="width: 400px;"/>
+                        <img th:src="${person.photo}" style="width: 600px;"/>
                     </div>
                 </div>
                 </div>
@@ -40,7 +40,7 @@
 </article>
 <!--_footer 作为公共模版分离出去-->
 <div th:replace="_footer :: footerjs"></div>
-<div th:replace="_ueditor :: ueditor"></div>
+<!--<div th:replace="_ueditor :: ueditor"></div>-->
 <!--/_footer 作为公共模版分离出去-->
 <!--请在下方写此页面业务相关的脚本-->
 <script>

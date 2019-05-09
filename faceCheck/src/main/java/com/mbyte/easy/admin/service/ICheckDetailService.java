@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.CheckDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -8,9 +9,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author 黄润宣
+ *
  * @since 2019-04-21
  */
 public interface ICheckDetailService extends IService<CheckDetail> {
-
+    Page<CheckDetail> listPage(CheckDetail checkDetail, Page<CheckDetail> page);
 }

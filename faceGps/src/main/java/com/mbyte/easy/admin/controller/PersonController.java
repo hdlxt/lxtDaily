@@ -3,10 +3,12 @@ package com.mbyte.easy.admin.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mbyte.easy.admin.entity.DetectFaceVo;
 import com.mbyte.easy.admin.entity.Person;
 import com.mbyte.easy.admin.service.IPersonService;
 import com.mbyte.easy.common.controller.BaseController;
 import com.mbyte.easy.common.web.AjaxResult;
+import com.mbyte.easy.util.BaiDuFace;
 import com.mbyte.easy.util.BaiDuUtil;
 import com.mbyte.easy.util.FileUtil;
 import com.mbyte.easy.util.PageInfo;
@@ -84,6 +86,7 @@ public class PersonController extends BaseController  {
     @ResponseBody
     public AjaxResult add(Person person, @RequestParam("file")MultipartFile file){
         person.setPhoto(FileUtil.uploadSuffixPath+FileUtil.uploadFile(file));
+        person.setCreTime(LocalDateTime.now());
         return toAjax(personService.save(person));
     }
     /**
@@ -94,6 +97,14 @@ public class PersonController extends BaseController  {
     public String editBefore(Model model,@PathVariable("id")Long id){
         model.addAttribute("person",personService.getById(id));
         return prefix+"edit";
+    }
+    @GetMapping("detail/{id}")
+    public String detail(Model model,@PathVariable("id")Long id){
+        Person person = personService.getById(id);
+        List<DetectFaceVo> detectFaceVoList = BaiDuUtil.detectNew(FileUtil.uploadLocalPath+person.getPhoto().substring(FileUtil.uploadSuffixPath.length()));
+        model.addAttribute("person",person);
+        model.addAttribute("detectFaceVoList",detectFaceVoList);
+        return prefix+"detail";
     }
     /**
     * 添加
@@ -109,7 +120,7 @@ public class PersonController extends BaseController  {
             String filePath = FileUtil.uploadFile(file);
             personDB.setPhoto(FileUtil.uploadSuffixPath+filePath);
             //注册到百度人脸库
-            BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,person.getId()+"");
+//            BaiDuUtil.addUser(FileUtil.uploadLocalPath+filePath,person.getId()+"");
         }
         return toAjax(personService.updateById(personDB));
     }

@@ -1,5 +1,6 @@
 package com.mbyte.easy.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.mbyte.easy.common.entity.BaseEntity;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
- * @author 黄润宣
+ *
  * @since 2019-04-21
  */
 @Data
@@ -26,11 +27,15 @@ public class CheckDetail extends BaseEntity {
      * 考勤主键
      */
     private Long checkId;
+    @TableField(exist = false)
+    private String title;
 
     /**
      * 学生主键
      */
     private Long userId;
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 状态

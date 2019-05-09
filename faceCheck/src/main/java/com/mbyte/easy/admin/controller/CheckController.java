@@ -4,15 +4,26 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.Check;
+import com.mbyte.easy.admin.entity.CheckDetail;
+import com.mbyte.easy.admin.service.ICheckDetailService;
 import com.mbyte.easy.admin.service.ICheckService;
 import com.mbyte.easy.common.controller.BaseController;
+import com.mbyte.easy.common.excel.ExcelUtil;
+import com.mbyte.easy.common.excel.ExportInfo;
 import com.mbyte.easy.common.web.AjaxResult;
-import com.mbyte.easy.util.PageInfo;
+import com.mbyte.easy.entity.SysUser;
+import com.mbyte.easy.mapper.SysUserMapper;
+import com.mbyte.easy.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +32,7 @@ import java.time.LocalDateTime;
 * <p>
 * 前端控制器
 * </p>
-* @author 黄润宣
+*
 * @since 2019-03-11
 */
 @Controller
@@ -32,6 +43,10 @@ public class CheckController extends BaseController  {
 
     @Autowired
     private ICheckService checkService;
+    @Autowired
+    private ICheckDetailService checkDetailService;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     /**
     * 查询列表
@@ -83,8 +98,36 @@ public class CheckController extends BaseController  {
     */
     @PostMapping("add")
     @ResponseBody
-    public AjaxResult add(Check check){
-        return toAjax(checkService.save(check));
+    public AjaxResult add(Check check, MultipartFile file){
+        //获取所有用户信息
+        List<SysUser> sysUserList = sysUserMapper.selectByUser(null);
+        //获取合照信息
+        String filePath = FileUtil.uploadFile(file);
+        check.setImg(FileUtil.uploadSuffixPath+filePath);
+        check.setCreTime(LocalDateTime.now());
+        //插入考勤信息
+        checkService.insertCheck(check);
+        //未缺勤的用户名
+        List<Long> userNameList = BaiDuUtil.searchMul(FileUtil.uploadLocalPath+filePath);
+        List<CheckDetail> detailList = new ArrayList<>();
+        //考勤，修改状态
+        for (SysUser sysUser : sysUserList) {
+            if(sysUser.getRoles().get(0).getId().equals(Utility.ROLE_STu)){
+                if(userNameList.contains(sysUser.getId())){
+                    detailList.add(new CheckDetail().setCheckId(check.getId())
+                            .setUserId(sysUser.getId())
+                            .setStatus(Constants.CHECK_YES)
+                    );
+                }else{
+                    detailList.add(new CheckDetail().setCheckId(check.getId())
+                            .setUserId(sysUser.getId())
+                            .setStatus(Constants.CHECK_NO)
+                    );
+                }
+            }
+        }
+        checkDetailService.saveBatch(detailList);
+        return success();
     }
     /**
     * 添加跳转页面
@@ -93,6 +136,11 @@ public class CheckController extends BaseController  {
     @GetMapping("editBefore/{id}")
     public String editBefore(Model model,@PathVariable("id")Long id){
         model.addAttribute("check",checkService.getById(id));
+        Page<CheckDetail> page = new Page<CheckDetail>(1, 1000);
+        CheckDetail checkDetail = new CheckDetail();
+        checkDetail.setCheckId(id);
+        IPage<CheckDetail> pageInfo = checkDetailService.listPage(checkDetail,page);
+        model.addAttribute("pageInfo", new PageInfo(pageInfo));
         return prefix+"edit";
     }
     /**
@@ -124,6 +172,24 @@ public class CheckController extends BaseController  {
     @ResponseBody
     public AjaxResult deleteAll(@RequestBody List<Long> ids){
         return toAjax(checkService.removeByIds(ids));
+    }
+
+    /**
+     * 导出
+     */
+    @RequestMapping(value = "writeExcel", method = RequestMethod.GET)
+    public void writeExcel(HttpServletResponse response, Long checkId, String name) throws IOException {
+        Page<CheckDetail> page = new Page<CheckDetail>(1, 1000);
+        CheckDetail checkDetail = new CheckDetail();
+        checkDetail.setCheckId(checkId);
+        IPage<CheckDetail> list = checkDetailService.listPage(checkDetail,page);
+        String sheetName = "学生出勤情况";
+        List<ExportInfo> exportInfos = new ArrayList<>();
+        for (CheckDetail c : list.getRecords()) {
+            exportInfos.add(new ExportInfo()
+                    .setName(c.getUserName()).setStatus(c.getStatus()+""));
+        }
+        ExcelUtil.writeExcel(response, exportInfos, name, sheetName, new ExportInfo());
     }
 
 }

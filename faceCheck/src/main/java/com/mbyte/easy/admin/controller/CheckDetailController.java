@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mbyte.easy.admin.entity.CheckDetail;
 import com.mbyte.easy.admin.service.ICheckDetailService;
+import com.mbyte.easy.admin.service.ICheckService;
 import com.mbyte.easy.common.controller.BaseController;
+import com.mbyte.easy.common.excel.ExcelUtil;
+import com.mbyte.easy.common.excel.ExportInfo;
 import com.mbyte.easy.common.web.AjaxResult;
 import com.mbyte.easy.util.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +28,7 @@ import java.time.LocalDateTime;
 * <p>
 * 前端控制器
 * </p>
-* @author 黄润宣
+*
 * @since 2019-03-11
 */
 @Controller
@@ -33,6 +40,9 @@ public class CheckDetailController extends BaseController  {
     @Autowired
     private ICheckDetailService checkDetailService;
 
+
+    @Autowired
+    private ICheckService checkService;
     /**
     * 查询列表
     *
@@ -45,23 +55,7 @@ public class CheckDetailController extends BaseController  {
     @RequestMapping
     public String index(Model model,@RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize, CheckDetail checkDetail) {
         Page<CheckDetail> page = new Page<CheckDetail>(pageNo, pageSize);
-        QueryWrapper<CheckDetail> queryWrapper = new QueryWrapper<CheckDetail>();
-
-        if(checkDetail.getCheckId() != null  && !"".equals(checkDetail.getCheckId() + "")) {
-            queryWrapper = queryWrapper.like("check_id",checkDetail.getCheckId());
-         }
-
-
-        if(checkDetail.getUserId() != null  && !"".equals(checkDetail.getUserId() + "")) {
-            queryWrapper = queryWrapper.like("user_id",checkDetail.getUserId());
-         }
-
-
-        if(checkDetail.getStatus() != null  && !"".equals(checkDetail.getStatus() + "")) {
-            queryWrapper = queryWrapper.like("status",checkDetail.getStatus());
-         }
-
-        IPage<CheckDetail> pageInfo = checkDetailService.page(page, queryWrapper);
+        IPage<CheckDetail> pageInfo = checkDetailService.listPage(checkDetail,page);
         model.addAttribute("searchInfo", checkDetail);
         model.addAttribute("pageInfo", new PageInfo(pageInfo));
         return prefix+"checkDetail-list";
@@ -124,6 +118,8 @@ public class CheckDetailController extends BaseController  {
     public AjaxResult deleteAll(@RequestBody List<Long> ids){
         return toAjax(checkDetailService.removeByIds(ids));
     }
+
+
 
 }
 
