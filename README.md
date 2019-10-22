@@ -43,10 +43,27 @@
         - 百度api+jquery-webcam插件
         - 已完成人脸监测、注册、搜索接口
         - 计划完成登录认证的简单逻辑
+      - wesocket
+        - 最基本集成示例 spring boot+wesocket
+      - file：spring boot 文件上传下载
+        - 上传到oss，以阿里云为例
+        - 上传到本地磁盘并下载、图片回显
 
    - 待完善
-      - wesocket: spring boot+wesocket
-      - file：spring boot 文件上传下载
-         - 上传到oss，以阿里云为例
-         - 上传到本地磁盘并下载、图片回显
+      - lxtEs7
+         - spring boot 集成es7（rest-hight-lient）
+      - lxtpay
+         - 添加支付宝app支付
+         - 添加微信app支付
+         - 添加苹果app支付
+      - lxtSwagger2
+         - 集成接口文档Swagger2
+         - 注释说明
+         - 参数和返回注释
+      - lxtIM
+         - spring boot + netty 实现即时通讯
+         - 单聊
+         - 群聊
+         - 发送文字、图片、语音、视频等
+      - 
 
