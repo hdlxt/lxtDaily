@@ -10,13 +10,31 @@
   - tomcat服务器原理:https://www.cnblogs.com/crazylqy/p/4706223.html
   - tomcat 启动web项目流程:https://www.2cto.com/kf/201701/583009.html
   - spring boot 和 spring cloud教程:http://blog.didispace.com/archives/
+  - 规划：https://www.cnblogs.com/xrq730/p/5260294.html
 
 - 环境
   - Spring Boot 2.0+
+
   - idea 2018.3
+
   - 插件`lombok`，eclise也有对应插件，目的用于简化pojo对象
 
     内容	
+
+  - Spring Boot 关键词
+
+      - 文件上传下载、图片回显
+      - 跨域
+      - poi-tl/复选框回显  -word
+      - easyexcel
+      - maven插件、解决冲突；scope-system打包
+      - word转pdf
+      - jwt
+      - oauth2.0
+      - 日志门面模式
+      - 全局异常
+      - spring security thymeleaf 标签问题
+
    - 已完成
       - geetest：spring boot集成极验滑动验证
       - ueditor：spring boot 集成ueditor 兼容jquery.validate验证
@@ -25,9 +43,27 @@
         - 百度api+jquery-webcam插件
         - 已完成人脸监测、注册、搜索接口
         - 计划完成登录认证的简单逻辑
-   - 待完善
-      - wesocket: spring boot+wesocket
+      - wesocket
+        - 最基本集成示例 spring boot+wesocket
       - file：spring boot 文件上传下载
-         - 上传到oss，以阿里云为例
-         - 上传到本地磁盘并下载、图片回显
+        - 上传到oss，以阿里云为例
+        - 上传到本地磁盘并下载、图片回显
+
+   - 待完善
+      - lxtEs7
+         - spring boot 集成es7（rest-hight-lient）
+      - lxtpay
+         - 添加支付宝app支付
+         - 添加微信app支付
+         - 添加苹果app支付
+      - lxtSwagger2
+         - 集成接口文档Swagger2
+         - 注释说明
+         - 参数和返回注释
+      - lxtIM
+         - spring boot + netty 实现即时通讯
+         - 单聊
+         - 群聊
+         - 发送文字、图片、语音、视频等
+      - 
 
