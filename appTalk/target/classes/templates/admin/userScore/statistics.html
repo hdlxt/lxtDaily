@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/echarts/css/H-ui.min.css}" href="/echarts/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/echarts/css/index.css}" href="/echarts/css/index.css" />
+    <script type="text/javascript" th:src="@{/lib/jquery/1.9.1/jquery.min.js}" src="lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/echarts/js/echarts.min.js}" src="echarts/js/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/echarts/js/china.js}" src="echarts/js/china.js}"></script>
+    <style type="text/css">
+        .BMap_cpyCtrl {
+            display: none;
+        }
+        .anchorBL {
+            display: none;
+        }
+    </style>
+    <title>列表</title>
+</head>
+<body>
+<div class="page-container">
+    <form action="#" th:action="@{/admin/biao}" method="post">
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div class="layui-field-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6">
+                            <div id="echart-c" class="echart-height" style="width: 1000px;height: 600px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<!--/_footer 作为公共模版分离出去-->
+<script th:inline="javascript">
+
+    var userScores = [[${userScores}]];
+    var dataX = [];
+    var dataY = [];
+    for (var i = 0; i < userScores.length; i++) {
+        dataX.push(userScores[i].appName);
+        dataY.push(userScores[i].scoreAvg);
+    }
+    // 基于准备好的dom，初始化echarts实例
+    var ChartC = echarts.init(document.getElementById('echart-c'));
+
+    // 指定图表的配置项和数据
+    var optionc = {
+        title: {
+            text: '移动阅读App平均评分统计',
+            left: 'center',
+            top:'93%'
+        },
+        legend: {
+            top: '25',
+            data: ['平均评分']
+        },
+        tooltip: {
+            trigger: 'axis',
+        },
+        xAxis: {
+            type: 'category',
+            data:dataX
+        },
+        yAxis: {
+            type:'value',
+            axisLabel: {
+                show: true,
+                interval: 'auto',
+                formatter:'{value} (分)'
+            },
+        },
+        series: [
+            {
+                name:'平均评分',
+                type: 'line',
+                label:{
+                    normal:{
+                        show:true,
+                        position:'top',
+                    }
+                },
+                data:dataY
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    ChartC.setOption(optionc);
+
+
+
+    window.onresize = function () {
+        ChartC.resize();
+    }
+
+</script>
+</body>
+</html>

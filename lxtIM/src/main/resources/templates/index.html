@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Netty+WebSocket案例</title>
+</head>
+<body>
+<div id="">发送消息：</div><br>
+<input type="text" name="messageContent" id="messageContent"/>
+<input type="button" name="" id="" value="发送"  onclick="CHAT.chat()"/>
+
+<hr>
+
+<div >接收消息：</div><br>
+<div id="receiveNsg" style="background-color: gainsboro;"></div>
+
+
+<script type="text/javascript">
+    window.CHAT = {
+        socket: null,
+        //初始化
+        init: function(){
+            console.log("WebSocket init..");
+            //首先判断浏览器是否支持WebSocket
+            if (window.WebSocket){
+                CHAT.socket = new WebSocket("ws://localhost:8089/ws");
+                CHAT.socket.onopen = function(){
+                    console.log("客户端与服务端建立连接成功");
+                },
+                CHAT.socket.onmessage = function(e){
+                    console.log("接收到消息："+e.data);
+                    var receiveNsg = window.document.getElementById("receiveNsg");
+                    var html = receiveNsg.innerHTML;
+                    receiveNsg.innerHTML = html + "<br>" + e.data;
+                },
+                CHAT.socket.onerror = function(){
+                    console.log("发生错误");
+                },
+                CHAT.socket.onclose = function(){
+                    console.log("客户端与服务端关闭连接成功");
+                }
+            }else{
+                alert("8102年都过了，升级下浏览器吧");
+            }
+        },
+        chat: function(){
+            var msg = window.document.getElementById("messageContent");
+            console.log("messageContent:"+messageContent);
+            CHAT.socket.send(msg.value);
+        }
+    }
+    CHAT.init();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+netty:
+  socket:
+    port: 8089
+spring:
+  thymeleaf:
+    cache: false
+
