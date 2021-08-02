@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.18</version>
+            <version>1.21</version>
         </dependency>
         <!--支持@ConfigurationProperties注解-->
         <dependency>
